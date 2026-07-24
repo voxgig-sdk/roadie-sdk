@@ -1,0 +1,220 @@
+openapi: 3.0.3
+info:
+  title: Roadie API
+  version: 0.1.0-draft
+  description: >
+    Draft OpenAPI spec for the Roadie (roadie.io) catalog + Entity Push API, authored by
+    Voxgig from the public docs at https://roadie.io/docs/api/ . This is roadie.io (the
+    Backstage company); it is NOT roadie.com (the delivery company).
+servers:
+  - url: https://api.roadie.so
+security:
+  - bearerAuth: []
+tags:
+  - name: Catalog
+    description: Backstage software catalog entities.
+  - name: EntitySets
+    description: Roadie Entity Push - push and replace grouped sets of external entities.
+  - name: Entities
+    description: Individual Roadie-pushed catalog entities.
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: >
+        Roadie API token, sent as 'Authorization: bearer <token>'. User tokens and service
+        tokens work identically.
+  responses:
+    Unauthorized:
+      description: Missing or invalid API token.
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/Error' }
+  schemas:
+    Entity:
+      type: object
+      description: A Backstage-style catalog entity.
+      required: [apiVersion, kind, metadata]
+      properties:
+        apiVersion: { type: string, example: backstage.io/v1alpha1 }
+        kind:
+          type: string
+          description: Entity kind (Component, API, Resource, System, Group, User, ...).
+          example: Resource
+        metadata: { $ref: '#/components/schemas/EntityMetadata' }
+        spec:
+          type: object
+          description: Kind-specific fields. Common ones shown; other properties allowed.
+          additionalProperties: true
+          properties:
+            owner: { type: string }
+            type: { type: string }
+        relations:
+          type: array
+          items: { $ref: '#/components/schemas/Relation' }
+    EntityMetadata:
+      type: object
+      required: [name]
+      properties:
+        name: { type: string }
+        namespace: { type: string, default: default }
+        title: { type: string }
+        description: { type: string }
+        labels:
+          type: object
+          additionalProperties: { type: string }
+        annotations:
+          type: object
+          additionalProperties: { type: string }
+        tags:
+          type: array
+          items: { type: string }
+    Relation:
+      type: object
+      properties:
+        type: { type: string }
+        targetRef: { type: string }
+    StoredEntity:
+      type: object
+      description: An entity as stored by Roadie, with provenance metadata.
+      properties:
+        id: { type: string, format: uuid }
+        entity: { $ref: '#/components/schemas/Entity' }
+        entityRef: { type: string, example: resource:default/my-resource }
+        rawData: { type: object, additionalProperties: true }
+        set: { type: string }
+        updatedBy: { type: string }
+        source: { type: string }
+        updatedAt: { type: string, format: date-time }
+    EntitySet:
+      type: object
+      description: A named group of pushed entities.
+      properties:
+        name: { type: string }
+    EntitySetPushRequest:
+      type: object
+      required: [items]
+      properties:
+        items:
+          type: array
+          description: The full set of entities. This is a full mutation - the set is replaced.
+          items: { $ref: '#/components/schemas/Entity' }
+    EntitySetPushResponse:
+      type: object
+      properties:
+        set: { type: string }
+        items:
+          type: array
+          items: { $ref: '#/components/schemas/StoredEntity' }
+    Error:
+      type: object
+      properties:
+        error: { type: string }
+        message: { type: string }
+paths:
+  /api/catalog/entities:
+    get:
+      tags: [Catalog]
+      summary: List catalog entities
+      operationId: listCatalogEntities
+      responses:
+        '200':
+          description: All entities in the Backstage software catalog.
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: '#/components/schemas/Entity' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+  /api/catalog/roadie-entities/sets:
+    get:
+      tags: [EntitySets]
+      summary: List entity sets
+      operationId: listEntitySets
+      responses:
+        '200':
+          description: The entity sets you have pushed.
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: '#/components/schemas/EntitySet' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+  /api/catalog/roadie-entities/sets/{setId}:
+    put:
+      tags: [EntitySets]
+      summary: Push (replace) an entity set
+      description: >
+        Full mutation - every entity in the set is replaced by the items in the request body.
+        To remove entities, resubmit without them.
+      operationId: pushEntitySet
+      parameters:
+        - { name: setId, in: path, required: true, schema: { type: string } }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/EntitySetPushRequest' }
+      responses:
+        '200':
+          description: The stored entities for the set.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/EntitySetPushResponse' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+  /api/catalog/roadie-entities/entities:
+    get:
+      tags: [Entities]
+      summary: List entities in a set
+      operationId: listEntities
+      parameters:
+        - { name: set, in: query, required: true, schema: { type: string } }
+      responses:
+        '200':
+          description: The stored entities in the given set.
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: '#/components/schemas/StoredEntity' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+    post:
+      tags: [Entities]
+      summary: Create an entity
+      operationId: createEntity
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/Entity' }
+      responses:
+        '201':
+          description: The stored entity.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/StoredEntity' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+  /api/catalog/roadie-entities/entities/{entityId}:
+    get:
+      tags: [Entities]
+      summary: Retrieve an entity
+      operationId: getEntity
+      parameters:
+        - { name: entityId, in: path, required: true, schema: { type: string, format: uuid } }
+      responses:
+        '200':
+          description: The stored entity.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/StoredEntity' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+    delete:
+      tags: [Entities]
+      summary: Delete an entity
+      operationId: deleteEntity
+      parameters:
+        - { name: entityId, in: path, required: true, schema: { type: string, format: uuid } }
+      responses:
+        '204': { description: Deleted. }
+        '401': { $ref: '#/components/responses/Unauthorized' }
