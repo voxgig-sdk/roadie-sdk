@@ -16,9 +16,8 @@ declare(strict_types=1);
 class Entity
 {
     public string $api_version;
-    public array $entity;
     public ?string $entity_ref = null;
-    public ?string $id = null;
+    public string $id;
     public string $kind;
     public array $metadata;
     public ?array $raw_data = null;
@@ -40,7 +39,6 @@ class EntityLoadMatch
 class EntityListMatch
 {
     public ?string $api_version = null;
-    public ?array $entity = null;
     public ?string $entity_ref = null;
     public ?string $id = null;
     public ?string $kind = null;
@@ -58,9 +56,8 @@ class EntityListMatch
 class EntityCreateData
 {
     public string $api_version;
-    public array $entity;
     public ?string $entity_ref = null;
-    public ?string $id = null;
+    public string $id;
     public string $kind;
     public array $metadata;
     public ?array $raw_data = null;

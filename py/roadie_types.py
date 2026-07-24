@@ -18,14 +18,13 @@ from typing import TypedDict, Any
 
 class EntityRequired(TypedDict):
     api_version: str
-    entity: dict
+    id: str
     kind: str
     metadata: dict
 
 
 class Entity(EntityRequired, total=False):
     entity_ref: str
-    id: str
     raw_data: dict
     relation: list
     set: str
@@ -41,7 +40,6 @@ class EntityLoadMatch(TypedDict):
 
 class EntityListMatch(TypedDict, total=False):
     api_version: str
-    entity: dict
     entity_ref: str
     id: str
     kind: str
@@ -57,14 +55,13 @@ class EntityListMatch(TypedDict, total=False):
 
 class EntityCreateDataRequired(TypedDict):
     api_version: str
-    entity: dict
+    id: str
     kind: str
     metadata: dict
 
 
 class EntityCreateData(EntityCreateDataRequired, total=False):
     entity_ref: str
-    id: str
     raw_data: dict
     relation: list
     set: str

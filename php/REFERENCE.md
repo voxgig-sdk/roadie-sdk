@@ -102,9 +102,8 @@ $entity = $client->Entity();
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `api_version` | `string` | Yes |  |
-| `entity` | `array` | Yes |  |
 | `entity_ref` | `string` | No |  |
-| `id` | `string` | No |  |
+| `id` | `string` | Yes |  |
 | `kind` | `string` | Yes |  |
 | `metadata` | `array` | Yes |  |
 | `raw_data` | `array` | No |  |
@@ -124,7 +123,7 @@ Create a new entity with the given data. Throws on error.
 ```php
 $result = $client->Entity()->create([
   "api_version" => null, // string
-  "entity" => null, // array
+  "id" => null, // string
   "kind" => null, // string
   "metadata" => null, // array
 ]);

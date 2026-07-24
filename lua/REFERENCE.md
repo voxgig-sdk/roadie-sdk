@@ -100,9 +100,8 @@ local entity = client:Entity(nil)
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `api_version` | `string` | Yes |  |
-| `entity` | `table` | Yes |  |
 | `entity_ref` | `string` | No |  |
-| `id` | `string` | No |  |
+| `id` | `string` | Yes |  |
 | `kind` | `string` | Yes |  |
 | `metadata` | `table` | Yes |  |
 | `raw_data` | `table` | No |  |
@@ -122,7 +121,7 @@ Create a new entity with the given data.
 ```lua
 local result, err = client:Entity():create({
   api_version = --[[ string ]],
-  entity = --[[ table ]],
+  id = --[[ string ]],
   kind = --[[ string ]],
   metadata = --[[ table ]],
 })

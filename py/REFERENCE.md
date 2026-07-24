@@ -97,9 +97,8 @@ entity = client.Entity()
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `api_version` | `str` | Yes |  |
-| `entity` | `dict` | Yes |  |
 | `entity_ref` | `str` | No |  |
-| `id` | `str` | No |  |
+| `id` | `str` | Yes |  |
 | `kind` | `str` | Yes |  |
 | `metadata` | `dict` | Yes |  |
 | `raw_data` | `dict` | No |  |
@@ -119,7 +118,7 @@ Create a new entity with the given data. Returns the created entity data and rai
 ```python
 result = client.Entity().create({
     "api_version": "example_api_version",  # str
-    "entity": {},  # dict
+    "id": "example_id",  # str
     "kind": "example_kind",  # str
     "metadata": {},  # dict
 })

@@ -63,7 +63,7 @@ try {
 
 ```php
 // create() returns the bare created Entity record.
-$created = $client->Entity()->create(["api_version" => "example_api_version", "entity" => [], "kind" => "example_kind", "metadata" => []]);
+$created = $client->Entity()->create(["api_version" => "example_api_version", "id" => "example_id", "kind" => "example_kind", "metadata" => []]);
 
 // Remove
 $client->Entity()->remove(["id" => $created["id"]]);
@@ -282,7 +282,6 @@ On error, `ok` is `false` and `$err` contains the error value.
 | Field | Description |
 | --- | --- |
 | `api_version` |  |
-| `entity` |  |
 | `entity_ref` |  |
 | `id` |  |
 | `kind` |  |
@@ -343,7 +342,6 @@ Create an instance: `$entity = $client->Entity();`
 | Field | Type | Description |
 | --- | --- | --- |
 | `api_version` | `string` |  |
-| `entity` | `array` |  |
 | `entity_ref` | `string` |  |
 | `id` | `string` |  |
 | `kind` | `string` |  |
@@ -375,7 +373,7 @@ $entitys = $client->Entity()->list();
 ```php
 $entity = $client->Entity()->create([
     "api_version" => null, // string
-    "entity" => null, // array
+    "id" => null, // string
     "kind" => null, // string
     "metadata" => null, // array
 ]);

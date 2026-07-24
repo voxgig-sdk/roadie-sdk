@@ -108,9 +108,8 @@ fmt.Println(entity.GetName()) // "entity"
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `api_version` | `string` | Yes |  |
-| `entity` | `map[string]any` | Yes |  |
 | `entity_ref` | `string` | No |  |
-| `id` | `string` | No |  |
+| `id` | `string` | Yes |  |
 | `kind` | `string` | Yes |  |
 | `metadata` | `map[string]any` | Yes |  |
 | `raw_data` | `map[string]any` | No |  |
@@ -154,7 +153,7 @@ Create a new entity with the given data.
 ```go
 result, err := client.Entity(nil).Create(map[string]any{
     "api_version": "example_api_version",
-    "entity": map[string]any{},
+    "id": "example_id",
     "kind": "example_kind",
     "metadata": map[string]any{},
 }, nil)

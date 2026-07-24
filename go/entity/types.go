@@ -11,9 +11,8 @@ import "encoding/json"
 // Entity is the typed data model for the entity entity.
 type Entity struct {
 	ApiVersion string `json:"api_version"`
-	Entity map[string]any `json:"entity"`
 	EntityRef *string `json:"entity_ref,omitempty"`
-	Id *string `json:"id,omitempty"`
+	Id string `json:"id"`
 	Kind string `json:"kind"`
 	Metadata map[string]any `json:"metadata"`
 	RawData *map[string]any `json:"raw_data,omitempty"`
@@ -33,7 +32,6 @@ type EntityLoadMatch struct {
 // EntityListMatch is the typed request payload for Entity.ListTyped.
 type EntityListMatch struct {
 	ApiVersion *string `json:"api_version,omitempty"`
-	Entity *map[string]any `json:"entity,omitempty"`
 	EntityRef *string `json:"entity_ref,omitempty"`
 	Id *string `json:"id,omitempty"`
 	Kind *string `json:"kind,omitempty"`
@@ -50,9 +48,8 @@ type EntityListMatch struct {
 // EntityCreateData is the typed request payload for Entity.CreateTyped.
 type EntityCreateData struct {
 	ApiVersion string `json:"api_version"`
-	Entity map[string]any `json:"entity"`
 	EntityRef *string `json:"entity_ref,omitempty"`
-	Id *string `json:"id,omitempty"`
+	Id string `json:"id"`
 	Kind string `json:"kind"`
 	Metadata map[string]any `json:"metadata"`
 	RawData *map[string]any `json:"raw_data,omitempty"`

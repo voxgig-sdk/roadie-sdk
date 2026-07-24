@@ -69,7 +69,7 @@ except Exception as err:
 
 ```python
 # Create — returns the bare created record (a dict)
-created = client.Entity().create({"api_version": "example_api_version", "entity": {}, "kind": "example_kind", "metadata": {}})
+created = client.Entity().create({"api_version": "example_api_version", "id": "example_id", "kind": "example_kind", "metadata": {}})
 
 # Remove
 client.Entity().remove({"id": created["id"]})
@@ -276,7 +276,6 @@ On error, `ok` is `False` and `err` contains the error value.
 | Field | Description |
 | --- | --- |
 | `api_version` |  |
-| `entity` |  |
 | `entity_ref` |  |
 | `id` |  |
 | `kind` |  |
@@ -337,7 +336,6 @@ Create an instance: `entity = client.Entity()`
 | Field | Type | Description |
 | --- | --- | --- |
 | `api_version` | `str` |  |
-| `entity` | `dict` |  |
 | `entity_ref` | `str` |  |
 | `id` | `str` |  |
 | `kind` | `str` |  |
@@ -367,7 +365,7 @@ entitys = client.Entity().list()
 ```python
 entity = client.Entity().create({
     "api_version": "example_api_version",  # str
-    "entity": {},  # dict
+    "id": "example_id",  # str
     "kind": "example_kind",  # str
     "metadata": {},  # dict
 })

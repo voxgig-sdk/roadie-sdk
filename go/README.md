@@ -70,7 +70,7 @@ func main() {
     fmt.Println(entity)
 
     // Create a entity.
-    created, err := client.Entity(nil).Create(map[string]any{"api_version": "example_api_version", "entity": map[string]any{}, "kind": "example_kind", "metadata": map[string]any{}}, nil)
+    created, err := client.Entity(nil).Create(map[string]any{"api_version": "example_api_version", "id": "example_id", "kind": "example_kind", "metadata": map[string]any{}}, nil)
     if err != nil {
         panic(err)
     }
@@ -294,7 +294,6 @@ Only `Direct()` returns a response envelope — a `map[string]any` with
 | Field | Description |
 | --- | --- |
 | `"api_version"` |  |
-| `"entity"` |  |
 | `"entity_ref"` |  |
 | `"id"` |  |
 | `"kind"` |  |
@@ -355,7 +354,6 @@ Create an instance: `entity := client.Entity(nil)`
 | Field | Type | Description |
 | --- | --- | --- |
 | `api_version` | `string` |  |
-| `entity` | `map[string]any` |  |
 | `entity_ref` | `string` |  |
 | `id` | `string` |  |
 | `kind` | `string` |  |
@@ -393,7 +391,7 @@ fmt.Println(entitys) // the array of records
 ```go
 result, err := client.Entity(nil).Create(map[string]any{
     "api_version": "example_api_version",
-    "entity": map[string]any{},
+    "id": "example_id",
     "kind": "example_kind",
     "metadata": map[string]any{},
 }, nil)

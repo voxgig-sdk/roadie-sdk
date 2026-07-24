@@ -142,9 +142,8 @@ const entity = client.Entity()
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `api_version` | `string` | Yes |  |
-| `entity` | `Record<string, any>` | Yes |  |
 | `entity_ref` | `string` | No |  |
-| `id` | `string` | No |  |
+| `id` | `string` | Yes |  |
 | `kind` | `string` | Yes |  |
 | `metadata` | `Record<string, any>` | Yes |  |
 | `raw_data` | `Record<string, any>` | No |  |
@@ -164,7 +163,7 @@ Create a new entity with the given data.
 ```ts
 const result = await client.Entity().create({
   api_version: 'example_api_version',
-  entity: {},
+  id: 'example_id',
   kind: 'example_kind',
   metadata: {},
 })

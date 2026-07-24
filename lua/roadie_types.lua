@@ -8,9 +8,8 @@
 
 ---@class Entity
 ---@field api_version string
----@field entity table
 ---@field entity_ref? string
----@field id? string
+---@field id string
 ---@field kind string
 ---@field metadata table
 ---@field raw_data? table
@@ -26,7 +25,6 @@
 
 ---@class EntityListMatch
 ---@field api_version? string
----@field entity? table
 ---@field entity_ref? string
 ---@field id? string
 ---@field kind? string
@@ -41,9 +39,8 @@
 
 ---@class EntityCreateData
 ---@field api_version string
----@field entity table
 ---@field entity_ref? string
----@field id? string
+---@field id string
 ---@field kind string
 ---@field metadata table
 ---@field raw_data? table

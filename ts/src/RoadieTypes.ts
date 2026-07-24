@@ -7,9 +7,8 @@
 
 export interface Entity {
   api_version: string
-  entity: Record<string, any>
   entity_ref?: string
-  id?: string
+  id: string
   kind: string
   metadata: Record<string, any>
   raw_data?: Record<string, any>
@@ -27,7 +26,6 @@ export interface EntityLoadMatch {
 
 export interface EntityListMatch {
   api_version?: string
-  entity?: Record<string, any>
   entity_ref?: string
   id?: string
   kind?: string
@@ -43,9 +41,8 @@ export interface EntityListMatch {
 
 export interface EntityCreateData {
   api_version: string
-  entity: Record<string, any>
   entity_ref?: string
-  id?: string
+  id: string
   kind: string
   metadata: Record<string, any>
   raw_data?: Record<string, any>

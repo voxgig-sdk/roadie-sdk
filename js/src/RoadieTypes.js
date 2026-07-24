@@ -9,9 +9,8 @@
 /**
  * @typedef {Object} Entity
  * @property {string} api_version
- * @property {Object} entity
  * @property {string} [entity_ref]
- * @property {string} [id]
+ * @property {string} id
  * @property {string} kind
  * @property {Object} metadata
  * @property {Object} [raw_data]
@@ -31,7 +30,6 @@
 /**
  * @typedef {Object} EntityListMatch
  * @property {string} [api_version]
- * @property {Object} [entity]
  * @property {string} [entity_ref]
  * @property {string} [id]
  * @property {string} [kind]
@@ -48,9 +46,8 @@
 /**
  * @typedef {Object} EntityCreateData
  * @property {string} api_version
- * @property {Object} entity
  * @property {string} [entity_ref]
- * @property {string} [id]
+ * @property {string} id
  * @property {string} kind
  * @property {Object} metadata
  * @property {Object} [raw_data]

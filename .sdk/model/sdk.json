@@ -33,12 +33,6 @@
             },
             {
               "active": true,
-              "name": "entity",
-              "req": true,
-              "type": "`$OBJECT`"
-            },
-            {
-              "active": true,
               "name": "entity_ref",
               "req": false,
               "type": "`$STRING`"
@@ -46,7 +40,7 @@
             {
               "active": true,
               "name": "id",
-              "req": false,
+              "req": true,
               "type": "`$STRING`"
             },
             {
@@ -128,7 +122,7 @@
                   "select": {},
                   "transform": {
                     "req": "`reqdata`",
-                    "res": "`body.entity`"
+                    "res": "`body`"
                   }
                 }
               ]
@@ -226,7 +220,7 @@
                   },
                   "transform": {
                     "req": "`reqdata`",
-                    "res": "`body.entity`"
+                    "res": "`body`"
                   }
                 }
               ]

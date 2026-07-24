@@ -73,87 +73,80 @@ class Config {
         },
         {
           "active": true,
-          "name": "entity",
-          "req": true,
-          "type": "`$OBJECT`",
+          "name": "entity_ref",
+          "req": false,
+          "type": "`$STRING`",
           "index$": 1
         },
         {
           "active": true,
-          "name": "entity_ref",
-          "req": false,
+          "name": "id",
+          "req": true,
           "type": "`$STRING`",
           "index$": 2
-        },
-        {
-          "active": true,
-          "name": "id",
-          "req": false,
-          "type": "`$STRING`",
-          "index$": 3
         },
         {
           "active": true,
           "name": "kind",
           "req": true,
           "type": "`$STRING`",
-          "index$": 4
+          "index$": 3
         },
         {
           "active": true,
           "name": "metadata",
           "req": true,
           "type": "`$OBJECT`",
-          "index$": 5
+          "index$": 4
         },
         {
           "active": true,
           "name": "raw_data",
           "req": false,
           "type": "`$OBJECT`",
-          "index$": 6
+          "index$": 5
         },
         {
           "active": true,
           "name": "relation",
           "req": false,
           "type": "`$ARRAY`",
-          "index$": 7
+          "index$": 6
         },
         {
           "active": true,
           "name": "set",
           "req": false,
           "type": "`$STRING`",
-          "index$": 8
+          "index$": 7
         },
         {
           "active": true,
           "name": "source",
           "req": false,
           "type": "`$STRING`",
-          "index$": 9
+          "index$": 8
         },
         {
           "active": true,
           "name": "spec",
           "req": false,
           "type": "`$OBJECT`",
-          "index$": 10
+          "index$": 9
         },
         {
           "active": true,
           "name": "updated_at",
           "req": false,
           "type": "`$STRING`",
-          "index$": 11
+          "index$": 10
         },
         {
           "active": true,
           "name": "updated_by",
           "req": false,
           "type": "`$STRING`",
-          "index$": 12
+          "index$": 11
         }
       ],
       "name": "entity",
@@ -176,7 +169,7 @@ class Config {
               "select": {},
               "transform": {
                 "req": "`reqdata`",
-                "res": "`body.entity`"
+                "res": "`body`"
               },
               "index$": 0
             }
@@ -280,7 +273,7 @@ class Config {
               },
               "transform": {
                 "req": "`reqdata`",
-                "res": "`body.entity`"
+                "res": "`body`"
               },
               "index$": 0
             }

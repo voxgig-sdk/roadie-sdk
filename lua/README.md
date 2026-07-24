@@ -61,7 +61,7 @@ print(entity)
 
 ```lua
 -- Create
-local created, err = client:Entity():create({ api_version = "example_api_version", entity = {}, kind = "example_kind", metadata = {} })
+local created, err = client:Entity():create({ api_version = "example_api_version", id = "example_id", kind = "example_kind", metadata = {} })
 if err then error(err) end
 
 -- Remove
@@ -262,7 +262,6 @@ Only `direct()` returns a response envelope — a `table` with `ok`,
 | Field | Description |
 | --- | --- |
 | `api_version` |  |
-| `entity` |  |
 | `entity_ref` |  |
 | `id` |  |
 | `kind` |  |
@@ -323,7 +322,6 @@ Create an instance: `local entity = client:Entity(nil)`
 | Field | Type | Description |
 | --- | --- | --- |
 | `api_version` | `string` |  |
-| `entity` | `table` |  |
 | `entity_ref` | `string` |  |
 | `id` | `string` |  |
 | `kind` | `string` |  |
@@ -353,7 +351,7 @@ local entitys, err = client:Entity():list()
 ```lua
 local entity, err = client:Entity():create({
   api_version = "example_api_version", -- string
-  entity = {}, -- table
+  id = "example_id", -- string
   kind = "example_kind", -- string
   metadata = {}, -- table
 })

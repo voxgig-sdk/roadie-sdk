@@ -11,18 +11,13 @@ main: kit: entity: entity: {
       type: "`$STRING`"
     }
     {
-      name: "entity"
-      req: true
-      type: "`$OBJECT`"
-    }
-    {
       name: "entity_ref"
       req: false
       type: "`$STRING`"
     }
     {
       name: "id"
-      req: false
+      req: true
       type: "`$STRING`"
     }
     {
@@ -93,7 +88,7 @@ main: kit: entity: entity: {
           ]
           transform: {
             req: "`reqdata`"
-            res: "`body.entity`"
+            res: "`body`"
           }
         }
       ]
@@ -182,7 +177,7 @@ main: kit: entity: entity: {
           }
           transform: {
             req: "`reqdata`"
-            res: "`body.entity`"
+            res: "`body`"
           }
         }
       ]

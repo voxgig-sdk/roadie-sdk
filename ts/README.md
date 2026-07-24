@@ -66,7 +66,7 @@ try {
 // Create — returns the created Entity
 const created = await client.Entity().create({
   api_version: 'example_api_version',
-  entity: {},
+  id: 'example_id',
   kind: 'example_kind',
   metadata: {},
 })
@@ -329,7 +329,6 @@ The `prepare()` method returns:
 | Field | Description |
 | --- | --- |
 | `api_version` |  |
-| `entity` |  |
 | `entity_ref` |  |
 | `id` |  |
 | `kind` |  |
@@ -390,7 +389,6 @@ Create an instance: `const entity = client.Entity()`
 | Field | Type | Description |
 | --- | --- | --- |
 | `api_version` | `string` |  |
-| `entity` | `Record<string, any>` |  |
 | `entity_ref` | `string` |  |
 | `id` | `string` |  |
 | `kind` | `string` |  |
@@ -420,7 +418,7 @@ const entitys = await client.Entity().list()
 ```ts
 const entity = await client.Entity().create({
   api_version: 'example_api_version',
-  entity: {},
+  id: 'example_id',
   kind: 'example_kind',
   metadata: {},
 })
