@@ -1,0 +1,28 @@
+# API Information
+
+
+main: {
+  kit: {
+    info: {
+      description: `Draft OpenAPI spec for the Roadie (roadie.io) catalog + Entity Push API, authored by Voxgig from the public docs at https://roadie.io/docs/api/ . This is roadie.io (the Backstage company); it is NOT roadie.com (the delivery company).
+`
+      security: {
+        in: "header"
+        name: "Authorization"
+        prefix: "Bearer"
+        scheme: "bearerAuth"
+        type: "http"
+      }
+      servers: [
+        {
+          url: "https://api.roadie.so"
+        }
+      ]
+      summary: "Draft OpenAPI spec for the Roadie (roadie.io) catalog + Entity Push API, authored by Voxgig from the public docs at https://roadie.io/docs/api/ ."
+      title: "Roadie API"
+      version: "0.1.0-draft"
+      website: "https://roadie.so"
+    }
+  }
+}
+

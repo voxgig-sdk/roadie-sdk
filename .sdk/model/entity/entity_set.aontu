@@ -1,0 +1,40 @@
+# Entity: entity_set
+
+main: kit: entity: entity_set: {
+
+  alias: field: {}
+
+  fields: [
+    {
+      name: "name"
+      req: false
+      type: "`$STRING`"
+    }
+  ]
+
+  name: "entity_set"
+  op: {
+    list: {
+      name: "list"
+      points: [
+        {
+          method: "GET"
+          orig: "/api/catalog/roadie-entities/sets"
+          parts: [
+            "api"
+            "catalog"
+            "roadie-entities"
+            "sets"
+          ]
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

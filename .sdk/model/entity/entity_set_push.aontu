@@ -1,0 +1,81 @@
+# Entity: entity_set_push
+
+main: kit: entity: entity_set_push: {
+
+  alias: field: {}
+
+  fields: [
+    {
+      name: "item"
+      op: {
+        update: {
+          req: true
+          type: "`$ARRAY`"
+        }
+      }
+      req: false
+      type: "`$ARRAY`"
+    }
+    {
+      name: "set"
+      req: false
+      type: "`$STRING`"
+    }
+  ]
+
+  name: "entity_set_push"
+  op: {
+    update: {
+      name: "update"
+      points: [
+        {
+          args: {
+            params: [
+              {
+                kind: "param"
+                name: "set_id"
+                orig: "set_id"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "PUT"
+          orig: "/api/catalog/roadie-entities/sets/{setId}"
+          parts: [
+            "api"
+            "catalog"
+            "roadie-entities"
+            "sets"
+            "{set_id}"
+          ]
+          rename: {
+            param: {
+              setId: "set_id"
+            }
+          }
+          select: {
+            exist: [
+              "set_id"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+  relations: {
+    ancestors: [
+      [
+        "set"
+      ]
+    ]
+  }
+
+
+
+}

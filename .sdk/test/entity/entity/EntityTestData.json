@@ -1,0 +1,69 @@
+{
+  "existing": {
+    "entity": {
+      "ENTITY00": {
+        "api_version": "s82",
+        "entity": {},
+        "entity_ref": "s84",
+        "id": "ENTITY00",
+        "kind": "s86",
+        "metadata": {},
+        "raw_data": {},
+        "relation": [],
+        "set": "s8a",
+        "source": "s8b",
+        "spec": {},
+        "updated_at": "s8d",
+        "updated_by": "s8e"
+      },
+      "ENTITY01": {
+        "api_version": "s104",
+        "entity": {},
+        "entity_ref": "s106",
+        "id": "ENTITY01",
+        "kind": "s108",
+        "metadata": {},
+        "raw_data": {},
+        "relation": [],
+        "set": "s10c",
+        "source": "s10d",
+        "spec": {},
+        "updated_at": "s10f",
+        "updated_by": "s110"
+      },
+      "ENTITY02": {
+        "api_version": "s186",
+        "entity": {},
+        "entity_ref": "s188",
+        "id": "ENTITY02",
+        "kind": "s18a",
+        "metadata": {},
+        "raw_data": {},
+        "relation": [],
+        "set": "s18e",
+        "source": "s18f",
+        "spec": {},
+        "updated_at": "s191",
+        "updated_by": "s192"
+      }
+    }
+  },
+  "new": {
+    "entity": {
+      "entity_ref01": {
+        "api_version": "s208",
+        "entity": {},
+        "entity_ref": "s20a",
+        "kind": "s20c",
+        "metadata": {},
+        "raw_data": {},
+        "relation": [],
+        "set": "s210",
+        "source": "s211",
+        "spec": {},
+        "updated_at": "s213",
+        "updated_by": "s214"
+      }
+    }
+  }
+}

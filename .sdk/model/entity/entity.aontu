@@ -1,0 +1,235 @@
+# Entity: entity
+
+main: kit: entity: entity: {
+
+  alias: field: {}
+
+  fields: [
+    {
+      name: "api_version"
+      req: true
+      type: "`$STRING`"
+    }
+    {
+      name: "entity"
+      req: true
+      type: "`$OBJECT`"
+    }
+    {
+      name: "entity_ref"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "id"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "kind"
+      req: true
+      type: "`$STRING`"
+    }
+    {
+      name: "metadata"
+      req: true
+      type: "`$OBJECT`"
+    }
+    {
+      name: "raw_data"
+      req: false
+      type: "`$OBJECT`"
+    }
+    {
+      name: "relation"
+      req: false
+      type: "`$ARRAY`"
+    }
+    {
+      name: "set"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "source"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "spec"
+      req: false
+      type: "`$OBJECT`"
+    }
+    {
+      name: "updated_at"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "updated_by"
+      req: false
+      type: "`$STRING`"
+    }
+  ]
+
+  id: {
+    field: "id"
+    name: "id"
+  }
+
+  name: "entity"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          method: "POST"
+          orig: "/api/catalog/roadie-entities/entities"
+          parts: [
+            "api"
+            "catalog"
+            "roadie-entities"
+            "entities"
+          ]
+          transform: {
+            req: "`reqdata`"
+            res: "`body.entity`"
+          }
+        }
+      ]
+    }
+    list: {
+      name: "list"
+      points: [
+        {
+          args: {
+            query: [
+              {
+                kind: "query"
+                name: "set"
+                orig: "set"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "GET"
+          orig: "/api/catalog/roadie-entities/entities"
+          parts: [
+            "api"
+            "catalog"
+            "roadie-entities"
+            "entities"
+          ]
+          select: {
+            exist: [
+              "set"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          method: "GET"
+          orig: "/api/catalog/entities"
+          parts: [
+            "api"
+            "catalog"
+            "entities"
+          ]
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    load: {
+      name: "load"
+      points: [
+        {
+          args: {
+            params: [
+              {
+                kind: "param"
+                name: "id"
+                orig: "entity_id"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "GET"
+          orig: "/api/catalog/roadie-entities/entities/{entityId}"
+          parts: [
+            "api"
+            "catalog"
+            "roadie-entities"
+            "entities"
+            "{id}"
+          ]
+          rename: {
+            param: {
+              entityId: "id"
+            }
+          }
+          select: {
+            exist: [
+              "id"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body.entity`"
+          }
+        }
+      ]
+    }
+    remove: {
+      name: "remove"
+      points: [
+        {
+          args: {
+            params: [
+              {
+                kind: "param"
+                name: "id"
+                orig: "entity_id"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "DELETE"
+          orig: "/api/catalog/roadie-entities/entities/{entityId}"
+          parts: [
+            "api"
+            "catalog"
+            "roadie-entities"
+            "entities"
+            "{id}"
+          ]
+          rename: {
+            param: {
+              entityId: "id"
+            }
+          }
+          select: {
+            exist: [
+              "id"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

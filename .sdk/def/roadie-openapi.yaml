@@ -77,10 +77,25 @@ components:
         targetRef: { type: string }
     StoredEntity:
       type: object
-      description: An entity as stored by Roadie, with provenance metadata.
+      description: >
+        A Backstage entity as stored by Roadie, augmented in place with Roadie provenance
+        metadata (id, entityRef, set, source). The entity's own fields sit at the top level -
+        Roadie does not wrap them, it adds to them.
+      required: [id, apiVersion, kind, metadata]
       properties:
         id: { type: string, format: uuid }
-        entity: { $ref: '#/components/schemas/Entity' }
+        apiVersion: { type: string, example: backstage.io/v1alpha1 }
+        kind: { type: string, example: Resource }
+        metadata: { $ref: '#/components/schemas/EntityMetadata' }
+        spec:
+          type: object
+          additionalProperties: true
+          properties:
+            owner: { type: string }
+            type: { type: string }
+        relations:
+          type: array
+          items: { $ref: '#/components/schemas/Relation' }
         entityRef: { type: string, example: resource:default/my-resource }
         rawData: { type: object, additionalProperties: true }
         set: { type: string }

@@ -1,0 +1,81 @@
+# BasicEntityFlow
+
+main: kit: flow: BasicEntityFlow:
+{
+  entity: "entity",
+  kind: "basic",
+  name: "BasicEntityFlow",
+  step: [
+    {
+      input: {
+        ref: "entity_ref01"
+      }
+
+      op: "create"
+    }
+
+    {
+      op: "list",
+      valid: [
+        {
+          apply: "ItemExists",
+          def: {
+            ref: "entity_ref01"
+          }
+        }
+      ]
+    }
+
+    {
+      input: {
+        ref: "entity_ref01",
+        srcdatavar: "entity_ref01_data",
+        suffix: "_dt0"
+      }
+
+      match: {
+        id: "entity01"
+      }
+
+      op: "load",
+      valid: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-entity_ref01"
+          }
+        }
+      ]
+    }
+
+    {
+      input: {
+        ref: "entity_ref01",
+        suffix: "_rm0"
+      }
+
+      match: {
+        id: "entity01"
+      }
+
+      op: "remove"
+    }
+
+    {
+      input: {
+        suffix: "_rt0"
+      }
+
+      op: "list",
+      valid: [
+        {
+          apply: "ItemNotExists",
+          def: {
+            ref: "entity_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicEntityFlow"
+}

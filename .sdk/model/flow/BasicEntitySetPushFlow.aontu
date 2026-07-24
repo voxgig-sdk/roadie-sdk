@@ -1,0 +1,29 @@
+# BasicEntitySetPushFlow
+
+main: kit: flow: BasicEntitySetPushFlow:
+{
+  entity: "entity_set_push",
+  kind: "basic",
+  name: "BasicEntitySetPushFlow",
+  step: [
+    {
+      input: {
+        ref: "entity_set_push_ref01",
+        srcdatavar: "entity_set_push_ref01_data",
+        suffix: "_up0",
+        textfield: "set"
+      }
+
+      op: "update",
+      spec: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-entity_set_push_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicEntitySetPushFlow"
+}

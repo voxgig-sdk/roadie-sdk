@@ -1,0 +1,38 @@
+# Guide
+
+guide: {
+  metrics: count: entity: 3
+  metrics: count: path: 5
+  metrics: count: method: 7
+
+  entity: entity: {
+    path: "/api/catalog/entities": {
+      op: list: method: *GET
+    }
+    path: "/api/catalog/roadie-entities/entities": {
+      op: create: method: *POST
+      op: create: transform: res: *("`body.entity`")|top
+      op: list: method: *GET
+    }
+    path: "/api/catalog/roadie-entities/entities/{entityId}": {
+      rename: param: "entityId": *"id"
+      op: load: method: *GET
+      op: load: transform: res: *("`body.entity`")|top
+      op: remove: method: *DELETE
+    }
+  }
+
+  entity: entity_set: {
+    path: "/api/catalog/roadie-entities/sets": {
+      op: list: method: *GET
+    }
+  }
+
+  entity: entity_set_push: {
+    path: "/api/catalog/roadie-entities/sets/{setId}": {
+      rename: param: "setId": *"set_id"
+      op: update: method: *PUT
+    }
+  }
+
+}

@@ -1,0 +1,22 @@
+{
+  "existing": {
+    "entity_set": {
+      "ENTITY_SET00": {
+        "name": "sa"
+      },
+      "ENTITY_SET01": {
+        "name": "s14"
+      },
+      "ENTITY_SET02": {
+        "name": "s1e"
+      }
+    }
+  },
+  "new": {
+    "entity_set": {
+      "entity_set_ref01": {
+        "name": "s28"
+      }
+    }
+  }
+}
