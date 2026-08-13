@@ -6,9 +6,9 @@ import time
 
 import pytest
 
-from utility.voxgig_struct import voxgig_struct as vs
+from roadie_sdk.utility.voxgig_struct import voxgig_struct as vs
 from roadie_sdk import RoadieSDK
-from core import helpers
+from roadie_sdk.core import helpers
 
 _TEST_DIR = os.path.dirname(os.path.abspath(__file__))
 from test import runner
@@ -55,7 +55,7 @@ class TestEntitySetPushEntity:
         entity_set_push_ref01_markdef_up0_value = "Mark01-entity_set_push_ref01_" + str(setup["now"])
         entity_set_push_ref01_data_up0_up[entity_set_push_ref01_markdef_up0_name] = entity_set_push_ref01_markdef_up0_value
 
-        entity_set_push_ref01_resdata_up0 = helpers.to_map(entity_set_push_ref01_ent.update(entity_set_push_ref01_data_up0_up, None))
+        entity_set_push_ref01_resdata_up0 = helpers.to_map(runner.entity_data(entity_set_push_ref01_ent.update(entity_set_push_ref01_data_up0_up, None)))
         assert entity_set_push_ref01_resdata_up0 is not None
         assert entity_set_push_ref01_resdata_up0[entity_set_push_ref01_markdef_up0_name] == entity_set_push_ref01_markdef_up0_value
 

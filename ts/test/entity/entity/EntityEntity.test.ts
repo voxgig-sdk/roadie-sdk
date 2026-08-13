@@ -62,14 +62,14 @@ describe('EntityEntity', async () => {
     const entity_ref01_ent = client.Entity()
     let entity_ref01_data = setup.data.new.entity['entity_ref01']
 
-    entity_ref01_data = await entity_ref01_ent.create(entity_ref01_data)
+    entity_ref01_data = (await entity_ref01_ent.create(entity_ref01_data)).data()
     assert(null != entity_ref01_data.id)
 
 
     // LIST
     const entity_ref01_match: any = {}
 
-    const entity_ref01_list = await entity_ref01_ent.list(entity_ref01_match)
+    const entity_ref01_list = (await entity_ref01_ent.list(entity_ref01_match)).map((e: any) => e.data())
 
     assert(!isempty(select(entity_ref01_list, { id: entity_ref01_data.id })))
 
@@ -77,7 +77,7 @@ describe('EntityEntity', async () => {
     // LOAD
     const entity_ref01_match_dt0: any = {}
     entity_ref01_match_dt0.id = entity_ref01_data.id
-    const entity_ref01_data_dt0 = await entity_ref01_ent.load(entity_ref01_match_dt0)
+    const entity_ref01_data_dt0 = (await entity_ref01_ent.load(entity_ref01_match_dt0)).data()
     assert(entity_ref01_data_dt0.id === entity_ref01_data.id)
 
 
@@ -89,7 +89,7 @@ describe('EntityEntity', async () => {
     // LIST
     const entity_ref01_match_rt0: any = {}
 
-    const entity_ref01_list_rt0 = await entity_ref01_ent.list(entity_ref01_match_rt0)
+    const entity_ref01_list_rt0 = (await entity_ref01_ent.list(entity_ref01_match_rt0)).map((e: any) => e.data())
 
     assert(isempty(select(entity_ref01_list_rt0, { id: entity_ref01_data.id })))
 

@@ -37,7 +37,9 @@ const client = new RoadieSDK({
 
 ### 2. List entity records
 
-`list()` resolves to an array of Entity objects — iterate it directly:
+`list()` resolves to an array of Entity ENTITIES — every operation
+resolves to entities, not raw records. Iterate them directly, and call
+`.data()` on one for the record it holds:
 
 ```ts
 const entitys = await client.Entity().list()
@@ -63,9 +65,9 @@ try {
 ### 4. Create, update, and remove
 
 ```ts
-// Create — returns the created Entity
+// Create — returns the created Entity ENTITY (.data() for the record)
 const created = await client.Entity().create({
-  api_version: 'example_api_version',
+  apiVersion: 'example_apiVersion',
   id: 'example_id',
   kind: 'example_kind',
   metadata: {},
@@ -73,7 +75,7 @@ const created = await client.Entity().create({
 
 // Remove
 await client.Entity().remove({
-  id: created.id!,
+  id: created.data().id!,
 })
 ```
 
@@ -152,7 +154,8 @@ Create a mock client for unit testing — no server required:
 const client = RoadieSDK.test()
 
 const entity = await client.Entity().list()
-// entity is a bare entity populated with mock response data
+// entity is the entity, populated with mock response data
+// — call entity.data() for the record itself
 console.log(entity)
 ```
 
@@ -328,18 +331,18 @@ The `prepare()` method returns:
 
 | Field | Description |
 | --- | --- |
-| `api_version` |  |
-| `entity_ref` |  |
+| `apiVersion` |  |
+| `entityRef` |  |
 | `id` |  |
 | `kind` |  |
 | `metadata` |  |
-| `raw_data` |  |
-| `relation` |  |
+| `rawData` |  |
+| `relations` |  |
 | `set` |  |
 | `source` |  |
 | `spec` |  |
-| `updated_at` |  |
-| `updated_by` |  |
+| `updatedAt` |  |
+| `updatedBy` |  |
 
 Operations: create, list, load, remove.
 
@@ -359,7 +362,7 @@ API path: `/api/catalog/roadie-entities/sets`
 
 | Field | Description |
 | --- | --- |
-| `item` |  |
+| `items` |  |
 | `set` |  |
 
 Operations: update.
@@ -388,18 +391,18 @@ Create an instance: `const entity = client.Entity()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `api_version` | `string` |  |
-| `entity_ref` | `string` |  |
+| `apiVersion` | `string` |  |
+| `entityRef` | `string` |  |
 | `id` | `string` |  |
 | `kind` | `string` |  |
 | `metadata` | `Record<string, any>` |  |
-| `raw_data` | `Record<string, any>` |  |
-| `relation` | `any[]` |  |
+| `rawData` | `Record<string, any>` |  |
+| `relations` | `any[]` |  |
 | `set` | `string` |  |
 | `source` | `string` |  |
 | `spec` | `Record<string, any>` |  |
-| `updated_at` | `string` |  |
-| `updated_by` | `string` |  |
+| `updatedAt` | `string` |  |
+| `updatedBy` | `string` |  |
 
 #### Example: Load
 
@@ -417,7 +420,7 @@ const entitys = await client.Entity().list()
 
 ```ts
 const entity = await client.Entity().create({
-  api_version: 'example_api_version',
+  apiVersion: 'example_apiVersion',
   id: 'example_id',
   kind: 'example_kind',
   metadata: {},
@@ -462,7 +465,7 @@ Create an instance: `const entity_set_push = client.EntitySetPush()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `item` | `any[]` |  |
+| `items` | `any[]` |  |
 | `set` | `string` |  |
 
 

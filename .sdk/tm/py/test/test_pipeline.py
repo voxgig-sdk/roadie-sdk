@@ -16,11 +16,11 @@
 import pytest
 
 from projectname_sdk import RoadieSDK
-from core.error import RoadieError
-from core.result import RoadieResult
-from core.response import RoadieResponse
-from core.spec import RoadieSpec
-from feature.base_feature import RoadieBaseFeature
+from projectname_sdk.core.error import RoadieError
+from projectname_sdk.core.result import RoadieResult
+from projectname_sdk.core.response import RoadieResponse
+from projectname_sdk.core.spec import RoadieSpec
+from projectname_sdk.feature.base_feature import RoadieBaseFeature
 
 
 def _client():

@@ -83,7 +83,7 @@ class EntityEntityTest extends TestCase
             Vs::getpath($setup["data"], "new.entity"), "entity_ref01"));
 
         $entity_ref01_data_result = $entity_ref01_ent->create($entity_ref01_data, null);
-        $entity_ref01_data = Helpers::to_map($entity_ref01_data_result);
+        $entity_ref01_data = Helpers::to_map(is_object($entity_ref01_data_result) && method_exists($entity_ref01_data_result, 'data_get') ? $entity_ref01_data_result->data_get() : $entity_ref01_data_result);
         $this->assertNotNull($entity_ref01_data);
         $this->assertNotNull($entity_ref01_data["id"]);
 
@@ -103,7 +103,7 @@ class EntityEntityTest extends TestCase
             "id" => $entity_ref01_data["id"],
         ];
         $entity_ref01_data_dt0_loaded = $entity_ref01_ent->load($entity_ref01_match_dt0, null);
-        $entity_ref01_data_dt0_load_result = Helpers::to_map($entity_ref01_data_dt0_loaded);
+        $entity_ref01_data_dt0_load_result = Helpers::to_map(is_object($entity_ref01_data_dt0_loaded) && method_exists($entity_ref01_data_dt0_loaded, 'data_get') ? $entity_ref01_data_dt0_loaded->data_get() : $entity_ref01_data_dt0_loaded);
         $this->assertNotNull($entity_ref01_data_dt0_load_result);
         $this->assertEquals($entity_ref01_data_dt0_load_result["id"], $entity_ref01_data["id"]);
 

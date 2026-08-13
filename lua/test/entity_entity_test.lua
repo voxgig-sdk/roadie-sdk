@@ -82,7 +82,7 @@ describe("EntityEntity", function()
 
     local entity_ref01_data_result, err = entity_ref01_ent:create(entity_ref01_data, nil)
     assert.is_nil(err)
-    entity_ref01_data = helpers.to_map(entity_ref01_data_result)
+    entity_ref01_data = helpers.to_map(type(entity_ref01_data_result) == 'table' and entity_ref01_data_result.data_get and entity_ref01_data_result:data_get() or entity_ref01_data_result)
     assert.is_not_nil(entity_ref01_data)
     assert.is_not_nil(entity_ref01_data["id"])
 
@@ -104,7 +104,7 @@ describe("EntityEntity", function()
     }
     local entity_ref01_data_dt0_loaded, err = entity_ref01_ent:load(entity_ref01_match_dt0, nil)
     assert.is_nil(err)
-    local entity_ref01_data_dt0_load_result = helpers.to_map(entity_ref01_data_dt0_loaded)
+    local entity_ref01_data_dt0_load_result = helpers.to_map(type(entity_ref01_data_dt0_loaded) == 'table' and entity_ref01_data_dt0_loaded.data_get and entity_ref01_data_dt0_loaded:data_get() or entity_ref01_data_dt0_loaded)
     assert.is_not_nil(entity_ref01_data_dt0_load_result)
     assert.are.equal(entity_ref01_data_dt0_load_result["id"], entity_ref01_data["id"])
 

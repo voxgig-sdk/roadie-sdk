@@ -6,7 +6,7 @@ main: kit: entity: entity_set_push: {
 
   fields: [
     {
-      name: "item"
+      name: "items"
       op: {
         update: {
           req: true

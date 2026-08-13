@@ -101,18 +101,18 @@ $entity = $client->Entity();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `api_version` | `string` | Yes |  |
-| `entity_ref` | `string` | No |  |
+| `apiVersion` | `string` | Yes |  |
+| `entityRef` | `string` | No |  |
 | `id` | `string` | Yes |  |
 | `kind` | `string` | Yes |  |
 | `metadata` | `array` | Yes |  |
-| `raw_data` | `array` | No |  |
-| `relation` | `array` | No |  |
+| `rawData` | `array` | No |  |
+| `relations` | `array` | No |  |
 | `set` | `string` | No |  |
 | `source` | `string` | No |  |
 | `spec` | `array` | No |  |
-| `updated_at` | `string` | No |  |
-| `updated_by` | `string` | No |  |
+| `updatedAt` | `string` | No |  |
+| `updatedBy` | `string` | No |  |
 
 ### Operations
 
@@ -122,7 +122,7 @@ Create a new entity with the given data. Throws on error.
 
 ```php
 $result = $client->Entity()->create([
-  "api_version" => null, // string
+  "apiVersion" => null, // string
   "id" => null, // string
   "kind" => null, // string
   "metadata" => null, // array
@@ -245,14 +245,14 @@ $entity_set_push = $client->EntitySetPush();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `item` | `array` | No |  |
+| `items` | `array` | No |  |
 | `set` | `string` | No |  |
 
 ### Field Usage by Operation
 
 | Field | update |
 | --- | --- |
-| `item` | Yes |
+| `items` | Yes |
 | `set` | - |
 
 ### Operations

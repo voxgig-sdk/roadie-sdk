@@ -23,6 +23,7 @@ require_once __DIR__ . '/MakeUrl.php';
 require_once __DIR__ . '/Param.php';
 require_once __DIR__ . '/PrepareAuth.php';
 require_once __DIR__ . '/PrepareBody.php';
+require_once __DIR__ . '/Graphql.php';
 require_once __DIR__ . '/PrepareHeaders.php';
 require_once __DIR__ . '/PrepareMethod.php';
 require_once __DIR__ . '/PrepareParams.php';
@@ -59,6 +60,8 @@ RoadieUtility::setRegistrar(function (RoadieUtility $u): void {
     $u->prepare_params = [RoadiePrepareParams::class, 'call'];
     $u->prepare_path = [RoadiePreparePath::class, 'call'];
     $u->prepare_query = [RoadiePrepareQuery::class, 'call'];
+    $u->graphql_body = [RoadieGraphql::class, 'body'];
+    $u->graphql_errors = [RoadieGraphql::class, 'errors'];
     $u->result_basic = [RoadieResultBasic::class, 'call'];
     $u->result_body = [RoadieResultBody::class, 'call'];
     $u->result_headers = [RoadieResultHeaders::class, 'call'];

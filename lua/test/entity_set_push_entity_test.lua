@@ -53,7 +53,7 @@ describe("EntitySetPushEntity", function()
 
     local entity_set_push_ref01_resdata_up0_result, err = entity_set_push_ref01_ent:update(entity_set_push_ref01_data_up0_up, nil)
     assert.is_nil(err)
-    local entity_set_push_ref01_resdata_up0 = helpers.to_map(entity_set_push_ref01_resdata_up0_result)
+    local entity_set_push_ref01_resdata_up0 = helpers.to_map(type(entity_set_push_ref01_resdata_up0_result) == 'table' and entity_set_push_ref01_resdata_up0_result.data_get and entity_set_push_ref01_resdata_up0_result:data_get() or entity_set_push_ref01_resdata_up0_result)
     assert.is_not_nil(entity_set_push_ref01_resdata_up0)
     assert.are.equal(entity_set_push_ref01_resdata_up0[entity_set_push_ref01_markdef_up0_name], entity_set_push_ref01_markdef_up0_value)
 

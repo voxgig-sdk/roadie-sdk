@@ -1,4 +1,4 @@
-# ProjectName SDK exists test
+# Roadie SDK exists test
 
 import pytest
 from roadie_sdk import RoadieSDK

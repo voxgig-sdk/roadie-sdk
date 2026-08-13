@@ -2,63 +2,63 @@
   "existing": {
     "entity": {
       "ENTITY00": {
-        "api_version": "s78",
-        "entity_ref": "s79",
+        "apiVersion": "s78",
+        "entityRef": "s79",
         "id": "ENTITY00",
         "kind": "s7b",
         "metadata": {},
-        "raw_data": {},
-        "relation": [],
+        "rawData": {},
+        "relations": [],
         "set": "s7f",
         "source": "s80",
         "spec": {},
-        "updated_at": "s82",
-        "updated_by": "s83"
+        "updatedAt": "s82",
+        "updatedBy": "s83"
       },
       "ENTITY01": {
-        "api_version": "sf0",
-        "entity_ref": "sf1",
+        "apiVersion": "sf0",
+        "entityRef": "sf1",
         "id": "ENTITY01",
         "kind": "sf3",
         "metadata": {},
-        "raw_data": {},
-        "relation": [],
+        "rawData": {},
+        "relations": [],
         "set": "sf7",
         "source": "sf8",
         "spec": {},
-        "updated_at": "sfa",
-        "updated_by": "sfb"
+        "updatedAt": "sfa",
+        "updatedBy": "sfb"
       },
       "ENTITY02": {
-        "api_version": "s168",
-        "entity_ref": "s169",
+        "apiVersion": "s168",
+        "entityRef": "s169",
         "id": "ENTITY02",
         "kind": "s16b",
         "metadata": {},
-        "raw_data": {},
-        "relation": [],
+        "rawData": {},
+        "relations": [],
         "set": "s16f",
         "source": "s170",
         "spec": {},
-        "updated_at": "s172",
-        "updated_by": "s173"
+        "updatedAt": "s172",
+        "updatedBy": "s173"
       }
     }
   },
   "new": {
     "entity": {
       "entity_ref01": {
-        "api_version": "s1e0",
-        "entity_ref": "s1e1",
+        "apiVersion": "s1e0",
+        "entityRef": "s1e1",
         "kind": "s1e3",
         "metadata": {},
-        "raw_data": {},
-        "relation": [],
+        "rawData": {},
+        "relations": [],
         "set": "s1e7",
         "source": "s1e8",
         "spec": {},
-        "updated_at": "s1ea",
-        "updated_by": "s1eb"
+        "updatedAt": "s1ea",
+        "updatedBy": "s1eb"
       }
     }
   }

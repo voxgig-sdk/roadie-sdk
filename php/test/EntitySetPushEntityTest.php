@@ -56,7 +56,7 @@ class EntitySetPushEntityTest extends TestCase
         $entity_set_push_ref01_data_up0_up[$entity_set_push_ref01_markdef_up0_name] = $entity_set_push_ref01_markdef_up0_value;
 
         $entity_set_push_ref01_resdata_up0_result = $entity_set_push_ref01_ent->update($entity_set_push_ref01_data_up0_up, null);
-        $entity_set_push_ref01_resdata_up0 = Helpers::to_map($entity_set_push_ref01_resdata_up0_result);
+        $entity_set_push_ref01_resdata_up0 = Helpers::to_map(is_object($entity_set_push_ref01_resdata_up0_result) && method_exists($entity_set_push_ref01_resdata_up0_result, 'data_get') ? $entity_set_push_ref01_resdata_up0_result->data_get() : $entity_set_push_ref01_resdata_up0_result);
         $this->assertNotNull($entity_set_push_ref01_resdata_up0);
         $this->assertEquals($entity_set_push_ref01_resdata_up0[$entity_set_push_ref01_markdef_up0_name], $entity_set_push_ref01_markdef_up0_value);
 

@@ -37,14 +37,14 @@ class RoadieConfig
           'fields' => [
             [
               'active' => true,
-              'name' => 'api_version',
+              'name' => 'apiVersion',
               'req' => true,
               'type' => '`$STRING`',
               'index$' => 0,
             ],
             [
               'active' => true,
-              'name' => 'entity_ref',
+              'name' => 'entityRef',
               'req' => false,
               'type' => '`$STRING`',
               'index$' => 1,
@@ -72,14 +72,14 @@ class RoadieConfig
             ],
             [
               'active' => true,
-              'name' => 'raw_data',
+              'name' => 'rawData',
               'req' => false,
               'type' => '`$OBJECT`',
               'index$' => 5,
             ],
             [
               'active' => true,
-              'name' => 'relation',
+              'name' => 'relations',
               'req' => false,
               'type' => '`$ARRAY`',
               'index$' => 6,
@@ -107,14 +107,14 @@ class RoadieConfig
             ],
             [
               'active' => true,
-              'name' => 'updated_at',
+              'name' => 'updatedAt',
               'req' => false,
               'type' => '`$STRING`',
               'index$' => 10,
             ],
             [
               'active' => true,
-              'name' => 'updated_by',
+              'name' => 'updatedBy',
               'req' => false,
               'type' => '`$STRING`',
               'index$' => 11,
@@ -129,6 +129,7 @@ class RoadieConfig
                 [
                   'active' => true,
                   'args' => [],
+                  'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/api/catalog/roadie-entities/entities',
                   'parts' => [
@@ -165,6 +166,7 @@ class RoadieConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/api/catalog/roadie-entities/entities',
                   'parts' => [
@@ -187,6 +189,7 @@ class RoadieConfig
                 [
                   'active' => true,
                   'args' => [],
+                  'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/api/catalog/entities',
                   'parts' => [
@@ -223,6 +226,7 @@ class RoadieConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/api/catalog/roadie-entities/entities/{entityId}',
                   'parts' => [
@@ -270,6 +274,7 @@ class RoadieConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'DELETE',
                   'orig' => '/api/catalog/roadie-entities/entities/{entityId}',
                   'parts' => [
@@ -322,6 +327,7 @@ class RoadieConfig
                 [
                   'active' => true,
                   'args' => [],
+                  'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/api/catalog/roadie-entities/sets',
                   'parts' => [
@@ -349,7 +355,7 @@ class RoadieConfig
           'fields' => [
             [
               'active' => true,
-              'name' => 'item',
+              'name' => 'items',
               'op' => [
                 'update' => [
                   'req' => true,
@@ -389,6 +395,7 @@ class RoadieConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'PUT',
                   'orig' => '/api/catalog/roadie-entities/sets/{setId}',
                   'parts' => [

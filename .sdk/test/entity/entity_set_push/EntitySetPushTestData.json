@@ -2,19 +2,19 @@
   "existing": {
     "entity_set_push": {
       "ENTITY_SET_PUSH00": {
-        "item": [],
+        "items": [],
         "set": "s15",
         "set_id": "SET01",
         "id": "ENTITY_SET_PUSH00"
       },
       "ENTITY_SET_PUSH01": {
-        "item": [],
+        "items": [],
         "set": "s29",
         "set_id": "SET01",
         "id": "ENTITY_SET_PUSH01"
       },
       "ENTITY_SET_PUSH02": {
-        "item": [],
+        "items": [],
         "set": "s3d",
         "set_id": "SET01",
         "id": "ENTITY_SET_PUSH02"
@@ -24,7 +24,7 @@
   "new": {
     "entity_set_push": {
       "entity_set_push_ref01": {
-        "item": [],
+        "items": [],
         "set": "s51"
       }
     }

@@ -53,7 +53,7 @@ for (const entity of entitys) {
 
 ```js
 const created = await client.Entity().create({
-  api_version: 'example_api_version',
+  apiVersion: 'example_apiVersion',
   id: 'example_id',
   kind: 'example_kind',
   metadata: {},
@@ -158,7 +158,8 @@ Create a mock client for unit testing — no server required:
 const client = RoadieSDK.test()
 
 const entity = await client.Entity().list()
-// entity is a bare entity populated with mock response data
+// entity is the entity, populated with mock response data
+// — call entity.data() for the record itself
 console.log(entity)
 ```
 
@@ -327,18 +328,18 @@ The `prepare()` method returns:
 
 | Field | Description |
 | --- | --- |
-| `api_version` |  |
-| `entity_ref` |  |
+| `apiVersion` |  |
+| `entityRef` |  |
 | `id` |  |
 | `kind` |  |
 | `metadata` |  |
-| `raw_data` |  |
-| `relation` |  |
+| `rawData` |  |
+| `relations` |  |
 | `set` |  |
 | `source` |  |
 | `spec` |  |
-| `updated_at` |  |
-| `updated_by` |  |
+| `updatedAt` |  |
+| `updatedBy` |  |
 
 Operations: create, list, load, remove.
 
@@ -358,7 +359,7 @@ API path: `/api/catalog/roadie-entities/sets`
 
 | Field | Description |
 | --- | --- |
-| `item` |  |
+| `items` |  |
 | `set` |  |
 
 Operations: update.
@@ -387,18 +388,18 @@ Create an instance: `const entity = client.Entity()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `api_version` | `string` |  |
-| `entity_ref` | `string` |  |
+| `apiVersion` | `string` |  |
+| `entityRef` | `string` |  |
 | `id` | `string` |  |
 | `kind` | `string` |  |
 | `metadata` | `Object` |  |
-| `raw_data` | `Object` |  |
-| `relation` | `Array` |  |
+| `rawData` | `Object` |  |
+| `relations` | `Array` |  |
 | `set` | `string` |  |
 | `source` | `string` |  |
 | `spec` | `Object` |  |
-| `updated_at` | `string` |  |
-| `updated_by` | `string` |  |
+| `updatedAt` | `string` |  |
+| `updatedBy` | `string` |  |
 
 #### Example: Load
 
@@ -416,7 +417,7 @@ const entitys = await client.Entity().list()
 
 ```ts
 const entity = await client.Entity().create({
-  api_version: 'example_api_version',
+  apiVersion: 'example_apiVersion',
   id: 'example_id',
   kind: 'example_kind',
   metadata: {},
@@ -461,7 +462,7 @@ Create an instance: `const entity_set_push = client.EntitySetPush()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `item` | `Array` |  |
+| `items` | `Array` |  |
 | `set` | `string` |  |
 
 

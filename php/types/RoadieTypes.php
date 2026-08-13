@@ -15,18 +15,18 @@ declare(strict_types=1);
 /** Entity entity data model. */
 class Entity
 {
-    public string $api_version;
-    public ?string $entity_ref = null;
+    public string $apiVersion;
+    public ?string $entityRef = null;
     public string $id;
     public string $kind;
     public array $metadata;
-    public ?array $raw_data = null;
-    public ?array $relation = null;
+    public ?array $rawData = null;
+    public ?array $relations = null;
     public ?string $set = null;
     public ?string $source = null;
     public ?array $spec = null;
-    public ?string $updated_at = null;
-    public ?string $updated_by = null;
+    public ?string $updatedAt = null;
+    public ?string $updatedBy = null;
 }
 
 /** Request payload for Entity#load. */
@@ -38,35 +38,35 @@ class EntityLoadMatch
 /** Request payload for Entity#list. */
 class EntityListMatch
 {
-    public ?string $api_version = null;
-    public ?string $entity_ref = null;
+    public ?string $apiVersion = null;
+    public ?string $entityRef = null;
     public ?string $id = null;
     public ?string $kind = null;
     public ?array $metadata = null;
-    public ?array $raw_data = null;
-    public ?array $relation = null;
+    public ?array $rawData = null;
+    public ?array $relations = null;
     public ?string $set = null;
     public ?string $source = null;
     public ?array $spec = null;
-    public ?string $updated_at = null;
-    public ?string $updated_by = null;
+    public ?string $updatedAt = null;
+    public ?string $updatedBy = null;
 }
 
 /** Request payload for Entity#create. */
 class EntityCreateData
 {
-    public string $api_version;
-    public ?string $entity_ref = null;
+    public string $apiVersion;
+    public ?string $entityRef = null;
     public string $id;
     public string $kind;
     public array $metadata;
-    public ?array $raw_data = null;
-    public ?array $relation = null;
+    public ?array $rawData = null;
+    public ?array $relations = null;
     public ?string $set = null;
     public ?string $source = null;
     public ?array $spec = null;
-    public ?string $updated_at = null;
-    public ?string $updated_by = null;
+    public ?string $updatedAt = null;
+    public ?string $updatedBy = null;
 }
 
 /** Request payload for Entity#remove. */
@@ -90,7 +90,7 @@ class EntitySetListMatch
 /** EntitySetPush entity data model. */
 class EntitySetPush
 {
-    public ?array $item = null;
+    public ?array $items = null;
     public ?string $set = null;
 }
 
@@ -98,5 +98,7 @@ class EntitySetPush
 class EntitySetPushUpdateData
 {
     public string $set_id;
+    public ?array $items = null;
+    public ?string $set = null;
 }
 

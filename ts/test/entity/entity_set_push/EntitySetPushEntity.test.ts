@@ -66,7 +66,7 @@ describe('EntitySetPushEntity', async () => {
     const entity_set_push_ref01_markdef_up0 = { name: 'set', value: 'Mark01-entity_set_push_ref01_' + setup.now }
     ;(entity_set_push_ref01_data_up0 as any)[entity_set_push_ref01_markdef_up0.name] = entity_set_push_ref01_markdef_up0.value
 
-    const entity_set_push_ref01_resdata_up0 = await entity_set_push_ref01_ent.update(entity_set_push_ref01_data_up0)
+    const entity_set_push_ref01_resdata_up0 = (await entity_set_push_ref01_ent.update(entity_set_push_ref01_data_up0)).data()
     assert(null != entity_set_push_ref01_resdata_up0)
 
     assert((entity_set_push_ref01_resdata_up0 as any)[entity_set_push_ref01_markdef_up0.name] === entity_set_push_ref01_markdef_up0.value)

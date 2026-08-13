@@ -96,18 +96,18 @@ entity = client.Entity()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `api_version` | `str` | Yes |  |
-| `entity_ref` | `str` | No |  |
+| `apiVersion` | `str` | Yes |  |
+| `entityRef` | `str` | No |  |
 | `id` | `str` | Yes |  |
 | `kind` | `str` | Yes |  |
 | `metadata` | `dict` | Yes |  |
-| `raw_data` | `dict` | No |  |
-| `relation` | `list` | No |  |
+| `rawData` | `dict` | No |  |
+| `relations` | `list` | No |  |
 | `set` | `str` | No |  |
 | `source` | `str` | No |  |
 | `spec` | `dict` | No |  |
-| `updated_at` | `str` | No |  |
-| `updated_by` | `str` | No |  |
+| `updatedAt` | `str` | No |  |
+| `updatedBy` | `str` | No |  |
 
 ### Operations
 
@@ -117,7 +117,7 @@ Create a new entity with the given data. Returns the created entity data and rai
 
 ```python
 result = client.Entity().create({
-    "api_version": "example_api_version",  # str
+    "apiVersion": "example_apiVersion",  # str
     "id": "example_id",  # str
     "kind": "example_kind",  # str
     "metadata": {},  # dict
@@ -242,14 +242,14 @@ entity_set_push = client.EntitySetPush()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `item` | `list` | No |  |
+| `items` | `list` | No |  |
 | `set` | `str` | No |  |
 
 ### Field Usage by Operation
 
 | Field | update |
 | --- | --- |
-| `item` | Yes |
+| `items` | Yes |
 | `set` | - |
 
 ### Operations

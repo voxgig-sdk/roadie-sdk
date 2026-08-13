@@ -7,49 +7,49 @@
 -- edit by hand.
 
 ---@class Entity
----@field api_version string
----@field entity_ref? string
+---@field apiVersion string
+---@field entityRef? string
 ---@field id string
 ---@field kind string
 ---@field metadata table
----@field raw_data? table
----@field relation? table
+---@field rawData? table
+---@field relations? table
 ---@field set? string
 ---@field source? string
 ---@field spec? table
----@field updated_at? string
----@field updated_by? string
+---@field updatedAt? string
+---@field updatedBy? string
 
 ---@class EntityLoadMatch
 ---@field id string
 
 ---@class EntityListMatch
----@field api_version? string
----@field entity_ref? string
+---@field apiVersion? string
+---@field entityRef? string
 ---@field id? string
 ---@field kind? string
 ---@field metadata? table
----@field raw_data? table
----@field relation? table
+---@field rawData? table
+---@field relations? table
 ---@field set? string
 ---@field source? string
 ---@field spec? table
----@field updated_at? string
----@field updated_by? string
+---@field updatedAt? string
+---@field updatedBy? string
 
 ---@class EntityCreateData
----@field api_version string
----@field entity_ref? string
+---@field apiVersion string
+---@field entityRef? string
 ---@field id string
 ---@field kind string
 ---@field metadata table
----@field raw_data? table
----@field relation? table
+---@field rawData? table
+---@field relations? table
 ---@field set? string
 ---@field source? string
 ---@field spec? table
----@field updated_at? string
----@field updated_by? string
+---@field updatedAt? string
+---@field updatedBy? string
 
 ---@class EntityRemoveMatch
 ---@field id string
@@ -61,11 +61,13 @@
 ---@field name? string
 
 ---@class EntitySetPush
----@field item? table
+---@field items? table
 ---@field set? string
 
 ---@class EntitySetPushUpdateData
 ---@field set_id string
+---@field items? table
+---@field set? string
 
 local M = {}
 

@@ -45,7 +45,7 @@ describe('EntitySetEntity', async () => {
     const entity_set_ref01_ent = client.EntitySet()
     const entity_set_ref01_match = {}
 
-    const entity_set_ref01_list = await entity_set_ref01_ent.list(entity_set_ref01_match)
+    const entity_set_ref01_list = (await entity_set_ref01_ent.list(entity_set_ref01_match)).map((e) => e.data())
 
 
   })

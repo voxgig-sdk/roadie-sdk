@@ -36,9 +36,18 @@ network, and no credentials:
 ### TypeScript
 
 ```ts
-const client = RoadieSDK.test()
+// The offline mock starts EMPTY — seed it with the records the test needs.
+// Shape: { entity: { <entity-name>: { <id>: <record> } } }
+const client = RoadieSDK.test({
+  entity: {
+    entity: {
+      test01: { id: 'test01', apiVersion: 'example_apiVersion', kind: 'example_kind' },
+    },
+  },
+})
 const entitys = await client.Entity().list()
-// entitys is an array of bare Entity records populated with mock data
+// entitys is an array of Entity entities, populated with mock data
+// — call entitys[0].data() for the record itself
 console.log(entitys)
 ```
 
@@ -81,7 +90,8 @@ local results, err = client:Entity():list()
 ```js
 const client = RoadieSDK.test()
 const entitys = await client.Entity().list()
-// entitys is an array of bare entities populated with mock data
+// entitys is an array of entities, populated with mock data
+// — call entitys[0].data() for the record itself
 console.log(entitys)
 ```
 
@@ -109,7 +119,7 @@ const client = new RoadieSDK({
   apikey: process.env.ROADIE_APIKEY,
 })
 
-// List all entitys (returns Entity[])
+// List all entitys (returns EntityEntity[] — .data() for the record)
 const entitys = await client.Entity().list()
 for (const entity of entitys) {
   console.log(entity)
@@ -197,7 +207,7 @@ $client = new RoadieSDK([
 $entitys = $client->Entity()->list();
 print_r($entitys);
 
-// Load a specific entity (returns the bare record; throws on error)
+// Load a specific entity (returns the ENTITY; call data_get() for the record; throws on error)
 $entity = $client->Entity()->load(["id" => "example_id"]);
 print_r($entity);
 ```
@@ -373,6 +383,9 @@ Pass custom features via the `extend` option at construction time.
 
 This SDK is generated from the upstream OpenAPI specification. It is an
 unofficial client and is not affiliated with the API provider.
+
+The OpenAPI spec(s) this SDK was generated from are kept in the
+[`.sdk/def/`](.sdk/def/) folder.
 
 - Upstream API: [https://api.roadie.so](https://api.roadie.so)
 

@@ -6,12 +6,12 @@ main: kit: entity: entity: {
 
   fields: [
     {
-      name: "api_version"
+      name: "apiVersion"
       req: true
       type: "`$STRING`"
     }
     {
-      name: "entity_ref"
+      name: "entityRef"
       req: false
       type: "`$STRING`"
     }
@@ -31,12 +31,12 @@ main: kit: entity: entity: {
       type: "`$OBJECT`"
     }
     {
-      name: "raw_data"
+      name: "rawData"
       req: false
       type: "`$OBJECT`"
     }
     {
-      name: "relation"
+      name: "relations"
       req: false
       type: "`$ARRAY`"
     }
@@ -56,12 +56,12 @@ main: kit: entity: entity: {
       type: "`$OBJECT`"
     }
     {
-      name: "updated_at"
+      name: "updatedAt"
       req: false
       type: "`$STRING`"
     }
     {
-      name: "updated_by"
+      name: "updatedBy"
       req: false
       type: "`$STRING`"
     }

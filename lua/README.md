@@ -45,7 +45,7 @@ local entitys, err = client:Entity():list()
 if err then error(err) end
 
 for _, item in ipairs(entitys) do
-  print(item["id"], item["api_version"])
+  print(item["id"], item["apiVersion"])
 end
 ```
 
@@ -61,11 +61,11 @@ print(entity)
 
 ```lua
 -- Create
-local created, err = client:Entity():create({ api_version = "example_api_version", id = "example_id", kind = "example_kind", metadata = {} })
+local created, err = client:Entity():create({ apiVersion = "example_apiVersion", id = "example_id", kind = "example_kind", metadata = {} })
 if err then error(err) end
 
 -- Remove
-client:Entity():remove({ id = created["id"] })
+client:Entity():remove({ id = created:data_get()["id"] })
 ```
 
 
@@ -261,18 +261,18 @@ Only `direct()` returns a response envelope — a `table` with `ok`,
 
 | Field | Description |
 | --- | --- |
-| `api_version` |  |
-| `entity_ref` |  |
+| `apiVersion` |  |
+| `entityRef` |  |
 | `id` |  |
 | `kind` |  |
 | `metadata` |  |
-| `raw_data` |  |
-| `relation` |  |
+| `rawData` |  |
+| `relations` |  |
 | `set` |  |
 | `source` |  |
 | `spec` |  |
-| `updated_at` |  |
-| `updated_by` |  |
+| `updatedAt` |  |
+| `updatedBy` |  |
 
 Operations: Create, List, Load, Remove.
 
@@ -292,7 +292,7 @@ API path: `/api/catalog/roadie-entities/sets`
 
 | Field | Description |
 | --- | --- |
-| `item` |  |
+| `items` |  |
 | `set` |  |
 
 Operations: Update.
@@ -321,18 +321,18 @@ Create an instance: `local entity = client:Entity(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `api_version` | `string` |  |
-| `entity_ref` | `string` |  |
+| `apiVersion` | `string` |  |
+| `entityRef` | `string` |  |
 | `id` | `string` |  |
 | `kind` | `string` |  |
 | `metadata` | `table` |  |
-| `raw_data` | `table` |  |
-| `relation` | `table` |  |
+| `rawData` | `table` |  |
+| `relations` | `table` |  |
 | `set` | `string` |  |
 | `source` | `string` |  |
 | `spec` | `table` |  |
-| `updated_at` | `string` |  |
-| `updated_by` | `string` |  |
+| `updatedAt` | `string` |  |
+| `updatedBy` | `string` |  |
 
 #### Example: Load
 
@@ -350,7 +350,7 @@ local entitys, err = client:Entity():list()
 
 ```lua
 local entity, err = client:Entity():create({
-  api_version = "example_api_version", -- string
+  apiVersion = "example_apiVersion", -- string
   id = "example_id", -- string
   kind = "example_kind", -- string
   metadata = {}, -- table
@@ -395,7 +395,7 @@ Create an instance: `local entity_set_push = client:EntitySetPush(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `item` | `table` |  |
+| `items` | `table` |  |
 | `set` | `string` |  |
 
 

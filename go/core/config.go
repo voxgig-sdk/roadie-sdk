@@ -31,14 +31,14 @@ func MakeConfig() map[string]any {
 				"fields": []any{
 					map[string]any{
 						"active": true,
-						"name": "api_version",
+						"name": "apiVersion",
 						"req": true,
 						"type": "`$STRING`",
 						"index$": 0,
 					},
 					map[string]any{
 						"active": true,
-						"name": "entity_ref",
+						"name": "entityRef",
 						"req": false,
 						"type": "`$STRING`",
 						"index$": 1,
@@ -66,14 +66,14 @@ func MakeConfig() map[string]any {
 					},
 					map[string]any{
 						"active": true,
-						"name": "raw_data",
+						"name": "rawData",
 						"req": false,
 						"type": "`$OBJECT`",
 						"index$": 5,
 					},
 					map[string]any{
 						"active": true,
-						"name": "relation",
+						"name": "relations",
 						"req": false,
 						"type": "`$ARRAY`",
 						"index$": 6,
@@ -101,14 +101,14 @@ func MakeConfig() map[string]any {
 					},
 					map[string]any{
 						"active": true,
-						"name": "updated_at",
+						"name": "updatedAt",
 						"req": false,
 						"type": "`$STRING`",
 						"index$": 10,
 					},
 					map[string]any{
 						"active": true,
-						"name": "updated_by",
+						"name": "updatedBy",
 						"req": false,
 						"type": "`$STRING`",
 						"index$": 11,
@@ -123,6 +123,7 @@ func MakeConfig() map[string]any {
 							map[string]any{
 								"active": true,
 								"args": map[string]any{},
+								"kind": "http",
 								"method": "POST",
 								"orig": "/api/catalog/roadie-entities/entities",
 								"parts": []any{
@@ -139,7 +140,6 @@ func MakeConfig() map[string]any {
 								"index$": 0,
 							},
 						},
-						"key$": "create",
 					},
 					"list": map[string]any{
 						"input": "data",
@@ -159,6 +159,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "GET",
 								"orig": "/api/catalog/roadie-entities/entities",
 								"parts": []any{
@@ -181,6 +182,7 @@ func MakeConfig() map[string]any {
 							map[string]any{
 								"active": true,
 								"args": map[string]any{},
+								"kind": "http",
 								"method": "GET",
 								"orig": "/api/catalog/entities",
 								"parts": []any{
@@ -196,7 +198,6 @@ func MakeConfig() map[string]any {
 								"index$": 1,
 							},
 						},
-						"key$": "list",
 					},
 					"load": map[string]any{
 						"input": "data",
@@ -217,6 +218,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "GET",
 								"orig": "/api/catalog/roadie-entities/entities/{entityId}",
 								"parts": []any{
@@ -243,7 +245,6 @@ func MakeConfig() map[string]any {
 								"index$": 0,
 							},
 						},
-						"key$": "load",
 					},
 					"remove": map[string]any{
 						"input": "data",
@@ -264,6 +265,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "DELETE",
 								"orig": "/api/catalog/roadie-entities/entities/{entityId}",
 								"parts": []any{
@@ -290,7 +292,6 @@ func MakeConfig() map[string]any {
 								"index$": 0,
 							},
 						},
-						"key$": "remove",
 					},
 				},
 				"relations": map[string]any{
@@ -316,6 +317,7 @@ func MakeConfig() map[string]any {
 							map[string]any{
 								"active": true,
 								"args": map[string]any{},
+								"kind": "http",
 								"method": "GET",
 								"orig": "/api/catalog/roadie-entities/sets",
 								"parts": []any{
@@ -332,7 +334,6 @@ func MakeConfig() map[string]any {
 								"index$": 0,
 							},
 						},
-						"key$": "list",
 					},
 				},
 				"relations": map[string]any{
@@ -343,7 +344,7 @@ func MakeConfig() map[string]any {
 				"fields": []any{
 					map[string]any{
 						"active": true,
-						"name": "item",
+						"name": "items",
 						"op": map[string]any{
 							"update": map[string]any{
 								"req": true,
@@ -383,6 +384,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "PUT",
 								"orig": "/api/catalog/roadie-entities/sets/{setId}",
 								"parts": []any{
@@ -409,7 +411,6 @@ func MakeConfig() map[string]any {
 								"index$": 0,
 							},
 						},
-						"key$": "update",
 					},
 				},
 				"relations": map[string]any{

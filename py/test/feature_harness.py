@@ -14,12 +14,12 @@ from __future__ import annotations
 
 from urllib.parse import quote
 
-from config import make_config
-from features import _make_feature
-from core.control import RoadieControl
-from core.error import RoadieError
-from core.result import RoadieResult
-from core.spec import RoadieSpec
+from roadie_sdk.config import make_config
+from roadie_sdk.features import _make_feature
+from roadie_sdk.core.control import RoadieControl
+from roadie_sdk.core.error import RoadieError
+from roadie_sdk.core.result import RoadieResult
+from roadie_sdk.core.spec import RoadieSpec
 
 
 # True when this SDK was generated with the named feature.

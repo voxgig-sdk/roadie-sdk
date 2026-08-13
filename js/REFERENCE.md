@@ -141,18 +141,18 @@ const entity = client.Entity()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `api_version` | `string` | Yes |  |
-| `entity_ref` | `string` | No |  |
+| `apiVersion` | `string` | Yes |  |
+| `entityRef` | `string` | No |  |
 | `id` | `string` | Yes |  |
 | `kind` | `string` | Yes |  |
 | `metadata` | `Object` | Yes |  |
-| `raw_data` | `Object` | No |  |
-| `relation` | `Array` | No |  |
+| `rawData` | `Object` | No |  |
+| `relations` | `Array` | No |  |
 | `set` | `string` | No |  |
 | `source` | `string` | No |  |
 | `spec` | `Object` | No |  |
-| `updated_at` | `string` | No |  |
-| `updated_by` | `string` | No |  |
+| `updatedAt` | `string` | No |  |
+| `updatedBy` | `string` | No |  |
 
 ### Operations
 
@@ -162,7 +162,7 @@ Create a new entity with the given data.
 
 ```ts
 const result = await client.Entity().create({
-  api_version: 'example_api_version',
+  apiVersion: 'example_apiVersion',
   id: 'example_id',
   kind: 'example_kind',
   metadata: {},
@@ -281,14 +281,14 @@ const entity_set_push = client.EntitySetPush()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `item` | `Array` | No |  |
+| `items` | `Array` | No |  |
 | `set` | `string` | No |  |
 
 ### Field Usage by Operation
 
 | Field | update |
 | --- | --- |
-| `item` | Yes |
+| `items` | Yes |
 | `set` | - |
 
 ### Operations

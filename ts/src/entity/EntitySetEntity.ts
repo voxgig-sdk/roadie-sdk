@@ -37,7 +37,7 @@ class EntitySetEntity extends RoadieEntityBase<EntitySet> {
 
 
 
-  async list(this: any, reqmatch?: EntitySetListMatch, ctrl?: Control): Promise<EntitySet[]> {
+  async list(this: any, reqmatch?: EntitySetListMatch, ctrl?: Control): Promise<EntitySetEntity[]> {
 
     const utility = this._utility
 

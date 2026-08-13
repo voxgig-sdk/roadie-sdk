@@ -70,7 +70,7 @@ func main() {
     fmt.Println(entity)
 
     // Create a entity.
-    created, err := client.Entity(nil).Create(map[string]any{"api_version": "example_api_version", "id": "example_id", "kind": "example_kind", "metadata": map[string]any{}}, nil)
+    created, err := client.Entity(nil).Create(map[string]any{"apiVersion": "example_apiVersion", "id": "example_id", "kind": "example_kind", "metadata": map[string]any{}}, nil)
     if err != nil {
         panic(err)
     }
@@ -293,18 +293,18 @@ Only `Direct()` returns a response envelope — a `map[string]any` with
 
 | Field | Description |
 | --- | --- |
-| `"api_version"` |  |
-| `"entity_ref"` |  |
+| `"apiVersion"` |  |
+| `"entityRef"` |  |
 | `"id"` |  |
 | `"kind"` |  |
 | `"metadata"` |  |
-| `"raw_data"` |  |
-| `"relation"` |  |
+| `"rawData"` |  |
+| `"relations"` |  |
 | `"set"` |  |
 | `"source"` |  |
 | `"spec"` |  |
-| `"updated_at"` |  |
-| `"updated_by"` |  |
+| `"updatedAt"` |  |
+| `"updatedBy"` |  |
 
 Operations: Create, List, Load, Remove.
 
@@ -324,7 +324,7 @@ API path: `/api/catalog/roadie-entities/sets`
 
 | Field | Description |
 | --- | --- |
-| `"item"` |  |
+| `"items"` |  |
 | `"set"` |  |
 
 Operations: Update.
@@ -353,18 +353,18 @@ Create an instance: `entity := client.Entity(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `api_version` | `string` |  |
-| `entity_ref` | `string` |  |
+| `apiVersion` | `string` |  |
+| `entityRef` | `string` |  |
 | `id` | `string` |  |
 | `kind` | `string` |  |
 | `metadata` | `map[string]any` |  |
-| `raw_data` | `map[string]any` |  |
-| `relation` | `[]any` |  |
+| `rawData` | `map[string]any` |  |
+| `relations` | `[]any` |  |
 | `set` | `string` |  |
 | `source` | `string` |  |
 | `spec` | `map[string]any` |  |
-| `updated_at` | `string` |  |
-| `updated_by` | `string` |  |
+| `updatedAt` | `string` |  |
+| `updatedBy` | `string` |  |
 
 #### Example: Load
 
@@ -390,7 +390,7 @@ fmt.Println(entitys) // the array of records
 
 ```go
 result, err := client.Entity(nil).Create(map[string]any{
-    "api_version": "example_api_version",
+    "apiVersion": "example_apiVersion",
     "id": "example_id",
     "kind": "example_kind",
     "metadata": map[string]any{},
@@ -443,7 +443,7 @@ Create an instance: `entitySetPush := client.EntitySetPush(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `item` | `[]any` |  |
+| `items` | `[]any` |  |
 | `set` | `string` |  |
 
 

@@ -107,18 +107,18 @@ fmt.Println(entity.GetName()) // "entity"
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `api_version` | `string` | Yes |  |
-| `entity_ref` | `string` | No |  |
+| `apiVersion` | `string` | Yes |  |
+| `entityRef` | `string` | No |  |
 | `id` | `string` | Yes |  |
 | `kind` | `string` | Yes |  |
 | `metadata` | `map[string]any` | Yes |  |
-| `raw_data` | `map[string]any` | No |  |
-| `relation` | `[]any` | No |  |
+| `rawData` | `map[string]any` | No |  |
+| `relations` | `[]any` | No |  |
 | `set` | `string` | No |  |
 | `source` | `string` | No |  |
 | `spec` | `map[string]any` | No |  |
-| `updated_at` | `string` | No |  |
-| `updated_by` | `string` | No |  |
+| `updatedAt` | `string` | No |  |
+| `updatedBy` | `string` | No |  |
 
 ### Operations
 
@@ -152,7 +152,7 @@ Create a new entity with the given data.
 
 ```go
 result, err := client.Entity(nil).Create(map[string]any{
-    "api_version": "example_api_version",
+    "apiVersion": "example_apiVersion",
     "id": "example_id",
     "kind": "example_kind",
     "metadata": map[string]any{},
@@ -261,14 +261,14 @@ fmt.Println(entitySetPush.GetName()) // "entity_set_push"
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `item` | `[]any` | No |  |
+| `items` | `[]any` | No |  |
 | `set` | `string` | No |  |
 
 ### Field Usage by Operation
 
 | Field | update |
 | --- | --- |
-| `item` | Yes |
+| `items` | Yes |
 | `set` | - |
 
 ### Operations

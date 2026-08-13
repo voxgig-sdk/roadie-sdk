@@ -55,7 +55,7 @@ except Exception as err:
 
 ### 3. Load an entity
 
-`load()` returns the bare record (a `dict`) and raises on error.
+`load()` returns the ENTITY — call data_get() for the record — and raises on error.
 
 ```python
 try:
@@ -68,11 +68,11 @@ except Exception as err:
 ### 4. Create, update, and remove
 
 ```python
-# Create — returns the bare created record (a dict)
-created = client.Entity().create({"api_version": "example_api_version", "id": "example_id", "kind": "example_kind", "metadata": {}})
+# Create — returns the ENTITY (call data_get() for the record)
+created = client.Entity().create({"apiVersion": "example_apiVersion", "id": "example_id", "kind": "example_kind", "metadata": {}})
 
 # Remove
-client.Entity().remove({"id": created["id"]})
+client.Entity().remove({"id": created.data_get()["id"]})
 ```
 
 
@@ -149,7 +149,8 @@ Create a mock client for unit testing — no server required:
 ```python
 client = RoadieSDK.test()
 
-# Entity ops return the bare record and raise on error.
+# Entity ops return the ENTITY and raises on error;
+# call data_get() for the record.
 entity = client.Entity().list()
 # entity contains the mock response record
 ```
@@ -253,7 +254,7 @@ All entities share the same interface.
 
 ### Result shape
 
-Entity operations return the bare result data (a `dict` for single-entity
+Entity operations return the ENTITY (call data_get() for the record) (a `dict` for single-entity
 ops, a `list` for `list`) and raise on error. Wrap calls in
 `try`/`except` to handle failures.
 
@@ -275,18 +276,18 @@ On error, `ok` is `False` and `err` contains the error value.
 
 | Field | Description |
 | --- | --- |
-| `api_version` |  |
-| `entity_ref` |  |
+| `apiVersion` |  |
+| `entityRef` |  |
 | `id` |  |
 | `kind` |  |
 | `metadata` |  |
-| `raw_data` |  |
-| `relation` |  |
+| `rawData` |  |
+| `relations` |  |
 | `set` |  |
 | `source` |  |
 | `spec` |  |
-| `updated_at` |  |
-| `updated_by` |  |
+| `updatedAt` |  |
+| `updatedBy` |  |
 
 Operations: Create, List, Load, Remove.
 
@@ -306,7 +307,7 @@ API path: `/api/catalog/roadie-entities/sets`
 
 | Field | Description |
 | --- | --- |
-| `item` |  |
+| `items` |  |
 | `set` |  |
 
 Operations: Update.
@@ -335,18 +336,18 @@ Create an instance: `entity = client.Entity()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `api_version` | `str` |  |
-| `entity_ref` | `str` |  |
+| `apiVersion` | `str` |  |
+| `entityRef` | `str` |  |
 | `id` | `str` |  |
 | `kind` | `str` |  |
 | `metadata` | `dict` |  |
-| `raw_data` | `dict` |  |
-| `relation` | `list` |  |
+| `rawData` | `dict` |  |
+| `relations` | `list` |  |
 | `set` | `str` |  |
 | `source` | `str` |  |
 | `spec` | `dict` |  |
-| `updated_at` | `str` |  |
-| `updated_by` | `str` |  |
+| `updatedAt` | `str` |  |
+| `updatedBy` | `str` |  |
 
 #### Example: Load
 
@@ -364,7 +365,7 @@ entitys = client.Entity().list()
 
 ```python
 entity = client.Entity().create({
-    "api_version": "example_api_version",  # str
+    "apiVersion": "example_apiVersion",  # str
     "id": "example_id",  # str
     "kind": "example_kind",  # str
     "metadata": {},  # dict
@@ -409,7 +410,7 @@ Create an instance: `entity_set_push = client.EntitySetPush()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `item` | `list` |  |
+| `items` | `list` |  |
 | `set` | `str` |  |
 
 

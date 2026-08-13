@@ -8,18 +8,18 @@
 
 /**
  * @typedef {Object} Entity
- * @property {string} api_version
- * @property {string} [entity_ref]
+ * @property {string} apiVersion
+ * @property {string} [entityRef]
  * @property {string} id
  * @property {string} kind
  * @property {Object} metadata
- * @property {Object} [raw_data]
- * @property {Array} [relation]
+ * @property {Object} [rawData]
+ * @property {Array} [relations]
  * @property {string} [set]
  * @property {string} [source]
  * @property {Object} [spec]
- * @property {string} [updated_at]
- * @property {string} [updated_by]
+ * @property {string} [updatedAt]
+ * @property {string} [updatedBy]
  */
 
 /**
@@ -29,34 +29,34 @@
 
 /**
  * @typedef {Object} EntityListMatch
- * @property {string} [api_version]
- * @property {string} [entity_ref]
+ * @property {string} [apiVersion]
+ * @property {string} [entityRef]
  * @property {string} [id]
  * @property {string} [kind]
  * @property {Object} [metadata]
- * @property {Object} [raw_data]
- * @property {Array} [relation]
+ * @property {Object} [rawData]
+ * @property {Array} [relations]
  * @property {string} [set]
  * @property {string} [source]
  * @property {Object} [spec]
- * @property {string} [updated_at]
- * @property {string} [updated_by]
+ * @property {string} [updatedAt]
+ * @property {string} [updatedBy]
  */
 
 /**
  * @typedef {Object} EntityCreateData
- * @property {string} api_version
- * @property {string} [entity_ref]
+ * @property {string} apiVersion
+ * @property {string} [entityRef]
  * @property {string} id
  * @property {string} kind
  * @property {Object} metadata
- * @property {Object} [raw_data]
- * @property {Array} [relation]
+ * @property {Object} [rawData]
+ * @property {Array} [relations]
  * @property {string} [set]
  * @property {string} [source]
  * @property {Object} [spec]
- * @property {string} [updated_at]
- * @property {string} [updated_by]
+ * @property {string} [updatedAt]
+ * @property {string} [updatedBy]
  */
 
 /**
@@ -76,12 +76,14 @@
 
 /**
  * @typedef {Object} EntitySetPush
- * @property {Array} [item]
+ * @property {Array} [items]
  * @property {string} [set]
  */
 
 /**
  * @typedef {Object} EntitySetPushUpdateData
  * @property {string} set_id
+ * @property {Array} [items]
+ * @property {string} [set]
  */
 

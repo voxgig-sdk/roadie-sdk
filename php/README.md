@@ -40,7 +40,7 @@ try {
     // list() returns an array of Entity records — iterate directly.
     $entitys = $client->Entity()->list();
     foreach ($entitys as $item) {
-        echo $item["id"] . " " . $item["api_version"] . "\n";
+        echo $item["id"] . " " . $item["apiVersion"] . "\n";
     }
 } catch (\Throwable $err) {
     echo "Error: " . $err->getMessage();
@@ -51,7 +51,7 @@ try {
 
 ```php
 try {
-    // load() returns the bare Entity record (throws on error).
+    // load() returns the ENTITY — call data_get() for the Entity record (throws on error).
     $entity = $client->Entity()->load(["id" => "example_id"]);
     print_r($entity);
 } catch (\Throwable $err) {
@@ -62,11 +62,11 @@ try {
 ### 4. Create, update, and remove
 
 ```php
-// create() returns the bare created Entity record.
-$created = $client->Entity()->create(["api_version" => "example_api_version", "id" => "example_id", "kind" => "example_kind", "metadata" => []]);
+// create() returns the ENTITY — call data_get() for the created Entity record.
+$created = $client->Entity()->create(["apiVersion" => "example_apiVersion", "id" => "example_id", "kind" => "example_kind", "metadata" => []]);
 
 // Remove
-$client->Entity()->remove(["id" => $created["id"]]);
+$client->Entity()->remove(["id" => $created->data_get()["id"]]);
 ```
 
 
@@ -152,7 +152,8 @@ $client = RoadieSDK::test([
     "entity" => ["entity" => ["test01" => ["id" => "test01"]]],
 ]);
 
-// Entity ops return the bare mock record (throws on error).
+// Entity ops return the ENTITY (throws on error);
+// call data_get() for the mock record.
 $entity = $client->Entity()->list();
 print_r($entity);
 ```
@@ -259,7 +260,7 @@ All entities share the same interface.
 
 ### Result shape
 
-Entity operations return the bare result data (an `array` for single-entity
+Entity operations return the ENTITY (call data_get() for the record) (an `array` for single-entity
 ops, a `list` for `list`) and throw on error. Wrap calls in
 `try`/`catch` to handle failures.
 
@@ -281,18 +282,18 @@ On error, `ok` is `false` and `$err` contains the error value.
 
 | Field | Description |
 | --- | --- |
-| `api_version` |  |
-| `entity_ref` |  |
+| `apiVersion` |  |
+| `entityRef` |  |
 | `id` |  |
 | `kind` |  |
 | `metadata` |  |
-| `raw_data` |  |
-| `relation` |  |
+| `rawData` |  |
+| `relations` |  |
 | `set` |  |
 | `source` |  |
 | `spec` |  |
-| `updated_at` |  |
-| `updated_by` |  |
+| `updatedAt` |  |
+| `updatedBy` |  |
 
 Operations: Create, List, Load, Remove.
 
@@ -312,7 +313,7 @@ API path: `/api/catalog/roadie-entities/sets`
 
 | Field | Description |
 | --- | --- |
-| `item` |  |
+| `items` |  |
 | `set` |  |
 
 Operations: Update.
@@ -341,23 +342,23 @@ Create an instance: `$entity = $client->Entity();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `api_version` | `string` |  |
-| `entity_ref` | `string` |  |
+| `apiVersion` | `string` |  |
+| `entityRef` | `string` |  |
 | `id` | `string` |  |
 | `kind` | `string` |  |
 | `metadata` | `array` |  |
-| `raw_data` | `array` |  |
-| `relation` | `array` |  |
+| `rawData` | `array` |  |
+| `relations` | `array` |  |
 | `set` | `string` |  |
 | `source` | `string` |  |
 | `spec` | `array` |  |
-| `updated_at` | `string` |  |
-| `updated_by` | `string` |  |
+| `updatedAt` | `string` |  |
+| `updatedBy` | `string` |  |
 
 #### Example: Load
 
 ```php
-// load() returns the bare Entity record (throws on error).
+// load() returns the ENTITY — call data_get() for the Entity record (throws on error).
 $entity = $client->Entity()->load(["id" => "entity_id"]);
 ```
 
@@ -372,7 +373,7 @@ $entitys = $client->Entity()->list();
 
 ```php
 $entity = $client->Entity()->create([
-    "api_version" => null, // string
+    "apiVersion" => null, // string
     "id" => null, // string
     "kind" => null, // string
     "metadata" => null, // array
@@ -418,7 +419,7 @@ Create an instance: `$entity_set_push = $client->EntitySetPush();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `item` | `array` |  |
+| `items` | `array` |  |
 | `set` | `string` |  |
 
 

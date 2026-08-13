@@ -73,7 +73,7 @@ func TestEntitySetPushEntity(t *testing.T) {
 		if err != nil {
 			t.Fatalf("update failed: %v", err)
 		}
-		entitySetPushRef01ResdataUp0 := core.ToMapAny(entitySetPushRef01ResdataUp0Result)
+		entitySetPushRef01ResdataUp0 := core.ToMapAny(entityData(entitySetPushRef01ResdataUp0Result))
 		if entitySetPushRef01ResdataUp0 == nil {
 			t.Fatal("expected update result to be a map")
 		}
