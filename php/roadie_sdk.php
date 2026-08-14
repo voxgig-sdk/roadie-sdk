@@ -40,7 +40,7 @@ class RoadieSDK
         $utility = new RoadieUtility();
         $this->_utility = $utility;
 
-        $config = RoadieConfig::make_config();
+        $config = RoadieConfig::shared_config();
 
         $this->_rootctx = ($utility->make_context)([
             "client" => $this,
