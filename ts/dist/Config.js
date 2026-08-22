@@ -12,8 +12,17 @@ class Config {
         // TODO: errors etc
         return fi;
     }
+    // False for a feature added at runtime via options.extend (station's
+    // adopt path) - the constructor uses this to skip makeFeature for names
+    // no generated class backs.
+    hasFeature(fn) {
+        return null != FEATURE_CLASS[fn];
+    }
     main = {
-        name: 'ProjectName',
+        name: 'Roadie',
+        slug: "roadie",
+        version: "0.0.1",
+        target: "ts",
     };
     feature = {
         test: {
@@ -23,7 +32,7 @@ class Config {
         },
     };
     options = {
-        base: 'https://api.roadie.so',
+        base: "https://api.roadie.so",
         auth: {
             prefix: 'Bearer',
         },
@@ -40,88 +49,58 @@ class Config {
         "entity": {
             "fields": [
                 {
-                    "active": true,
-                    "name": "api_version",
+                    "name": "apiVersion",
                     "req": true,
-                    "type": "`$STRING`",
-                    "index$": 0
+                    "type": "`$STRING`"
                 },
                 {
-                    "active": true,
-                    "name": "entity_ref",
-                    "req": false,
-                    "type": "`$STRING`",
-                    "index$": 1
+                    "name": "entityRef",
+                    "type": "`$STRING`"
                 },
                 {
-                    "active": true,
                     "name": "id",
                     "req": true,
-                    "type": "`$STRING`",
-                    "index$": 2
+                    "type": "`$STRING`"
                 },
                 {
-                    "active": true,
                     "name": "kind",
                     "req": true,
-                    "type": "`$STRING`",
-                    "index$": 3
+                    "short": "Entity kind (Component, API, Resource, System, Group, User, ...).",
+                    "type": "`$STRING`"
                 },
                 {
-                    "active": true,
                     "name": "metadata",
                     "req": true,
-                    "type": "`$OBJECT`",
-                    "index$": 4
+                    "type": "`$OBJECT`"
                 },
                 {
-                    "active": true,
-                    "name": "raw_data",
-                    "req": false,
-                    "type": "`$OBJECT`",
-                    "index$": 5
+                    "name": "rawData",
+                    "type": "`$OBJECT`"
                 },
                 {
-                    "active": true,
-                    "name": "relation",
-                    "req": false,
-                    "type": "`$ARRAY`",
-                    "index$": 6
+                    "name": "relations",
+                    "type": "`$ARRAY`"
                 },
                 {
-                    "active": true,
                     "name": "set",
-                    "req": false,
-                    "type": "`$STRING`",
-                    "index$": 7
+                    "type": "`$STRING`"
                 },
                 {
-                    "active": true,
                     "name": "source",
-                    "req": false,
-                    "type": "`$STRING`",
-                    "index$": 8
+                    "type": "`$STRING`"
                 },
                 {
-                    "active": true,
                     "name": "spec",
-                    "req": false,
-                    "type": "`$OBJECT`",
-                    "index$": 9
+                    "short": "Kind-specific fields.",
+                    "type": "`$OBJECT`"
                 },
                 {
-                    "active": true,
-                    "name": "updated_at",
-                    "req": false,
-                    "type": "`$STRING`",
-                    "index$": 10
+                    "name": "updatedAt",
+                    "type": "`$STRING`"
                 },
                 {
-                    "active": true,
-                    "name": "updated_by",
-                    "req": false,
-                    "type": "`$STRING`",
-                    "index$": 11
+                    "name": "updatedBy",
+                    "type": "`$STRING`"
                 }
             ],
             "name": "entity",
@@ -131,8 +110,8 @@ class Config {
                     "name": "create",
                     "points": [
                         {
-                            "active": true,
                             "args": {},
+                            "kind": "http",
                             "method": "POST",
                             "orig": "/api/catalog/roadie-entities/entities",
                             "parts": [
@@ -145,22 +124,18 @@ class Config {
                             "transform": {
                                 "req": "`reqdata`",
                                 "res": "`body`"
-                            },
-                            "index$": 0
+                            }
                         }
-                    ],
-                    "key$": "create"
+                    ]
                 },
                 "list": {
                     "input": "data",
                     "name": "list",
                     "points": [
                         {
-                            "active": true,
                             "args": {
                                 "query": [
                                     {
-                                        "active": true,
                                         "kind": "query",
                                         "name": "set",
                                         "orig": "set",
@@ -169,6 +144,7 @@ class Config {
                                     }
                                 ]
                             },
+                            "kind": "http",
                             "method": "GET",
                             "orig": "/api/catalog/roadie-entities/entities",
                             "parts": [
@@ -185,12 +161,11 @@ class Config {
                             "transform": {
                                 "req": "`reqdata`",
                                 "res": "`body`"
-                            },
-                            "index$": 0
+                            }
                         },
                         {
-                            "active": true,
                             "args": {},
+                            "kind": "http",
                             "method": "GET",
                             "orig": "/api/catalog/entities",
                             "parts": [
@@ -202,31 +177,27 @@ class Config {
                             "transform": {
                                 "req": "`reqdata`",
                                 "res": "`body`"
-                            },
-                            "index$": 1
+                            }
                         }
-                    ],
-                    "key$": "list"
+                    ]
                 },
                 "load": {
                     "input": "data",
                     "name": "load",
                     "points": [
                         {
-                            "active": true,
                             "args": {
                                 "params": [
                                     {
-                                        "active": true,
                                         "kind": "param",
                                         "name": "id",
                                         "orig": "entity_id",
                                         "reqd": true,
-                                        "type": "`$STRING`",
-                                        "index$": 0
+                                        "type": "`$STRING`"
                                     }
                                 ]
                             },
+                            "kind": "http",
                             "method": "GET",
                             "orig": "/api/catalog/roadie-entities/entities/{entityId}",
                             "parts": [
@@ -249,31 +220,27 @@ class Config {
                             "transform": {
                                 "req": "`reqdata`",
                                 "res": "`body`"
-                            },
-                            "index$": 0
+                            }
                         }
-                    ],
-                    "key$": "load"
+                    ]
                 },
                 "remove": {
                     "input": "data",
                     "name": "remove",
                     "points": [
                         {
-                            "active": true,
                             "args": {
                                 "params": [
                                     {
-                                        "active": true,
                                         "kind": "param",
                                         "name": "id",
                                         "orig": "entity_id",
                                         "reqd": true,
-                                        "type": "`$STRING`",
-                                        "index$": 0
+                                        "type": "`$STRING`"
                                     }
                                 ]
                             },
+                            "kind": "http",
                             "method": "DELETE",
                             "orig": "/api/catalog/roadie-entities/entities/{entityId}",
                             "parts": [
@@ -296,11 +263,9 @@ class Config {
                             "transform": {
                                 "req": "`reqdata`",
                                 "res": "`body`"
-                            },
-                            "index$": 0
+                            }
                         }
-                    ],
-                    "key$": "remove"
+                    ]
                 }
             },
             "relations": {
@@ -310,11 +275,8 @@ class Config {
         "entity_set": {
             "fields": [
                 {
-                    "active": true,
                     "name": "name",
-                    "req": false,
-                    "type": "`$STRING`",
-                    "index$": 0
+                    "type": "`$STRING`"
                 }
             ],
             "name": "entity_set",
@@ -324,8 +286,8 @@ class Config {
                     "name": "list",
                     "points": [
                         {
-                            "active": true,
                             "args": {},
+                            "kind": "http",
                             "method": "GET",
                             "orig": "/api/catalog/roadie-entities/sets",
                             "parts": [
@@ -338,11 +300,9 @@ class Config {
                             "transform": {
                                 "req": "`reqdata`",
                                 "res": "`body`"
-                            },
-                            "index$": 0
+                            }
                         }
-                    ],
-                    "key$": "list"
+                    ]
                 }
             },
             "relations": {
@@ -352,24 +312,19 @@ class Config {
         "entity_set_push": {
             "fields": [
                 {
-                    "active": true,
-                    "name": "item",
+                    "name": "items",
                     "op": {
                         "update": {
                             "req": true,
                             "type": "`$ARRAY`"
                         }
                     },
-                    "req": false,
-                    "type": "`$ARRAY`",
-                    "index$": 0
+                    "short": "The full set of entities.",
+                    "type": "`$ARRAY`"
                 },
                 {
-                    "active": true,
                     "name": "set",
-                    "req": false,
-                    "type": "`$STRING`",
-                    "index$": 1
+                    "type": "`$STRING`"
                 }
             ],
             "name": "entity_set_push",
@@ -379,20 +334,18 @@ class Config {
                     "name": "update",
                     "points": [
                         {
-                            "active": true,
                             "args": {
                                 "params": [
                                     {
-                                        "active": true,
                                         "kind": "param",
                                         "name": "set_id",
                                         "orig": "set_id",
                                         "reqd": true,
-                                        "type": "`$STRING`",
-                                        "index$": 0
+                                        "type": "`$STRING`"
                                     }
                                 ]
                             },
+                            "kind": "http",
                             "method": "PUT",
                             "orig": "/api/catalog/roadie-entities/sets/{setId}",
                             "parts": [
@@ -415,11 +368,9 @@ class Config {
                             "transform": {
                                 "req": "`reqdata`",
                                 "res": "`body`"
-                            },
-                            "index$": 0
+                            }
                         }
-                    ],
-                    "key$": "update"
+                    ]
                 }
             },
             "relations": {

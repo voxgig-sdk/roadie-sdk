@@ -5,6 +5,6 @@ import type { EntitySetPush, EntitySetPushUpdateData } from '../RoadieTypes';
 declare class EntitySetPushEntity extends RoadieEntityBase<EntitySetPush> {
     constructor(client: RoadieSDK, entopts: any);
     make(this: EntitySetPushEntity): EntitySetPushEntity;
-    update(this: any, reqdata?: EntitySetPushUpdateData, ctrl?: Control): Promise<EntitySetPush>;
+    update(this: any, reqdata?: EntitySetPushUpdateData, ctrl?: Control): Promise<EntitySetPushEntity>;
 }
 export { EntitySetPushEntity };

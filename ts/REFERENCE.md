@@ -144,13 +144,13 @@ const entity = client.Entity()
 | `apiVersion` | `string` | Yes |  |
 | `entityRef` | `string` | No |  |
 | `id` | `string` | Yes |  |
-| `kind` | `string` | Yes |  |
+| `kind` | `string` | Yes | Entity kind (Component, API, Resource, System, Group, User, ...). |
 | `metadata` | `Record<string, any>` | Yes |  |
 | `rawData` | `Record<string, any>` | No |  |
 | `relations` | `any[]` | No |  |
 | `set` | `string` | No |  |
 | `source` | `string` | No |  |
-| `spec` | `Record<string, any>` | No |  |
+| `spec` | `Record<string, any>` | No | Kind-specific fields. |
 | `updatedAt` | `string` | No |  |
 | `updatedBy` | `string` | No |  |
 
@@ -281,7 +281,7 @@ const entity_set_push = client.EntitySetPush()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `items` | `any[]` | No |  |
+| `items` | `any[]` | No | The full set of entities. |
 | `set` | `string` | No |  |
 
 ### Field Usage by Operation

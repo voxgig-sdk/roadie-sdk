@@ -32,6 +32,20 @@ declare class RoadieSDK {
         headers?: undefined;
         data?: undefined;
     }>;
+    _rawRequest(fetchargs?: any): Promise<Error | {
+        ok: boolean;
+        status: number;
+        headers: any;
+        data: any;
+        err?: undefined;
+    } | {
+        ok: boolean;
+        err: any;
+        status?: undefined;
+        headers?: undefined;
+        data?: undefined;
+    }>;
+    graphql(query: string, variables?: any, ctrl?: any): Promise<any>;
     Entity(entopts?: Record<string, any>): EntityEntity;
     EntitySet(entopts?: Record<string, any>): EntitySetEntity;
     EntitySetPush(entopts?: Record<string, any>): EntitySetPushEntity;

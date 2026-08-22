@@ -75,7 +75,7 @@ const utility_1 = require("../../utility");
         // LIST
         const entity_set_ref01_ent = client.EntitySet();
         const entity_set_ref01_match = {};
-        const entity_set_ref01_list = await entity_set_ref01_ent.list(entity_set_ref01_match);
+        const entity_set_ref01_list = (await entity_set_ref01_ent.list(entity_set_ref01_match)).map((e) => e.data());
     });
 });
 function basicSetup(extra) {

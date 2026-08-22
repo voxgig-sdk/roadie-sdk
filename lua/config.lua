@@ -7,6 +7,9 @@ local function make_config()
   return {
     main = {
       name = "Roadie",
+      slug = "roadie",
+      version = "0.0.1",
+      target = "lua",
     },
     feature = {
       ["test"] = {
@@ -49,6 +52,7 @@ local function make_config()
           {
             ["name"] = "kind",
             ["req"] = true,
+            ["short"] = "Entity kind (Component, API, Resource, System, Group, User, ...).",
             ["type"] = "`$STRING`",
           },
           {
@@ -74,6 +78,7 @@ local function make_config()
           },
           {
             ["name"] = "spec",
+            ["short"] = "Kind-specific fields.",
             ["type"] = "`$OBJECT`",
           },
           {
@@ -301,6 +306,7 @@ local function make_config()
                 ["type"] = "`$ARRAY`",
               },
             },
+            ["short"] = "The full set of entities.",
             ["type"] = "`$ARRAY`",
           },
           {

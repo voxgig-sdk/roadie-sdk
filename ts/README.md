@@ -9,7 +9,7 @@ The API is exposed as capitalised, semantic **Entities** — e.g.
 instead of raw URL paths and query parameters. This keeps the surface
 predictable and low-friction for both humans and AI agents.
 
-> Other languages, the CLI, and MCP server live alongside this one — see
+> Also generated from this model: `go`, `go-cli`, `go-mcp`, `js`, `lua`, `php`, `py` — see
 > the [top-level README](../README.md).
 
 
@@ -334,13 +334,13 @@ The `prepare()` method returns:
 | `apiVersion` |  |
 | `entityRef` |  |
 | `id` |  |
-| `kind` |  |
+| `kind` | Entity kind (Component, API, Resource, System, Group, User, ...). |
 | `metadata` |  |
 | `rawData` |  |
 | `relations` |  |
 | `set` |  |
 | `source` |  |
-| `spec` |  |
+| `spec` | Kind-specific fields. |
 | `updatedAt` |  |
 | `updatedBy` |  |
 
@@ -362,7 +362,7 @@ API path: `/api/catalog/roadie-entities/sets`
 
 | Field | Description |
 | --- | --- |
-| `items` |  |
+| `items` | The full set of entities. |
 | `set` |  |
 
 Operations: update.
@@ -394,13 +394,13 @@ Create an instance: `const entity = client.Entity()`
 | `apiVersion` | `string` |  |
 | `entityRef` | `string` |  |
 | `id` | `string` |  |
-| `kind` | `string` |  |
+| `kind` | `string` | Entity kind (Component, API, Resource, System, Group, User, ...). |
 | `metadata` | `Record<string, any>` |  |
 | `rawData` | `Record<string, any>` |  |
 | `relations` | `any[]` |  |
 | `set` | `string` |  |
 | `source` | `string` |  |
-| `spec` | `Record<string, any>` |  |
+| `spec` | `Record<string, any>` | Kind-specific fields. |
 | `updatedAt` | `string` |  |
 | `updatedBy` | `string` |  |
 
@@ -465,7 +465,7 @@ Create an instance: `const entity_set_push = client.EntitySetPush()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `items` | `any[]` |  |
+| `items` | `any[]` | The full set of entities. |
 | `set` | `string` |  |
 
 

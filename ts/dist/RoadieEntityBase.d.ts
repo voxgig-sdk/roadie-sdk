@@ -12,7 +12,10 @@ declare class RoadieEntityBase<D = any> {
     _data: Partial<D>;
     _match: Partial<D>;
     _entctx: Context;
+    _deleted: boolean;
     constructor(client: RoadieSDK, entopts: any);
+    markDeleted(this: any): void;
+    deleted(this: any): boolean;
     entopts(): any;
     client(): RoadieSDK;
     data(this: any, data?: Partial<D>): D;

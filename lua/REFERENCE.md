@@ -102,13 +102,13 @@ local entity = client:Entity(nil)
 | `apiVersion` | `string` | Yes |  |
 | `entityRef` | `string` | No |  |
 | `id` | `string` | Yes |  |
-| `kind` | `string` | Yes |  |
+| `kind` | `string` | Yes | Entity kind (Component, API, Resource, System, Group, User, ...). |
 | `metadata` | `table` | Yes |  |
 | `rawData` | `table` | No |  |
 | `relations` | `table` | No |  |
 | `set` | `string` | No |  |
 | `source` | `string` | No |  |
-| `spec` | `table` | No |  |
+| `spec` | `table` | No | Kind-specific fields. |
 | `updatedAt` | `string` | No |  |
 | `updatedBy` | `string` | No |  |
 
@@ -243,7 +243,7 @@ local entity_set_push = client:EntitySetPush(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `items` | `table` | No |  |
+| `items` | `table` | No | The full set of entities. |
 | `set` | `string` | No |  |
 
 ### Field Usage by Operation

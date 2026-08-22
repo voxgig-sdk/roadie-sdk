@@ -23,6 +23,7 @@ main: kit: entity: entity: {
     {
       name: "kind"
       req: true
+      short: "Entity kind (Component, API, Resource, System, Group, User, ...)."
       type: "`$STRING`"
     }
     {
@@ -53,6 +54,7 @@ main: kit: entity: entity: {
     {
       name: "spec"
       req: false
+      short: "Kind-specific fields."
       type: "`$OBJECT`"
     }
     {

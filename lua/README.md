@@ -264,13 +264,13 @@ Only `direct()` returns a response envelope — a `table` with `ok`,
 | `apiVersion` |  |
 | `entityRef` |  |
 | `id` |  |
-| `kind` |  |
+| `kind` | Entity kind (Component, API, Resource, System, Group, User, ...). |
 | `metadata` |  |
 | `rawData` |  |
 | `relations` |  |
 | `set` |  |
 | `source` |  |
-| `spec` |  |
+| `spec` | Kind-specific fields. |
 | `updatedAt` |  |
 | `updatedBy` |  |
 
@@ -292,7 +292,7 @@ API path: `/api/catalog/roadie-entities/sets`
 
 | Field | Description |
 | --- | --- |
-| `items` |  |
+| `items` | The full set of entities. |
 | `set` |  |
 
 Operations: Update.
@@ -324,13 +324,13 @@ Create an instance: `local entity = client:Entity(nil)`
 | `apiVersion` | `string` |  |
 | `entityRef` | `string` |  |
 | `id` | `string` |  |
-| `kind` | `string` |  |
+| `kind` | `string` | Entity kind (Component, API, Resource, System, Group, User, ...). |
 | `metadata` | `table` |  |
 | `rawData` | `table` |  |
 | `relations` | `table` |  |
 | `set` | `string` |  |
 | `source` | `string` |  |
-| `spec` | `table` |  |
+| `spec` | `table` | Kind-specific fields. |
 | `updatedAt` | `string` |  |
 | `updatedBy` | `string` |  |
 
@@ -395,7 +395,7 @@ Create an instance: `local entity_set_push = client:EntitySetPush(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `items` | `table` |  |
+| `items` | `table` | The full set of entities. |
 | `set` | `string` |  |
 
 

@@ -331,13 +331,13 @@ The `prepare()` method returns:
 | `apiVersion` |  |
 | `entityRef` |  |
 | `id` |  |
-| `kind` |  |
+| `kind` | Entity kind (Component, API, Resource, System, Group, User, ...). |
 | `metadata` |  |
 | `rawData` |  |
 | `relations` |  |
 | `set` |  |
 | `source` |  |
-| `spec` |  |
+| `spec` | Kind-specific fields. |
 | `updatedAt` |  |
 | `updatedBy` |  |
 
@@ -359,7 +359,7 @@ API path: `/api/catalog/roadie-entities/sets`
 
 | Field | Description |
 | --- | --- |
-| `items` |  |
+| `items` | The full set of entities. |
 | `set` |  |
 
 Operations: update.
@@ -391,13 +391,13 @@ Create an instance: `const entity = client.Entity()`
 | `apiVersion` | `string` |  |
 | `entityRef` | `string` |  |
 | `id` | `string` |  |
-| `kind` | `string` |  |
+| `kind` | `string` | Entity kind (Component, API, Resource, System, Group, User, ...). |
 | `metadata` | `Object` |  |
 | `rawData` | `Object` |  |
 | `relations` | `Array` |  |
 | `set` | `string` |  |
 | `source` | `string` |  |
-| `spec` | `Object` |  |
+| `spec` | `Object` | Kind-specific fields. |
 | `updatedAt` | `string` |  |
 | `updatedBy` | `string` |  |
 
@@ -462,7 +462,7 @@ Create an instance: `const entity_set_push = client.EntitySetPush()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `items` | `Array` |  |
+| `items` | `Array` | The full set of entities. |
 | `set` | `string` |  |
 
 

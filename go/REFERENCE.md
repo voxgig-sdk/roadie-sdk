@@ -110,13 +110,13 @@ fmt.Println(entity.GetName()) // "entity"
 | `apiVersion` | `string` | Yes |  |
 | `entityRef` | `string` | No |  |
 | `id` | `string` | Yes |  |
-| `kind` | `string` | Yes |  |
+| `kind` | `string` | Yes | Entity kind (Component, API, Resource, System, Group, User, ...). |
 | `metadata` | `map[string]any` | Yes |  |
 | `rawData` | `map[string]any` | No |  |
 | `relations` | `[]any` | No |  |
 | `set` | `string` | No |  |
 | `source` | `string` | No |  |
-| `spec` | `map[string]any` | No |  |
+| `spec` | `map[string]any` | No | Kind-specific fields. |
 | `updatedAt` | `string` | No |  |
 | `updatedBy` | `string` | No |  |
 
@@ -261,7 +261,7 @@ fmt.Println(entitySetPush.GetName()) // "entity_set_push"
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `items` | `[]any` | No |  |
+| `items` | `[]any` | No | The full set of entities. |
 | `set` | `string` | No |  |
 
 ### Field Usage by Operation

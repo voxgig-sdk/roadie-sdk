@@ -77,7 +77,7 @@ const utility_1 = require("../../utility");
         const entity_set_push_ref01_data_up0 = {};
         const entity_set_push_ref01_markdef_up0 = { name: 'set', value: 'Mark01-entity_set_push_ref01_' + setup.now };
         entity_set_push_ref01_data_up0[entity_set_push_ref01_markdef_up0.name] = entity_set_push_ref01_markdef_up0.value;
-        const entity_set_push_ref01_resdata_up0 = await entity_set_push_ref01_ent.update(entity_set_push_ref01_data_up0);
+        const entity_set_push_ref01_resdata_up0 = (await entity_set_push_ref01_ent.update(entity_set_push_ref01_data_up0)).data();
         (0, node_assert_1.default)(null != entity_set_push_ref01_resdata_up0);
         (0, node_assert_1.default)(entity_set_push_ref01_resdata_up0[entity_set_push_ref01_markdef_up0.name] === entity_set_push_ref01_markdef_up0.value);
     });

@@ -285,13 +285,13 @@ On error, `ok` is `false` and `$err` contains the error value.
 | `apiVersion` |  |
 | `entityRef` |  |
 | `id` |  |
-| `kind` |  |
+| `kind` | Entity kind (Component, API, Resource, System, Group, User, ...). |
 | `metadata` |  |
 | `rawData` |  |
 | `relations` |  |
 | `set` |  |
 | `source` |  |
-| `spec` |  |
+| `spec` | Kind-specific fields. |
 | `updatedAt` |  |
 | `updatedBy` |  |
 
@@ -313,7 +313,7 @@ API path: `/api/catalog/roadie-entities/sets`
 
 | Field | Description |
 | --- | --- |
-| `items` |  |
+| `items` | The full set of entities. |
 | `set` |  |
 
 Operations: Update.
@@ -345,13 +345,13 @@ Create an instance: `$entity = $client->Entity();`
 | `apiVersion` | `string` |  |
 | `entityRef` | `string` |  |
 | `id` | `string` |  |
-| `kind` | `string` |  |
+| `kind` | `string` | Entity kind (Component, API, Resource, System, Group, User, ...). |
 | `metadata` | `array` |  |
 | `rawData` | `array` |  |
 | `relations` | `array` |  |
 | `set` | `string` |  |
 | `source` | `string` |  |
-| `spec` | `array` |  |
+| `spec` | `array` | Kind-specific fields. |
 | `updatedAt` | `string` |  |
 | `updatedBy` | `string` |  |
 
@@ -419,7 +419,7 @@ Create an instance: `$entity_set_push = $client->EntitySetPush();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `items` | `array` |  |
+| `items` | `array` | The full set of entities. |
 | `set` | `string` |  |
 
 

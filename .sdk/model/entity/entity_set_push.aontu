@@ -14,6 +14,7 @@ main: kit: entity: entity_set_push: {
         }
       }
       req: false
+      short: "The full set of entities."
       type: "`$ARRAY`"
     }
     {

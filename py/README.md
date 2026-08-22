@@ -279,13 +279,13 @@ On error, `ok` is `False` and `err` contains the error value.
 | `apiVersion` |  |
 | `entityRef` |  |
 | `id` |  |
-| `kind` |  |
+| `kind` | Entity kind (Component, API, Resource, System, Group, User, ...). |
 | `metadata` |  |
 | `rawData` |  |
 | `relations` |  |
 | `set` |  |
 | `source` |  |
-| `spec` |  |
+| `spec` | Kind-specific fields. |
 | `updatedAt` |  |
 | `updatedBy` |  |
 
@@ -307,7 +307,7 @@ API path: `/api/catalog/roadie-entities/sets`
 
 | Field | Description |
 | --- | --- |
-| `items` |  |
+| `items` | The full set of entities. |
 | `set` |  |
 
 Operations: Update.
@@ -339,13 +339,13 @@ Create an instance: `entity = client.Entity()`
 | `apiVersion` | `str` |  |
 | `entityRef` | `str` |  |
 | `id` | `str` |  |
-| `kind` | `str` |  |
+| `kind` | `str` | Entity kind (Component, API, Resource, System, Group, User, ...). |
 | `metadata` | `dict` |  |
 | `rawData` | `dict` |  |
 | `relations` | `list` |  |
 | `set` | `str` |  |
 | `source` | `str` |  |
-| `spec` | `dict` |  |
+| `spec` | `dict` | Kind-specific fields. |
 | `updatedAt` | `str` |  |
 | `updatedBy` | `str` |  |
 
@@ -410,7 +410,7 @@ Create an instance: `entity_set_push = client.EntitySetPush()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `items` | `list` |  |
+| `items` | `list` | The full set of entities. |
 | `set` | `str` |  |
 
 

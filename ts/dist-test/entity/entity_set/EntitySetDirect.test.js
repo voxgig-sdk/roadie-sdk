@@ -15,6 +15,10 @@ const utility_1 = require("../../utility");
     (0, node_test_1.afterEach)((0, utility_1.liveDelay)('ROADIE_TEST_LIVE'));
     (0, node_test_1.test)('direct-exists', async () => {
         const sdk = new __1.RoadieSDK({
+            // Concrete base: a live construction must satisfy any server
+            // variables a templated base URL declares; overriding base with a
+            // literal (as the direct flow tests do) sidesteps the requirement.
+            base: 'http://localhost:8080',
             system: { fetch: async () => ({}) }
         });
         (0, node_assert_1.default)('function' === typeof sdk.direct);

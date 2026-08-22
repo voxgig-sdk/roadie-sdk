@@ -1,47 +1,47 @@
 export interface Entity {
-    api_version: string;
-    entity_ref?: string;
+    apiVersion: string;
+    entityRef?: string;
     id: string;
     kind: string;
     metadata: Record<string, any>;
-    raw_data?: Record<string, any>;
-    relation?: any[];
+    rawData?: Record<string, any>;
+    relations?: any[];
     set?: string;
     source?: string;
     spec?: Record<string, any>;
-    updated_at?: string;
-    updated_by?: string;
+    updatedAt?: string;
+    updatedBy?: string;
 }
 export interface EntityLoadMatch {
     id: string;
 }
 export interface EntityListMatch {
-    api_version?: string;
-    entity_ref?: string;
+    apiVersion?: string;
+    entityRef?: string;
     id?: string;
     kind?: string;
     metadata?: Record<string, any>;
-    raw_data?: Record<string, any>;
-    relation?: any[];
+    rawData?: Record<string, any>;
+    relations?: any[];
     set?: string;
     source?: string;
     spec?: Record<string, any>;
-    updated_at?: string;
-    updated_by?: string;
+    updatedAt?: string;
+    updatedBy?: string;
 }
 export interface EntityCreateData {
-    api_version: string;
-    entity_ref?: string;
+    apiVersion: string;
+    entityRef?: string;
     id: string;
     kind: string;
     metadata: Record<string, any>;
-    raw_data?: Record<string, any>;
-    relation?: any[];
+    rawData?: Record<string, any>;
+    relations?: any[];
     set?: string;
     source?: string;
     spec?: Record<string, any>;
-    updated_at?: string;
-    updated_by?: string;
+    updatedAt?: string;
+    updatedBy?: string;
 }
 export interface EntityRemoveMatch {
     id: string;
@@ -53,9 +53,11 @@ export interface EntitySetListMatch {
     name?: string;
 }
 export interface EntitySetPush {
-    item?: any[];
+    items?: any[];
     set?: string;
 }
 export interface EntitySetPushUpdateData {
     set_id: string;
+    items?: any[];
+    set?: string;
 }

@@ -74,23 +74,23 @@ const utility_1 = require("../../utility");
         // CREATE
         const entity_ref01_ent = client.Entity();
         let entity_ref01_data = setup.data.new.entity['entity_ref01'];
-        entity_ref01_data = await entity_ref01_ent.create(entity_ref01_data);
+        entity_ref01_data = (await entity_ref01_ent.create(entity_ref01_data)).data();
         (0, node_assert_1.default)(null != entity_ref01_data.id);
         // LIST
         const entity_ref01_match = {};
-        const entity_ref01_list = await entity_ref01_ent.list(entity_ref01_match);
+        const entity_ref01_list = (await entity_ref01_ent.list(entity_ref01_match)).map((e) => e.data());
         (0, node_assert_1.default)(!isempty(select(entity_ref01_list, { id: entity_ref01_data.id })));
         // LOAD
         const entity_ref01_match_dt0 = {};
         entity_ref01_match_dt0.id = entity_ref01_data.id;
-        const entity_ref01_data_dt0 = await entity_ref01_ent.load(entity_ref01_match_dt0);
+        const entity_ref01_data_dt0 = (await entity_ref01_ent.load(entity_ref01_match_dt0)).data();
         (0, node_assert_1.default)(entity_ref01_data_dt0.id === entity_ref01_data.id);
         // REMOVE
         const entity_ref01_match_rm0 = { id: entity_ref01_data.id };
         await entity_ref01_ent.remove(entity_ref01_match_rm0);
         // LIST
         const entity_ref01_match_rt0 = {};
-        const entity_ref01_list_rt0 = await entity_ref01_ent.list(entity_ref01_match_rt0);
+        const entity_ref01_list_rt0 = (await entity_ref01_ent.list(entity_ref01_match_rt0)).map((e) => e.data());
         (0, node_assert_1.default)(isempty(select(entity_ref01_list_rt0, { id: entity_ref01_data.id })));
     });
 });

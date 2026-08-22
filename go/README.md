@@ -6,7 +6,7 @@ The Golang SDK for the Roadie API — an entity-oriented client using standard G
 
 It exposes the API as capitalised, semantic **Entities** — e.g. `client.Entity(nil)` — each with the same small set of operations (`List`, `Load`, `Create`, `Update`, `Remove`) instead of raw URL paths and query strings. You call meaning, not endpoints, which keeps the cognitive load low.
 
-> Other languages, the CLI, and MCP server live alongside this one — see
+> Also generated from this model: `go-cli`, `go-mcp`, `js`, `lua`, `php`, `py`, `ts` — see
 > the [top-level README](../README.md).
 
 
@@ -296,13 +296,13 @@ Only `Direct()` returns a response envelope — a `map[string]any` with
 | `"apiVersion"` |  |
 | `"entityRef"` |  |
 | `"id"` |  |
-| `"kind"` |  |
+| `"kind"` | Entity kind (Component, API, Resource, System, Group, User, ...). |
 | `"metadata"` |  |
 | `"rawData"` |  |
 | `"relations"` |  |
 | `"set"` |  |
 | `"source"` |  |
-| `"spec"` |  |
+| `"spec"` | Kind-specific fields. |
 | `"updatedAt"` |  |
 | `"updatedBy"` |  |
 
@@ -324,7 +324,7 @@ API path: `/api/catalog/roadie-entities/sets`
 
 | Field | Description |
 | --- | --- |
-| `"items"` |  |
+| `"items"` | The full set of entities. |
 | `"set"` |  |
 
 Operations: Update.
@@ -356,13 +356,13 @@ Create an instance: `entity := client.Entity(nil)`
 | `apiVersion` | `string` |  |
 | `entityRef` | `string` |  |
 | `id` | `string` |  |
-| `kind` | `string` |  |
+| `kind` | `string` | Entity kind (Component, API, Resource, System, Group, User, ...). |
 | `metadata` | `map[string]any` |  |
 | `rawData` | `map[string]any` |  |
 | `relations` | `[]any` |  |
 | `set` | `string` |  |
 | `source` | `string` |  |
-| `spec` | `map[string]any` |  |
+| `spec` | `map[string]any` | Kind-specific fields. |
 | `updatedAt` | `string` |  |
 | `updatedBy` | `string` |  |
 
@@ -443,7 +443,7 @@ Create an instance: `entitySetPush := client.EntitySetPush(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `items` | `[]any` |  |
+| `items` | `[]any` | The full set of entities. |
 | `set` | `string` |  |
 
 

@@ -33,6 +33,9 @@ class RoadieConfig
         return [
             "main" => [
                 "name" => "Roadie",
+                "slug" => "roadie",
+                "version" => "0.0.1",
+                "target" => "php",
             ],
             "feature" => [
                 "test" => [
@@ -75,6 +78,7 @@ class RoadieConfig
             [
               'name' => 'kind',
               'req' => true,
+              'short' => 'Entity kind (Component, API, Resource, System, Group, User, ...).',
               'type' => '`$STRING`',
             ],
             [
@@ -100,6 +104,7 @@ class RoadieConfig
             ],
             [
               'name' => 'spec',
+              'short' => 'Kind-specific fields.',
               'type' => '`$OBJECT`',
             ],
             [
@@ -327,6 +332,7 @@ class RoadieConfig
                   'type' => '`$ARRAY`',
                 ],
               ],
+              'short' => 'The full set of entities.',
               'type' => '`$ARRAY`',
             ],
             [

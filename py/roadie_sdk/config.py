@@ -28,6 +28,9 @@ def make_config():
     return {
         "main": {
             "name": "Roadie",
+            "slug": "roadie",
+            "version": "0.0.1",
+            "target": "py",
         },
         "feature": {
             "test": {
@@ -70,6 +73,7 @@ def make_config():
           {
             "name": "kind",
             "req": True,
+            "short": "Entity kind (Component, API, Resource, System, Group, User, ...).",
             "type": "`$STRING`",
           },
           {
@@ -95,6 +99,7 @@ def make_config():
           },
           {
             "name": "spec",
+            "short": "Kind-specific fields.",
             "type": "`$OBJECT`",
           },
           {
@@ -322,6 +327,7 @@ def make_config():
                 "type": "`$ARRAY`",
               },
             },
+            "short": "The full set of entities.",
             "type": "`$ARRAY`",
           },
           {

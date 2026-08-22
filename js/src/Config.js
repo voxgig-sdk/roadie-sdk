@@ -19,9 +19,20 @@ class Config {
     return fi
   }
 
+  // False for a feature added at runtime via options.extend (station's
+  // adopt path) - the constructor uses this to skip makeFeature for names
+  // no generated class backs.
+  hasFeature(fn) {
+    return null != FEATURE_CLASS[fn]
+  }
+
 
   main = {
     name: 'Roadie',
+        slug: "roadie",
+    version: "0.0.1",
+    target: "js",
+
   }
 
 
@@ -36,7 +47,7 @@ class Config {
 
 
   options = {
-    base: 'https://api.roadie.so',
+    base: "https://api.roadie.so",
 
     auth: {
       prefix: 'Bearer',
@@ -81,6 +92,7 @@ class Config {
         {
           "name": "kind",
           "req": true,
+          "short": "Entity kind (Component, API, Resource, System, Group, User, ...).",
           "type": "`$STRING`"
         },
         {
@@ -106,6 +118,7 @@ class Config {
         },
         {
           "name": "spec",
+          "short": "Kind-specific fields.",
           "type": "`$OBJECT`"
         },
         {
@@ -333,6 +346,7 @@ class Config {
               "type": "`$ARRAY`"
             }
           },
+          "short": "The full set of entities.",
           "type": "`$ARRAY`"
         },
         {

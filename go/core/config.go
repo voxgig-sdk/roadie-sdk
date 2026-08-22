@@ -11,6 +11,9 @@ func MakeConfig() map[string]any {
 	return map[string]any{
 		"main": map[string]any{
 			"name": "Roadie",
+			"slug": "roadie",
+			"version": "0.0.1",
+			"target": "go",
 		},
 		"feature": map[string]any{
 			"test": map[string]any{
@@ -53,6 +56,7 @@ func MakeConfig() map[string]any {
 					map[string]any{
 						"name": "kind",
 						"req": true,
+						"short": "Entity kind (Component, API, Resource, System, Group, User, ...).",
 						"type": "`$STRING`",
 					},
 					map[string]any{
@@ -78,6 +82,7 @@ func MakeConfig() map[string]any {
 					},
 					map[string]any{
 						"name": "spec",
+						"short": "Kind-specific fields.",
 						"type": "`$OBJECT`",
 					},
 					map[string]any{
@@ -305,6 +310,7 @@ func MakeConfig() map[string]any {
 								"type": "`$ARRAY`",
 							},
 						},
+						"short": "The full set of entities.",
 						"type": "`$ARRAY`",
 					},
 					map[string]any{

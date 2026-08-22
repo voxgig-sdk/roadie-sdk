@@ -104,13 +104,13 @@ $entity = $client->Entity();
 | `apiVersion` | `string` | Yes |  |
 | `entityRef` | `string` | No |  |
 | `id` | `string` | Yes |  |
-| `kind` | `string` | Yes |  |
+| `kind` | `string` | Yes | Entity kind (Component, API, Resource, System, Group, User, ...). |
 | `metadata` | `array` | Yes |  |
 | `rawData` | `array` | No |  |
 | `relations` | `array` | No |  |
 | `set` | `string` | No |  |
 | `source` | `string` | No |  |
-| `spec` | `array` | No |  |
+| `spec` | `array` | No | Kind-specific fields. |
 | `updatedAt` | `string` | No |  |
 | `updatedBy` | `string` | No |  |
 
@@ -245,7 +245,7 @@ $entity_set_push = $client->EntitySetPush();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `items` | `array` | No |  |
+| `items` | `array` | No | The full set of entities. |
 | `set` | `string` | No |  |
 
 ### Field Usage by Operation
