@@ -11,13 +11,11 @@ guide: {
     }
     path: "/api/catalog/roadie-entities/entities": {
       op: create: method: *POST
-      op: create: transform: res: *("`body`")|top
       op: list: method: *GET
     }
     path: "/api/catalog/roadie-entities/entities/{entityId}": {
       rename: param: "entityId": *"id"
       op: load: method: *GET
-      op: load: transform: res: *("`body`")|top
       op: remove: method: *DELETE
     }
   }

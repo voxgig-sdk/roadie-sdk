@@ -34,7 +34,7 @@ class RoadieConfig
             "main" => [
                 "name" => "Roadie",
                 "slug" => "roadie",
-                "version" => "0.0.1",
+                "version" => "0.1.1",
                 "target" => "php",
             ],
             "feature" => [
