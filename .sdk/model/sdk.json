@@ -1,15 +1,6 @@
 {
-  "NAME": "ROADIE",
-  "Name": "Roadie",
   "def": "roadie-openapi.yaml",
   "main": {
-    "api": {
-      "entity": {},
-      "guide": {}
-    },
-    "custom": {
-      "plurals": {}
-    },
     "def": {
       "desc": ""
     },
@@ -1236,8 +1227,5 @@
     }
   },
   "name": "roadie",
-  "name-": "roadie",
-  "name_": "roadie",
-  "name__orig": "roadie",
   "origin": "voxgig-sdk"
 }
