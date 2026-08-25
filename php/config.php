@@ -42,6 +42,7 @@ class RoadieConfig
           'options' => [
             'active' => false,
           ],
+          'transport' => 'base',
         ],
             ],
             "options" => [
