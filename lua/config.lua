@@ -46,6 +46,7 @@ local function make_config()
             ["type"] = "`$STRING`",
           },
           {
+            ["format"] = "uuid",
             ["name"] = "id",
             ["req"] = true,
             ["type"] = "`$STRING`",
@@ -83,6 +84,7 @@ local function make_config()
             ["type"] = "`$OBJECT`",
           },
           {
+            ["format"] = "date-time",
             ["name"] = "updatedAt",
             ["type"] = "`$STRING`",
           },
@@ -90,6 +92,10 @@ local function make_config()
             ["name"] = "updatedBy",
             ["type"] = "`$STRING`",
           },
+        },
+        ["id"] = {
+          ["field"] = "id",
+          ["name"] = "id",
         },
         ["name"] = "entity",
         ["op"] = {
@@ -102,16 +108,30 @@ local function make_config()
                 ["kind"] = "http",
                 ["method"] = "POST",
                 ["orig"] = "/api/catalog/roadie-entities/entities",
-                ["parts"] = {
-                  "api",
-                  "catalog",
-                  "roadie-entities",
-                  "entities",
+                ["segments"] = {
+                  {
+                    ["lit"] = "api",
+                  },
+                  {
+                    ["lit"] = "catalog",
+                  },
+                  {
+                    ["lit"] = "roadie-entities",
+                  },
+                  {
+                    ["lit"] = "entities",
+                  },
                 },
                 ["select"] = {},
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
+                },
+                ["parts"] = {
+                  "api",
+                  "catalog",
+                  "roadie-entities",
+                  "entities",
                 },
               },
             },
@@ -135,11 +155,19 @@ local function make_config()
                 ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/api/catalog/roadie-entities/entities",
-                ["parts"] = {
-                  "api",
-                  "catalog",
-                  "roadie-entities",
-                  "entities",
+                ["segments"] = {
+                  {
+                    ["lit"] = "api",
+                  },
+                  {
+                    ["lit"] = "catalog",
+                  },
+                  {
+                    ["lit"] = "roadie-entities",
+                  },
+                  {
+                    ["lit"] = "entities",
+                  },
                 },
                 ["select"] = {
                   ["exist"] = {
@@ -150,21 +178,38 @@ local function make_config()
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
                 },
+                ["parts"] = {
+                  "api",
+                  "catalog",
+                  "roadie-entities",
+                  "entities",
+                },
               },
               {
                 ["args"] = {},
                 ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/api/catalog/entities",
-                ["parts"] = {
-                  "api",
-                  "catalog",
-                  "entities",
+                ["segments"] = {
+                  {
+                    ["lit"] = "api",
+                  },
+                  {
+                    ["lit"] = "catalog",
+                  },
+                  {
+                    ["lit"] = "entities",
+                  },
                 },
                 ["select"] = {},
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
+                },
+                ["parts"] = {
+                  "api",
+                  "catalog",
+                  "entities",
                 },
               },
             },
@@ -188,16 +233,26 @@ local function make_config()
                 ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/api/catalog/roadie-entities/entities/{entityId}",
-                ["parts"] = {
-                  "api",
-                  "catalog",
-                  "roadie-entities",
-                  "entities",
-                  "{id}",
-                },
                 ["rename"] = {
                   ["param"] = {
                     ["entityId"] = "id",
+                  },
+                },
+                ["segments"] = {
+                  {
+                    ["lit"] = "api",
+                  },
+                  {
+                    ["lit"] = "catalog",
+                  },
+                  {
+                    ["lit"] = "roadie-entities",
+                  },
+                  {
+                    ["lit"] = "entities",
+                  },
+                  {
+                    ["var"] = "id",
                   },
                 },
                 ["select"] = {
@@ -208,6 +263,13 @@ local function make_config()
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
+                },
+                ["parts"] = {
+                  "api",
+                  "catalog",
+                  "roadie-entities",
+                  "entities",
+                  "{id}",
                 },
               },
             },
@@ -231,16 +293,26 @@ local function make_config()
                 ["kind"] = "http",
                 ["method"] = "DELETE",
                 ["orig"] = "/api/catalog/roadie-entities/entities/{entityId}",
-                ["parts"] = {
-                  "api",
-                  "catalog",
-                  "roadie-entities",
-                  "entities",
-                  "{id}",
-                },
                 ["rename"] = {
                   ["param"] = {
                     ["entityId"] = "id",
+                  },
+                },
+                ["segments"] = {
+                  {
+                    ["lit"] = "api",
+                  },
+                  {
+                    ["lit"] = "catalog",
+                  },
+                  {
+                    ["lit"] = "roadie-entities",
+                  },
+                  {
+                    ["lit"] = "entities",
+                  },
+                  {
+                    ["var"] = "id",
                   },
                 },
                 ["select"] = {
@@ -251,6 +323,13 @@ local function make_config()
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
+                },
+                ["parts"] = {
+                  "api",
+                  "catalog",
+                  "roadie-entities",
+                  "entities",
+                  "{id}",
                 },
               },
             },
@@ -278,16 +357,30 @@ local function make_config()
                 ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/api/catalog/roadie-entities/sets",
-                ["parts"] = {
-                  "api",
-                  "catalog",
-                  "roadie-entities",
-                  "sets",
+                ["segments"] = {
+                  {
+                    ["lit"] = "api",
+                  },
+                  {
+                    ["lit"] = "catalog",
+                  },
+                  {
+                    ["lit"] = "roadie-entities",
+                  },
+                  {
+                    ["lit"] = "sets",
+                  },
                 },
                 ["select"] = {},
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
+                },
+                ["parts"] = {
+                  "api",
+                  "catalog",
+                  "roadie-entities",
+                  "sets",
                 },
               },
             },
@@ -336,16 +429,26 @@ local function make_config()
                 ["kind"] = "http",
                 ["method"] = "PUT",
                 ["orig"] = "/api/catalog/roadie-entities/sets/{setId}",
-                ["parts"] = {
-                  "api",
-                  "catalog",
-                  "roadie-entities",
-                  "sets",
-                  "{set_id}",
-                },
                 ["rename"] = {
                   ["param"] = {
                     ["setId"] = "set_id",
+                  },
+                },
+                ["segments"] = {
+                  {
+                    ["lit"] = "api",
+                  },
+                  {
+                    ["lit"] = "catalog",
+                  },
+                  {
+                    ["lit"] = "roadie-entities",
+                  },
+                  {
+                    ["lit"] = "sets",
+                  },
+                  {
+                    ["var"] = "set_id",
                   },
                 },
                 ["select"] = {
@@ -356,6 +459,13 @@ local function make_config()
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
+                },
+                ["parts"] = {
+                  "api",
+                  "catalog",
+                  "roadie-entities",
+                  "sets",
+                  "{set_id}",
                 },
               },
             },

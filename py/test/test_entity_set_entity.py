@@ -125,7 +125,7 @@ def _entity_set_basic_setup(extra):
         "ROADIE_TEST_ENTITY_SET_ENTID": idmap,
         "ROADIE_TEST_LIVE": "FALSE",
         "ROADIE_TEST_EXPLAIN": "FALSE",
-        "ROADIE_APIKEY": "NONE",
+        "ROADIE_APIKEY": "",
     })
 
     idmap_resolved = helpers.to_map(
@@ -135,6 +135,10 @@ def _entity_set_basic_setup(extra):
 
     if env.get("ROADIE_TEST_LIVE") == "TRUE":
         merged_opts = vs.merge([
+            # FIRST, so the generated fields below win: sdk-test-control.json's
+            # test.client.options adds to the live client, it does not
+            # redirect it.
+            runner.live_client_options(),
             {
                 "apikey": env.get("ROADIE_APIKEY"),
             },

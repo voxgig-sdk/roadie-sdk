@@ -16,6 +16,7 @@ main: kit: entity: entity: {
       type: "`$STRING`"
     }
     {
+      format: "uuid"
       name: "id"
       req: true
       type: "`$STRING`"
@@ -58,6 +59,7 @@ main: kit: entity: entity: {
       type: "`$OBJECT`"
     }
     {
+      format: "date-time"
       name: "updatedAt"
       req: false
       type: "`$STRING`"
@@ -82,11 +84,19 @@ main: kit: entity: entity: {
         {
           method: "POST"
           orig: "/api/catalog/roadie-entities/entities"
-          parts: [
-            "api"
-            "catalog"
-            "roadie-entities"
-            "entities"
+          segments: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "catalog"
+            }
+            {
+              lit: "roadie-entities"
+            }
+            {
+              lit: "entities"
+            }
           ]
           transform: {
             req: "`reqdata`"
@@ -112,11 +122,19 @@ main: kit: entity: entity: {
           }
           method: "GET"
           orig: "/api/catalog/roadie-entities/entities"
-          parts: [
-            "api"
-            "catalog"
-            "roadie-entities"
-            "entities"
+          segments: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "catalog"
+            }
+            {
+              lit: "roadie-entities"
+            }
+            {
+              lit: "entities"
+            }
           ]
           select: {
             exist: [
@@ -131,10 +149,16 @@ main: kit: entity: entity: {
         {
           method: "GET"
           orig: "/api/catalog/entities"
-          parts: [
-            "api"
-            "catalog"
-            "entities"
+          segments: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "catalog"
+            }
+            {
+              lit: "entities"
+            }
           ]
           transform: {
             req: "`reqdata`"
@@ -160,18 +184,28 @@ main: kit: entity: entity: {
           }
           method: "GET"
           orig: "/api/catalog/roadie-entities/entities/{entityId}"
-          parts: [
-            "api"
-            "catalog"
-            "roadie-entities"
-            "entities"
-            "{id}"
-          ]
           rename: {
             param: {
               entityId: "id"
             }
           }
+          segments: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "catalog"
+            }
+            {
+              lit: "roadie-entities"
+            }
+            {
+              lit: "entities"
+            }
+            {
+              var: "id"
+            }
+          ]
           select: {
             exist: [
               "id"
@@ -201,18 +235,28 @@ main: kit: entity: entity: {
           }
           method: "DELETE"
           orig: "/api/catalog/roadie-entities/entities/{entityId}"
-          parts: [
-            "api"
-            "catalog"
-            "roadie-entities"
-            "entities"
-            "{id}"
-          ]
           rename: {
             param: {
               entityId: "id"
             }
           }
+          segments: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "catalog"
+            }
+            {
+              lit: "roadie-entities"
+            }
+            {
+              lit: "entities"
+            }
+            {
+              var: "id"
+            }
+          ]
           select: {
             exist: [
               "id"

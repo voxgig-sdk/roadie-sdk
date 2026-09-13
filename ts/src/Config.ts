@@ -10,6 +10,17 @@ const FEATURE_CLASS: Record<string, typeof BaseFeature> = {
 }
 
 
+// Per-feature plugin DEFINITIONS (voxgig/plugin `Definition` values), from
+// the model's active plugin groups. A feature that takes a `plugins` option
+// (secrets over sekreto) reads its own entry; a feature with no plugins has
+// none. Named imports above make each definition statically reachable, so
+// an SDK carries exactly the plugin modules its model selects — the same
+// leanness the old side-effect registry imports bought, without a registry.
+const FEATURE_PLUGINS: Record<string, any[]> = {
+  
+}
+
+
 class Config {
 
   makeFeature(this: any, fn: string) {
@@ -86,6 +97,7 @@ class Config {
           "type": "`$STRING`"
         },
         {
+          "format": "uuid",
           "name": "id",
           "req": true,
           "type": "`$STRING`"
@@ -123,6 +135,7 @@ class Config {
           "type": "`$OBJECT`"
         },
         {
+          "format": "date-time",
           "name": "updatedAt",
           "type": "`$STRING`"
         },
@@ -131,6 +144,10 @@ class Config {
           "type": "`$STRING`"
         }
       ],
+      "id": {
+        "field": "id",
+        "name": "id"
+      },
       "name": "entity",
       "op": {
         "create": {
@@ -142,17 +159,31 @@ class Config {
               "kind": "http",
               "method": "POST",
               "orig": "/api/catalog/roadie-entities/entities",
-              "parts": [
-                "api",
-                "catalog",
-                "roadie-entities",
-                "entities"
+              "segments": [
+                {
+                  "lit": "api"
+                },
+                {
+                  "lit": "catalog"
+                },
+                {
+                  "lit": "roadie-entities"
+                },
+                {
+                  "lit": "entities"
+                }
               ],
               "select": {},
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "api",
+                "catalog",
+                "roadie-entities",
+                "entities"
+              ]
             }
           ]
         },
@@ -175,11 +206,19 @@ class Config {
               "kind": "http",
               "method": "GET",
               "orig": "/api/catalog/roadie-entities/entities",
-              "parts": [
-                "api",
-                "catalog",
-                "roadie-entities",
-                "entities"
+              "segments": [
+                {
+                  "lit": "api"
+                },
+                {
+                  "lit": "catalog"
+                },
+                {
+                  "lit": "roadie-entities"
+                },
+                {
+                  "lit": "entities"
+                }
               ],
               "select": {
                 "exist": [
@@ -189,23 +228,40 @@ class Config {
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "api",
+                "catalog",
+                "roadie-entities",
+                "entities"
+              ]
             },
             {
               "args": {},
               "kind": "http",
               "method": "GET",
               "orig": "/api/catalog/entities",
-              "parts": [
-                "api",
-                "catalog",
-                "entities"
+              "segments": [
+                {
+                  "lit": "api"
+                },
+                {
+                  "lit": "catalog"
+                },
+                {
+                  "lit": "entities"
+                }
               ],
               "select": {},
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "api",
+                "catalog",
+                "entities"
+              ]
             }
           ]
         },
@@ -228,18 +284,28 @@ class Config {
               "kind": "http",
               "method": "GET",
               "orig": "/api/catalog/roadie-entities/entities/{entityId}",
-              "parts": [
-                "api",
-                "catalog",
-                "roadie-entities",
-                "entities",
-                "{id}"
-              ],
               "rename": {
                 "param": {
                   "entityId": "id"
                 }
               },
+              "segments": [
+                {
+                  "lit": "api"
+                },
+                {
+                  "lit": "catalog"
+                },
+                {
+                  "lit": "roadie-entities"
+                },
+                {
+                  "lit": "entities"
+                },
+                {
+                  "var": "id"
+                }
+              ],
               "select": {
                 "exist": [
                   "id"
@@ -248,7 +314,14 @@ class Config {
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "api",
+                "catalog",
+                "roadie-entities",
+                "entities",
+                "{id}"
+              ]
             }
           ]
         },
@@ -271,18 +344,28 @@ class Config {
               "kind": "http",
               "method": "DELETE",
               "orig": "/api/catalog/roadie-entities/entities/{entityId}",
-              "parts": [
-                "api",
-                "catalog",
-                "roadie-entities",
-                "entities",
-                "{id}"
-              ],
               "rename": {
                 "param": {
                   "entityId": "id"
                 }
               },
+              "segments": [
+                {
+                  "lit": "api"
+                },
+                {
+                  "lit": "catalog"
+                },
+                {
+                  "lit": "roadie-entities"
+                },
+                {
+                  "lit": "entities"
+                },
+                {
+                  "var": "id"
+                }
+              ],
               "select": {
                 "exist": [
                   "id"
@@ -291,7 +374,14 @@ class Config {
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "api",
+                "catalog",
+                "roadie-entities",
+                "entities",
+                "{id}"
+              ]
             }
           ]
         }
@@ -318,17 +408,31 @@ class Config {
               "kind": "http",
               "method": "GET",
               "orig": "/api/catalog/roadie-entities/sets",
-              "parts": [
-                "api",
-                "catalog",
-                "roadie-entities",
-                "sets"
+              "segments": [
+                {
+                  "lit": "api"
+                },
+                {
+                  "lit": "catalog"
+                },
+                {
+                  "lit": "roadie-entities"
+                },
+                {
+                  "lit": "sets"
+                }
               ],
               "select": {},
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "api",
+                "catalog",
+                "roadie-entities",
+                "sets"
+              ]
             }
           ]
         }
@@ -376,18 +480,28 @@ class Config {
               "kind": "http",
               "method": "PUT",
               "orig": "/api/catalog/roadie-entities/sets/{setId}",
-              "parts": [
-                "api",
-                "catalog",
-                "roadie-entities",
-                "sets",
-                "{set_id}"
-              ],
               "rename": {
                 "param": {
                   "setId": "set_id"
                 }
               },
+              "segments": [
+                {
+                  "lit": "api"
+                },
+                {
+                  "lit": "catalog"
+                },
+                {
+                  "lit": "roadie-entities"
+                },
+                {
+                  "lit": "sets"
+                },
+                {
+                  "var": "set_id"
+                }
+              ],
               "select": {
                 "exist": [
                   "set_id"
@@ -396,7 +510,14 @@ class Config {
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "api",
+                "catalog",
+                "roadie-entities",
+                "sets",
+                "{set_id}"
+              ]
             }
           ]
         }
@@ -416,6 +537,7 @@ class Config {
 const config = new Config()
 
 export {
-  config
+  config,
+  FEATURE_PLUGINS,
 }
 

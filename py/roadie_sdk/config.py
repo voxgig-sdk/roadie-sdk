@@ -1,6 +1,14 @@
 # Roadie SDK configuration
 
 
+# The sekreto plugin DEFINITIONS the model selected per feature, imported
+# above by name from the modules the catalogue's active `plugin.def`
+# entries declare. Handed to each feature (secrets builds its Sekreto
+# with them): a provider kind not listed here is unknown to that SDK.
+FEATURE_PLUGINS = {
+}
+
+
 _shared_config = None
 
 
@@ -67,6 +75,7 @@ def make_config():
             "type": "`$STRING`",
           },
           {
+            "format": "uuid",
             "name": "id",
             "req": True,
             "type": "`$STRING`",
@@ -104,6 +113,7 @@ def make_config():
             "type": "`$OBJECT`",
           },
           {
+            "format": "date-time",
             "name": "updatedAt",
             "type": "`$STRING`",
           },
@@ -112,6 +122,10 @@ def make_config():
             "type": "`$STRING`",
           },
         ],
+        "id": {
+          "field": "id",
+          "name": "id",
+        },
         "name": "entity",
         "op": {
           "create": {
@@ -123,17 +137,31 @@ def make_config():
                 "kind": "http",
                 "method": "POST",
                 "orig": "/api/catalog/roadie-entities/entities",
-                "parts": [
-                  "api",
-                  "catalog",
-                  "roadie-entities",
-                  "entities",
+                "segments": [
+                  {
+                    "lit": "api",
+                  },
+                  {
+                    "lit": "catalog",
+                  },
+                  {
+                    "lit": "roadie-entities",
+                  },
+                  {
+                    "lit": "entities",
+                  },
                 ],
                 "select": {},
                 "transform": {
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
+                "parts": [
+                  "api",
+                  "catalog",
+                  "roadie-entities",
+                  "entities",
+                ],
               },
             ],
           },
@@ -156,11 +184,19 @@ def make_config():
                 "kind": "http",
                 "method": "GET",
                 "orig": "/api/catalog/roadie-entities/entities",
-                "parts": [
-                  "api",
-                  "catalog",
-                  "roadie-entities",
-                  "entities",
+                "segments": [
+                  {
+                    "lit": "api",
+                  },
+                  {
+                    "lit": "catalog",
+                  },
+                  {
+                    "lit": "roadie-entities",
+                  },
+                  {
+                    "lit": "entities",
+                  },
                 ],
                 "select": {
                   "exist": [
@@ -171,22 +207,39 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
+                "parts": [
+                  "api",
+                  "catalog",
+                  "roadie-entities",
+                  "entities",
+                ],
               },
               {
                 "args": {},
                 "kind": "http",
                 "method": "GET",
                 "orig": "/api/catalog/entities",
-                "parts": [
-                  "api",
-                  "catalog",
-                  "entities",
+                "segments": [
+                  {
+                    "lit": "api",
+                  },
+                  {
+                    "lit": "catalog",
+                  },
+                  {
+                    "lit": "entities",
+                  },
                 ],
                 "select": {},
                 "transform": {
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
+                "parts": [
+                  "api",
+                  "catalog",
+                  "entities",
+                ],
               },
             ],
           },
@@ -209,18 +262,28 @@ def make_config():
                 "kind": "http",
                 "method": "GET",
                 "orig": "/api/catalog/roadie-entities/entities/{entityId}",
-                "parts": [
-                  "api",
-                  "catalog",
-                  "roadie-entities",
-                  "entities",
-                  "{id}",
-                ],
                 "rename": {
                   "param": {
                     "entityId": "id",
                   },
                 },
+                "segments": [
+                  {
+                    "lit": "api",
+                  },
+                  {
+                    "lit": "catalog",
+                  },
+                  {
+                    "lit": "roadie-entities",
+                  },
+                  {
+                    "lit": "entities",
+                  },
+                  {
+                    "var": "id",
+                  },
+                ],
                 "select": {
                   "exist": [
                     "id",
@@ -230,6 +293,13 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
+                "parts": [
+                  "api",
+                  "catalog",
+                  "roadie-entities",
+                  "entities",
+                  "{id}",
+                ],
               },
             ],
           },
@@ -252,18 +322,28 @@ def make_config():
                 "kind": "http",
                 "method": "DELETE",
                 "orig": "/api/catalog/roadie-entities/entities/{entityId}",
-                "parts": [
-                  "api",
-                  "catalog",
-                  "roadie-entities",
-                  "entities",
-                  "{id}",
-                ],
                 "rename": {
                   "param": {
                     "entityId": "id",
                   },
                 },
+                "segments": [
+                  {
+                    "lit": "api",
+                  },
+                  {
+                    "lit": "catalog",
+                  },
+                  {
+                    "lit": "roadie-entities",
+                  },
+                  {
+                    "lit": "entities",
+                  },
+                  {
+                    "var": "id",
+                  },
+                ],
                 "select": {
                   "exist": [
                     "id",
@@ -273,6 +353,13 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
+                "parts": [
+                  "api",
+                  "catalog",
+                  "roadie-entities",
+                  "entities",
+                  "{id}",
+                ],
               },
             ],
           },
@@ -299,17 +386,31 @@ def make_config():
                 "kind": "http",
                 "method": "GET",
                 "orig": "/api/catalog/roadie-entities/sets",
-                "parts": [
-                  "api",
-                  "catalog",
-                  "roadie-entities",
-                  "sets",
+                "segments": [
+                  {
+                    "lit": "api",
+                  },
+                  {
+                    "lit": "catalog",
+                  },
+                  {
+                    "lit": "roadie-entities",
+                  },
+                  {
+                    "lit": "sets",
+                  },
                 ],
                 "select": {},
                 "transform": {
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
+                "parts": [
+                  "api",
+                  "catalog",
+                  "roadie-entities",
+                  "sets",
+                ],
               },
             ],
           },
@@ -357,18 +458,28 @@ def make_config():
                 "kind": "http",
                 "method": "PUT",
                 "orig": "/api/catalog/roadie-entities/sets/{setId}",
-                "parts": [
-                  "api",
-                  "catalog",
-                  "roadie-entities",
-                  "sets",
-                  "{set_id}",
-                ],
                 "rename": {
                   "param": {
                     "setId": "set_id",
                   },
                 },
+                "segments": [
+                  {
+                    "lit": "api",
+                  },
+                  {
+                    "lit": "catalog",
+                  },
+                  {
+                    "lit": "roadie-entities",
+                  },
+                  {
+                    "lit": "sets",
+                  },
+                  {
+                    "var": "set_id",
+                  },
+                ],
                 "select": {
                   "exist": [
                     "set_id",
@@ -378,6 +489,13 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
+                "parts": [
+                  "api",
+                  "catalog",
+                  "roadie-entities",
+                  "sets",
+                  "{set_id}",
+                ],
               },
             ],
           },

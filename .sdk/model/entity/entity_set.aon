@@ -20,11 +20,19 @@ main: kit: entity: entity_set: {
         {
           method: "GET"
           orig: "/api/catalog/roadie-entities/sets"
-          parts: [
-            "api"
-            "catalog"
-            "roadie-entities"
-            "sets"
+          segments: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "catalog"
+            }
+            {
+              lit: "roadie-entities"
+            }
+            {
+              lit: "sets"
+            }
           ]
           transform: {
             req: "`reqdata`"
