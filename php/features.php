@@ -4,7 +4,14 @@ declare(strict_types=1);
 // Roadie SDK feature factory
 
 require_once __DIR__ . '/feature/BaseFeature.php';
+require_once __DIR__ . '/feature/DebugFeature.php';
+require_once __DIR__ . '/feature/IdempotencyFeature.php';
+require_once __DIR__ . '/feature/MetricsFeature.php';
+require_once __DIR__ . '/feature/PagingFeature.php';
+require_once __DIR__ . '/feature/RatelimitFeature.php';
+require_once __DIR__ . '/feature/RetryFeature.php';
 require_once __DIR__ . '/feature/TestFeature.php';
+require_once __DIR__ . '/feature/TimeoutFeature.php';
 
 
 class RoadieFeatures
@@ -14,8 +21,22 @@ class RoadieFeatures
         switch ($name) {
             case "base":
                 return new RoadieBaseFeature();
+            case "debug":
+                return new RoadieDebugFeature();
+            case "idempotency":
+                return new RoadieIdempotencyFeature();
+            case "metrics":
+                return new RoadieMetricsFeature();
+            case "paging":
+                return new RoadiePagingFeature();
+            case "ratelimit":
+                return new RoadieRatelimitFeature();
+            case "retry":
+                return new RoadieRetryFeature();
             case "test":
                 return new RoadieTestFeature();
+            case "timeout":
+                return new RoadieTimeoutFeature();
             default:
                 return new RoadieBaseFeature();
         }
@@ -31,7 +52,14 @@ class RoadieFeatures
     {
         switch ($name) {
             case "base":
+            case "debug":
+            case "idempotency":
+            case "metrics":
+            case "paging":
+            case "ratelimit":
+            case "retry":
             case "test":
+            case "timeout":
                 return true;
             default:
                 return false;
