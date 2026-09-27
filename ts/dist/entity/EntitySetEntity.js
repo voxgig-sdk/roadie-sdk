@@ -2,7 +2,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.EntitySetEntity = void 0;
 const RoadieEntityBase_1 = require("../RoadieEntityBase");
-// TODO: needs Entity superclass
 class EntitySetEntity extends RoadieEntityBase_1.RoadieEntityBase {
     constructor(client, entopts) {
         super(client, entopts);

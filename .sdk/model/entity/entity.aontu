@@ -1,0 +1,313 @@
+# Entity: entity
+
+main: kit: entity: entity: {
+
+  alias: field: {}
+
+  fields: {
+    apiVersion: {
+      h: "Api Version"
+      n: "apiVersion"
+      r: true
+      t: "`$STRING`"
+    }
+    entityRef: {
+      h: "Entity Ref"
+      n: "entityRef"
+      r: false
+      t: "`$STRING`"
+    }
+    id: {
+      fo: "uuid"
+      h: "Id"
+      n: "id"
+      r: true
+      t: "`$STRING`"
+    }
+    kind: {
+      h: "Kind"
+      n: "kind"
+      r: true
+      sh: "Entity kind (Component, API, Resource, System, Group, User, ...)."
+      t: "`$STRING`"
+    }
+    metadata: {
+      h: "Metadata"
+      n: "metadata"
+      r: true
+      t: "`$OBJECT`"
+    }
+    rawData: {
+      h: "Raw Data"
+      n: "rawData"
+      r: false
+      t: "`$OBJECT`"
+    }
+    relations: {
+      h: "Relations"
+      n: "relations"
+      r: false
+      t: "`$ARRAY`"
+    }
+    set: {
+      h: "Set"
+      n: "set"
+      r: false
+      t: "`$STRING`"
+    }
+    source: {
+      h: "Source"
+      n: "source"
+      r: false
+      t: "`$STRING`"
+    }
+    spec: {
+      h: "Spec"
+      n: "spec"
+      r: false
+      sh: "Kind-specific fields."
+      t: "`$OBJECT`"
+    }
+    updatedAt: {
+      fo: "date-time"
+      h: "Updated At"
+      n: "updatedAt"
+      r: false
+      t: "`$STRING`"
+    }
+    updatedBy: {
+      h: "Updated By"
+      n: "updatedBy"
+      r: false
+      t: "`$STRING`"
+    }
+  }
+
+  id: {
+    field: "id"
+    name: "id"
+  }
+
+  name: "entity"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          co: {
+            id: "POST /api/catalog/roadie-entities/entities"
+            source: "openapi3"
+            version: 2
+          }
+          m: "POST"
+          o: "/api/catalog/roadie-entities/entities"
+          s: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "catalog"
+            }
+            {
+              lit: "roadie-entities"
+            }
+            {
+              lit: "entities"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    list: {
+      name: "list"
+      points: [
+        {
+          co: {
+            id: "GET /api/catalog/roadie-entities/entities"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            query: [
+              {
+                k: "query"
+                n: "set"
+                or: "set"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/api/catalog/roadie-entities/entities"
+          q: {
+            exist: [
+              "set"
+            ]
+          }
+          s: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "catalog"
+            }
+            {
+              lit: "roadie-entities"
+            }
+            {
+              lit: "entities"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          co: {
+            id: "GET /api/catalog/entities"
+            source: "openapi3"
+            version: 2
+          }
+          m: "GET"
+          o: "/api/catalog/entities"
+          s: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "catalog"
+            }
+            {
+              lit: "entities"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    load: {
+      name: "load"
+      points: [
+        {
+          co: {
+            id: "GET /api/catalog/roadie-entities/entities/{entityId}"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            params: [
+              {
+                k: "param"
+                n: "id"
+                or: "entity_id"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/api/catalog/roadie-entities/entities/{entityId}"
+          q: {
+            exist: [
+              "id"
+            ]
+          }
+          r: {
+            param: {
+              entityId: "id"
+            }
+          }
+          s: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "catalog"
+            }
+            {
+              lit: "roadie-entities"
+            }
+            {
+              lit: "entities"
+            }
+            {
+              var: "id"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    remove: {
+      name: "remove"
+      points: [
+        {
+          co: {
+            id: "DELETE /api/catalog/roadie-entities/entities/{entityId}"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            params: [
+              {
+                k: "param"
+                n: "id"
+                or: "entity_id"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "DELETE"
+          o: "/api/catalog/roadie-entities/entities/{entityId}"
+          q: {
+            exist: [
+              "id"
+            ]
+          }
+          r: {
+            param: {
+              entityId: "id"
+            }
+          }
+          s: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "catalog"
+            }
+            {
+              lit: "roadie-entities"
+            }
+            {
+              lit: "entities"
+            }
+            {
+              var: "id"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

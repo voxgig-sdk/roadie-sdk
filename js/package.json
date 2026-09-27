@@ -1,5 +1,5 @@
 {
-  "name": "@voxgig-sdk/roadie-js",
+  "name": "@voxgig-sdk/roadie-sdk-js",
   "version": "0.1.1",
   "description": "Unofficial generated JavaScript SDK for the Roadie public API. Not affiliated with or endorsed by the upstream API provider.",
   "keywords": [
@@ -21,7 +21,8 @@
   "main": "src/RoadieSDK.js",
   "type": "commonjs",
   "files": [
-    "src"
+    "src",
+    "README.md"
   ],
   "scripts": {
     "test": "node --test 'test/**/*.test.js'",

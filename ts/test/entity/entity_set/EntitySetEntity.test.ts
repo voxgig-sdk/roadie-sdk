@@ -25,10 +25,6 @@ import {
 } from '../../utility'
 
 
-// AFTER the imports on purpose: TypeScript hoists `import` above any
-// statement in the emitted CommonJS, so a loader placed above them would
-// run only after every imported module had already been evaluated - and
-// anything reading process.env at module scope would miss these values.
 loadEnvLocal(__dirname + '/../../../.env.local')
 
 
@@ -55,7 +51,7 @@ describe('EntitySetEntity', async () => {
     
     const setup = basicSetup()
     if (setup.live) {
-      return runLiveEntity(setup, {"active":true,"alias":{"field":{}},"fields":[{"active":true,"name":"name","req":false,"type":"`$STRING`","index$":0}],"name":"entity_set","op":{"list":{"input":"data","name":"list","points":[{"active":true,"args":{},"contract":{"id":"GET /api/catalog/roadie-entities/sets","json":"{\"operationId\":\"listEntitySets\",\"parameters\":[],\"protocol\":\"http\",\"responses\":{\"200\":{\"content\":{\"application/json\":{\"schema\":{\"items\":{\"description\":\"A named group of pushed entities.\",\"properties\":{\"name\":{\"type\":\"string\"}},\"type\":\"object\"},\"type\":\"array\"}}},\"description\":\"The entity sets you have pushed.\"},\"401\":{\"content\":{\"application/json\":{\"schema\":{\"properties\":{\"error\":{\"type\":\"string\"},\"message\":{\"type\":\"string\"}},\"type\":\"object\"}}},\"description\":\"Missing or invalid API token.\"}},\"security\":[{\"bearerAuth\":[]}],\"securitySchemes\":{\"bearerAuth\":{\"description\":\"Roadie API token, sent as 'Authorization: bearer <token>'. User tokens and service tokens work identically.\\n\",\"scheme\":\"bearer\",\"type\":\"http\"}},\"securitySource\":\"definition\"}","source":"openapi3","version":1},"kind":"http","method":"GET","orig":"/api/catalog/roadie-entities/sets","segments":[{"lit":"api"},{"lit":"catalog"},{"lit":"roadie-entities"},{"lit":"sets"}],"select":{},"transform":{"req":"`reqdata`","res":"`body`"},"index$":0}],"key$":"list"}},"relations":{"ancestors":[]},"key$":"entity_set","name__orig":"entity_set","Name":"EntitySet","name_":"entity_set","name-":"entity-set","NAME":"ENTITY_SET","index$":1}, {"active":true,"entity":"entity_set","key$":"BasicEntitySetFlow","kind":"basic","name":"BasicEntitySetFlow","param":{},"step":[{"active":true,"data":{},"input":{},"match":{},"op":"list","spec":[],"valid":[{"apply":"ItemExists","def":{"ref":"entity_set_ref01"}}],"index$":0}]}, 'EntitySet')
+      return runLiveEntity(setup, {"active":true,"alias":{"field":{}},"fields":{"name":{"a":true,"h":"Name","n":"name","r":false,"t":"`$STRING`","key$":"name","index$":0}},"name":"entity_set","op":{"list":{"input":"data","name":"list","points":[{"a":true,"co":{"id":"GET /api/catalog/roadie-entities/sets","source":"openapi3","version":2},"g":{},"k":"http","m":"GET","o":"/api/catalog/roadie-entities/sets","q":{},"r":{},"s":[{"lit":"api"},{"lit":"catalog"},{"lit":"roadie-entities"},{"lit":"sets"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0}],"key$":"list"}},"relations":{"ancestors":[]},"key$":"entity_set","name__orig":"entity_set","Name":"EntitySet","name_":"entity_set","name-":"entity-set","NAME":"ENTITY_SET","index$":1}, {"active":true,"entity":"entity_set","key$":"BasicEntitySetFlow","kind":"basic","name":"BasicEntitySetFlow","param":{},"step":[{"a":true,"d":{},"i":{},"m":{},"o":"list","s":[],"v":[{"apply":"ItemExists","def":{"ref":"entity_set_ref01"}}],"index$":0}]}, 'EntitySet', {"GET /api/catalog/roadie-entities/sets":{"protocol":"http","parameters":[]}})
     }
     const client = setup.client
     const struct = setup.struct

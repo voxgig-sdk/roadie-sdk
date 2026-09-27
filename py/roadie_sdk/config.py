@@ -191,58 +191,70 @@ def make_config():
         "fields": [
           {
             "name": "apiVersion",
-            "req": True,
+            "title": "Api Version",
             "type": "`$STRING`",
+            "req": True,
           },
           {
             "name": "entityRef",
+            "title": "Entity Ref",
             "type": "`$STRING`",
           },
           {
-            "format": "uuid",
             "name": "id",
-            "req": True,
+            "title": "Id",
             "type": "`$STRING`",
+            "req": True,
+            "format": "uuid",
           },
           {
             "name": "kind",
+            "title": "Kind",
+            "type": "`$STRING`",
             "req": True,
             "short": "Entity kind (Component, API, Resource, System, Group, User, ...).",
-            "type": "`$STRING`",
           },
           {
             "name": "metadata",
-            "req": True,
+            "title": "Metadata",
             "type": "`$OBJECT`",
+            "req": True,
           },
           {
             "name": "rawData",
+            "title": "Raw Data",
             "type": "`$OBJECT`",
           },
           {
             "name": "relations",
+            "title": "Relations",
             "type": "`$ARRAY`",
           },
           {
             "name": "set",
+            "title": "Set",
             "type": "`$STRING`",
           },
           {
             "name": "source",
+            "title": "Source",
             "type": "`$STRING`",
           },
           {
             "name": "spec",
-            "short": "Kind-specific fields.",
+            "title": "Spec",
             "type": "`$OBJECT`",
+            "short": "Kind-specific fields.",
           },
           {
-            "format": "date-time",
             "name": "updatedAt",
+            "title": "Updated At",
             "type": "`$STRING`",
+            "format": "date-time",
           },
           {
             "name": "updatedBy",
+            "title": "Updated By",
             "type": "`$STRING`",
           },
         ],
@@ -257,7 +269,6 @@ def make_config():
             "name": "create",
             "points": [
               {
-                "args": {},
                 "kind": "http",
                 "method": "POST",
                 "orig": "/api/catalog/roadie-entities/entities",
@@ -275,17 +286,19 @@ def make_config():
                     "lit": "entities",
                   },
                 ],
-                "select": {},
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
                 "parts": [
                   "api",
                   "catalog",
                   "roadie-entities",
                   "entities",
                 ],
+                "rename": {},
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {},
+                "select": {},
               },
             ],
           },
@@ -294,17 +307,6 @@ def make_config():
             "name": "list",
             "points": [
               {
-                "args": {
-                  "query": [
-                    {
-                      "kind": "query",
-                      "name": "set",
-                      "orig": "set",
-                      "reqd": True,
-                      "type": "`$STRING`",
-                    },
-                  ],
-                },
                 "kind": "http",
                 "method": "GET",
                 "orig": "/api/catalog/roadie-entities/entities",
@@ -322,24 +324,35 @@ def make_config():
                     "lit": "entities",
                   },
                 ],
-                "select": {
-                  "exist": [
-                    "set",
-                  ],
-                },
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
                 "parts": [
                   "api",
                   "catalog",
                   "roadie-entities",
                   "entities",
                 ],
+                "rename": {},
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {
+                  "query": [
+                    {
+                      "name": "set",
+                      "orig": "set",
+                      "type": "`$STRING`",
+                      "kind": "query",
+                      "reqd": True,
+                    },
+                  ],
+                },
+                "select": {
+                  "exist": [
+                    "set",
+                  ],
+                },
               },
               {
-                "args": {},
                 "kind": "http",
                 "method": "GET",
                 "orig": "/api/catalog/entities",
@@ -354,16 +367,18 @@ def make_config():
                     "lit": "entities",
                   },
                 ],
-                "select": {},
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
                 "parts": [
                   "api",
                   "catalog",
                   "entities",
                 ],
+                "rename": {},
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {},
+                "select": {},
               },
             ],
           },
@@ -372,25 +387,9 @@ def make_config():
             "name": "load",
             "points": [
               {
-                "args": {
-                  "params": [
-                    {
-                      "kind": "param",
-                      "name": "id",
-                      "orig": "entity_id",
-                      "reqd": True,
-                      "type": "`$STRING`",
-                    },
-                  ],
-                },
                 "kind": "http",
                 "method": "GET",
                 "orig": "/api/catalog/roadie-entities/entities/{entityId}",
-                "rename": {
-                  "param": {
-                    "entityId": "id",
-                  },
-                },
                 "segments": [
                   {
                     "lit": "api",
@@ -408,15 +407,6 @@ def make_config():
                     "var": "id",
                   },
                 ],
-                "select": {
-                  "exist": [
-                    "id",
-                  ],
-                },
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
                 "parts": [
                   "api",
                   "catalog",
@@ -424,6 +414,31 @@ def make_config():
                   "entities",
                   "{id}",
                 ],
+                "rename": {
+                  "param": {
+                    "entityId": "id",
+                  },
+                },
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {
+                  "params": [
+                    {
+                      "name": "id",
+                      "orig": "entity_id",
+                      "type": "`$STRING`",
+                      "kind": "param",
+                      "reqd": True,
+                    },
+                  ],
+                },
+                "select": {
+                  "exist": [
+                    "id",
+                  ],
+                },
               },
             ],
           },
@@ -432,25 +447,9 @@ def make_config():
             "name": "remove",
             "points": [
               {
-                "args": {
-                  "params": [
-                    {
-                      "kind": "param",
-                      "name": "id",
-                      "orig": "entity_id",
-                      "reqd": True,
-                      "type": "`$STRING`",
-                    },
-                  ],
-                },
                 "kind": "http",
                 "method": "DELETE",
                 "orig": "/api/catalog/roadie-entities/entities/{entityId}",
-                "rename": {
-                  "param": {
-                    "entityId": "id",
-                  },
-                },
                 "segments": [
                   {
                     "lit": "api",
@@ -468,15 +467,6 @@ def make_config():
                     "var": "id",
                   },
                 ],
-                "select": {
-                  "exist": [
-                    "id",
-                  ],
-                },
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
                 "parts": [
                   "api",
                   "catalog",
@@ -484,6 +474,31 @@ def make_config():
                   "entities",
                   "{id}",
                 ],
+                "rename": {
+                  "param": {
+                    "entityId": "id",
+                  },
+                },
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {
+                  "params": [
+                    {
+                      "name": "id",
+                      "orig": "entity_id",
+                      "type": "`$STRING`",
+                      "kind": "param",
+                      "reqd": True,
+                    },
+                  ],
+                },
+                "select": {
+                  "exist": [
+                    "id",
+                  ],
+                },
               },
             ],
           },
@@ -496,6 +511,7 @@ def make_config():
         "fields": [
           {
             "name": "name",
+            "title": "Name",
             "type": "`$STRING`",
           },
         ],
@@ -506,7 +522,6 @@ def make_config():
             "name": "list",
             "points": [
               {
-                "args": {},
                 "kind": "http",
                 "method": "GET",
                 "orig": "/api/catalog/roadie-entities/sets",
@@ -524,17 +539,19 @@ def make_config():
                     "lit": "sets",
                   },
                 ],
-                "select": {},
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
                 "parts": [
                   "api",
                   "catalog",
                   "roadie-entities",
                   "sets",
                 ],
+                "rename": {},
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {},
+                "select": {},
               },
             ],
           },
@@ -547,6 +564,8 @@ def make_config():
         "fields": [
           {
             "name": "items",
+            "title": "Items",
+            "type": "`$ARRAY`",
             "op": {
               "update": {
                 "req": True,
@@ -554,10 +573,10 @@ def make_config():
               },
             },
             "short": "The full set of entities.",
-            "type": "`$ARRAY`",
           },
           {
             "name": "set",
+            "title": "Set",
             "type": "`$STRING`",
           },
         ],
@@ -568,25 +587,9 @@ def make_config():
             "name": "update",
             "points": [
               {
-                "args": {
-                  "params": [
-                    {
-                      "kind": "param",
-                      "name": "set_id",
-                      "orig": "set_id",
-                      "reqd": True,
-                      "type": "`$STRING`",
-                    },
-                  ],
-                },
                 "kind": "http",
                 "method": "PUT",
                 "orig": "/api/catalog/roadie-entities/sets/{setId}",
-                "rename": {
-                  "param": {
-                    "setId": "set_id",
-                  },
-                },
                 "segments": [
                   {
                     "lit": "api",
@@ -604,15 +607,6 @@ def make_config():
                     "var": "set_id",
                   },
                 ],
-                "select": {
-                  "exist": [
-                    "set_id",
-                  ],
-                },
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
                 "parts": [
                   "api",
                   "catalog",
@@ -620,16 +614,37 @@ def make_config():
                   "sets",
                   "{set_id}",
                 ],
+                "rename": {
+                  "param": {
+                    "setId": "set_id",
+                  },
+                },
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {
+                  "params": [
+                    {
+                      "name": "set_id",
+                      "orig": "set_id",
+                      "type": "`$STRING`",
+                      "kind": "param",
+                      "reqd": True,
+                    },
+                  ],
+                },
+                "select": {
+                  "exist": [
+                    "set_id",
+                  ],
+                },
               },
             ],
           },
         },
         "relations": {
-          "ancestors": [
-            [
-              "set",
-            ],
-          ],
+          "ancestors": [],
         },
       },
     },

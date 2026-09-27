@@ -78,7 +78,7 @@ function entity_set_push_basic_setup($extra)
 
     // Generate idmap.
     $idmap = [];
-    foreach (["entity_set_push01", "entity_set_push02", "entity_set_push03", "set01", "set02", "set03"] as $k) {
+    foreach (["entity_set_push01", "entity_set_push02", "entity_set_push03"] as $k) {
         $idmap[$k] = strtoupper($k);
     }
 

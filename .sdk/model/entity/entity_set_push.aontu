@@ -1,0 +1,91 @@
+# Entity: entity_set_push
+
+main: kit: entity: entity_set_push: {
+
+  alias: field: {}
+
+  fields: {
+    items: {
+      h: "Items"
+      n: "items"
+      op: {
+        update: {
+          req: true
+          type: "`$ARRAY`"
+        }
+      }
+      r: false
+      sh: "The full set of entities."
+      t: "`$ARRAY`"
+    }
+    set: {
+      h: "Set"
+      n: "set"
+      r: false
+      t: "`$STRING`"
+    }
+  }
+
+  name: "entity_set_push"
+  op: {
+    update: {
+      name: "update"
+      points: [
+        {
+          co: {
+            id: "PUT /api/catalog/roadie-entities/sets/{setId}"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            params: [
+              {
+                k: "param"
+                n: "set_id"
+                or: "set_id"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "PUT"
+          o: "/api/catalog/roadie-entities/sets/{setId}"
+          q: {
+            exist: [
+              "set_id"
+            ]
+          }
+          r: {
+            param: {
+              setId: "set_id"
+            }
+          }
+          s: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "catalog"
+            }
+            {
+              lit: "roadie-entities"
+            }
+            {
+              lit: "sets"
+            }
+            {
+              var: "set_id"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

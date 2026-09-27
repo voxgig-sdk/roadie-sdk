@@ -1,7 +1,7 @@
 // Typed models for the Roadie SDK.
 //
-// GENERATED from the API model: main.kit.entity.<e>.fields[] and per-op
-// params (op.<name>.points[].args.params[]). Field/param types come from the
+// GENERATED from the API model: main.kit.entity.<e>.fields{} and per-op
+// params (op.<name>.points[].g.params[]). Field/param types come from the
 // canonical type sentinels via @voxgig/sdkgen canonToType (source of truth:
 // @voxgig/apidef VALID_CANON). Do not edit by hand.
 package entity
@@ -14,18 +14,6 @@ import (
 
 // Entity is the typed data model for the entity entity.
 type Entity struct {
-	ApiVersion string `json:"apiVersion"`
-	EntityRef *string `json:"entityRef,omitempty"`
-	Id string `json:"id"`
-	Kind string `json:"kind"`
-	Metadata map[string]any `json:"metadata"`
-	RawData *map[string]any `json:"rawData,omitempty"`
-	Relations *[]any `json:"relations,omitempty"`
-	Set *string `json:"set,omitempty"`
-	Source *string `json:"source,omitempty"`
-	Spec *map[string]any `json:"spec,omitempty"`
-	UpdatedAt *string `json:"updatedAt,omitempty"`
-	UpdatedBy *string `json:"updatedBy,omitempty"`
 }
 
 // EntityLoadMatch is the typed request payload for Entity.LoadTyped.
@@ -72,7 +60,6 @@ type EntityRemoveMatch struct {
 
 // EntitySet is the typed data model for the entity_set entity.
 type EntitySet struct {
-	Name *string `json:"name,omitempty"`
 }
 
 // EntitySetListMatch is the typed request payload for EntitySet.ListTyped.
@@ -82,8 +69,6 @@ type EntitySetListMatch struct {
 
 // EntitySetPush is the typed data model for the entity_set_push entity.
 type EntitySetPush struct {
-	Items *[]any `json:"items,omitempty"`
-	Set *string `json:"set,omitempty"`
 }
 
 // EntitySetPushUpdateData is the typed request payload for EntitySetPush.UpdateTyped.

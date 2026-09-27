@@ -19,7 +19,6 @@ import type {
   EntitySetListMatch,
 } from '../RoadieTypes'
 
-// TODO: needs Entity superclass
 class EntitySetEntity extends RoadieEntityBase<EntitySet> {
 
   constructor(client: RoadieSDK, entopts: any) {

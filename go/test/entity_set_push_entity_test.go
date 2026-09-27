@@ -109,7 +109,7 @@ func entity_set_pushBasicSetup(extra map[string]any) *entityTestSetup {
 
 	// Generate idmap via transform, matching TS pattern.
 	idmap, _ := vs.Transform(
-		[]any{"entity_set_push01", "entity_set_push02", "entity_set_push03", "set01", "set02", "set03"},
+		[]any{"entity_set_push01", "entity_set_push02", "entity_set_push03"},
 		map[string]any{
 			"`$PACK`": []any{"", map[string]any{
 				"`$KEY`": "`$COPY`",

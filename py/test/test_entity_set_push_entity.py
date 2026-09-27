@@ -77,7 +77,7 @@ def _entity_set_push_basic_setup(extra):
 
     # Generate idmap via transform.
     idmap = vs.transform(
-        ["entity_set_push01", "entity_set_push02", "entity_set_push03", "set01", "set02", "set03"],
+        ["entity_set_push01", "entity_set_push02", "entity_set_push03"],
         {
             "`$PACK`": ["", {
                 "`$KEY`": "`$COPY`",

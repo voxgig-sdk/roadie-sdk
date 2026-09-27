@@ -166,58 +166,70 @@ func MakeConfig() map[string]any {
 				"fields": []any{
 					map[string]any{
 						"name": "apiVersion",
-						"req": true,
+						"title": "Api Version",
 						"type": "`$STRING`",
+						"req": true,
 					},
 					map[string]any{
 						"name": "entityRef",
+						"title": "Entity Ref",
 						"type": "`$STRING`",
 					},
 					map[string]any{
-						"format": "uuid",
 						"name": "id",
-						"req": true,
+						"title": "Id",
 						"type": "`$STRING`",
+						"req": true,
+						"format": "uuid",
 					},
 					map[string]any{
 						"name": "kind",
+						"title": "Kind",
+						"type": "`$STRING`",
 						"req": true,
 						"short": "Entity kind (Component, API, Resource, System, Group, User, ...).",
-						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "metadata",
-						"req": true,
+						"title": "Metadata",
 						"type": "`$OBJECT`",
+						"req": true,
 					},
 					map[string]any{
 						"name": "rawData",
+						"title": "Raw Data",
 						"type": "`$OBJECT`",
 					},
 					map[string]any{
 						"name": "relations",
+						"title": "Relations",
 						"type": "`$ARRAY`",
 					},
 					map[string]any{
 						"name": "set",
+						"title": "Set",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "source",
+						"title": "Source",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "spec",
-						"short": "Kind-specific fields.",
+						"title": "Spec",
 						"type": "`$OBJECT`",
+						"short": "Kind-specific fields.",
 					},
 					map[string]any{
-						"format": "date-time",
 						"name": "updatedAt",
+						"title": "Updated At",
 						"type": "`$STRING`",
+						"format": "date-time",
 					},
 					map[string]any{
 						"name": "updatedBy",
+						"title": "Updated By",
 						"type": "`$STRING`",
 					},
 				},
@@ -232,7 +244,6 @@ func MakeConfig() map[string]any {
 						"name": "create",
 						"points": []any{
 							map[string]any{
-								"args": map[string]any{},
 								"kind": "http",
 								"method": "POST",
 								"orig": "/api/catalog/roadie-entities/entities",
@@ -250,17 +261,19 @@ func MakeConfig() map[string]any {
 										"lit": "entities",
 									},
 								},
-								"select": map[string]any{},
-								"transform": map[string]any{
-									"req": "`reqdata`",
-									"res": "`body`",
-								},
 								"parts": []any{
 									"api",
 									"catalog",
 									"roadie-entities",
 									"entities",
 								},
+								"rename": map[string]any{},
+								"transform": map[string]any{
+									"req": "`reqdata`",
+									"res": "`body`",
+								},
+								"args": map[string]any{},
+								"select": map[string]any{},
 							},
 						},
 					},
@@ -269,17 +282,6 @@ func MakeConfig() map[string]any {
 						"name": "list",
 						"points": []any{
 							map[string]any{
-								"args": map[string]any{
-									"query": []any{
-										map[string]any{
-											"kind": "query",
-											"name": "set",
-											"orig": "set",
-											"reqd": true,
-											"type": "`$STRING`",
-										},
-									},
-								},
 								"kind": "http",
 								"method": "GET",
 								"orig": "/api/catalog/roadie-entities/entities",
@@ -297,24 +299,35 @@ func MakeConfig() map[string]any {
 										"lit": "entities",
 									},
 								},
-								"select": map[string]any{
-									"exist": []any{
-										"set",
-									},
-								},
-								"transform": map[string]any{
-									"req": "`reqdata`",
-									"res": "`body`",
-								},
 								"parts": []any{
 									"api",
 									"catalog",
 									"roadie-entities",
 									"entities",
 								},
+								"rename": map[string]any{},
+								"transform": map[string]any{
+									"req": "`reqdata`",
+									"res": "`body`",
+								},
+								"args": map[string]any{
+									"query": []any{
+										map[string]any{
+											"name": "set",
+											"orig": "set",
+											"type": "`$STRING`",
+											"kind": "query",
+											"reqd": true,
+										},
+									},
+								},
+								"select": map[string]any{
+									"exist": []any{
+										"set",
+									},
+								},
 							},
 							map[string]any{
-								"args": map[string]any{},
 								"kind": "http",
 								"method": "GET",
 								"orig": "/api/catalog/entities",
@@ -329,16 +342,18 @@ func MakeConfig() map[string]any {
 										"lit": "entities",
 									},
 								},
-								"select": map[string]any{},
-								"transform": map[string]any{
-									"req": "`reqdata`",
-									"res": "`body`",
-								},
 								"parts": []any{
 									"api",
 									"catalog",
 									"entities",
 								},
+								"rename": map[string]any{},
+								"transform": map[string]any{
+									"req": "`reqdata`",
+									"res": "`body`",
+								},
+								"args": map[string]any{},
+								"select": map[string]any{},
 							},
 						},
 					},
@@ -347,25 +362,9 @@ func MakeConfig() map[string]any {
 						"name": "load",
 						"points": []any{
 							map[string]any{
-								"args": map[string]any{
-									"params": []any{
-										map[string]any{
-											"kind": "param",
-											"name": "id",
-											"orig": "entity_id",
-											"reqd": true,
-											"type": "`$STRING`",
-										},
-									},
-								},
 								"kind": "http",
 								"method": "GET",
 								"orig": "/api/catalog/roadie-entities/entities/{entityId}",
-								"rename": map[string]any{
-									"param": map[string]any{
-										"entityId": "id",
-									},
-								},
 								"segments": []any{
 									map[string]any{
 										"lit": "api",
@@ -383,21 +382,37 @@ func MakeConfig() map[string]any {
 										"var": "id",
 									},
 								},
-								"select": map[string]any{
-									"exist": []any{
-										"id",
-									},
-								},
-								"transform": map[string]any{
-									"req": "`reqdata`",
-									"res": "`body`",
-								},
 								"parts": []any{
 									"api",
 									"catalog",
 									"roadie-entities",
 									"entities",
 									"{id}",
+								},
+								"rename": map[string]any{
+									"param": map[string]any{
+										"entityId": "id",
+									},
+								},
+								"transform": map[string]any{
+									"req": "`reqdata`",
+									"res": "`body`",
+								},
+								"args": map[string]any{
+									"params": []any{
+										map[string]any{
+											"name": "id",
+											"orig": "entity_id",
+											"type": "`$STRING`",
+											"kind": "param",
+											"reqd": true,
+										},
+									},
+								},
+								"select": map[string]any{
+									"exist": []any{
+										"id",
+									},
 								},
 							},
 						},
@@ -407,25 +422,9 @@ func MakeConfig() map[string]any {
 						"name": "remove",
 						"points": []any{
 							map[string]any{
-								"args": map[string]any{
-									"params": []any{
-										map[string]any{
-											"kind": "param",
-											"name": "id",
-											"orig": "entity_id",
-											"reqd": true,
-											"type": "`$STRING`",
-										},
-									},
-								},
 								"kind": "http",
 								"method": "DELETE",
 								"orig": "/api/catalog/roadie-entities/entities/{entityId}",
-								"rename": map[string]any{
-									"param": map[string]any{
-										"entityId": "id",
-									},
-								},
 								"segments": []any{
 									map[string]any{
 										"lit": "api",
@@ -443,21 +442,37 @@ func MakeConfig() map[string]any {
 										"var": "id",
 									},
 								},
-								"select": map[string]any{
-									"exist": []any{
-										"id",
-									},
-								},
-								"transform": map[string]any{
-									"req": "`reqdata`",
-									"res": "`body`",
-								},
 								"parts": []any{
 									"api",
 									"catalog",
 									"roadie-entities",
 									"entities",
 									"{id}",
+								},
+								"rename": map[string]any{
+									"param": map[string]any{
+										"entityId": "id",
+									},
+								},
+								"transform": map[string]any{
+									"req": "`reqdata`",
+									"res": "`body`",
+								},
+								"args": map[string]any{
+									"params": []any{
+										map[string]any{
+											"name": "id",
+											"orig": "entity_id",
+											"type": "`$STRING`",
+											"kind": "param",
+											"reqd": true,
+										},
+									},
+								},
+								"select": map[string]any{
+									"exist": []any{
+										"id",
+									},
 								},
 							},
 						},
@@ -471,6 +486,7 @@ func MakeConfig() map[string]any {
 				"fields": []any{
 					map[string]any{
 						"name": "name",
+						"title": "Name",
 						"type": "`$STRING`",
 					},
 				},
@@ -481,7 +497,6 @@ func MakeConfig() map[string]any {
 						"name": "list",
 						"points": []any{
 							map[string]any{
-								"args": map[string]any{},
 								"kind": "http",
 								"method": "GET",
 								"orig": "/api/catalog/roadie-entities/sets",
@@ -499,17 +514,19 @@ func MakeConfig() map[string]any {
 										"lit": "sets",
 									},
 								},
-								"select": map[string]any{},
-								"transform": map[string]any{
-									"req": "`reqdata`",
-									"res": "`body`",
-								},
 								"parts": []any{
 									"api",
 									"catalog",
 									"roadie-entities",
 									"sets",
 								},
+								"rename": map[string]any{},
+								"transform": map[string]any{
+									"req": "`reqdata`",
+									"res": "`body`",
+								},
+								"args": map[string]any{},
+								"select": map[string]any{},
 							},
 						},
 					},
@@ -522,6 +539,8 @@ func MakeConfig() map[string]any {
 				"fields": []any{
 					map[string]any{
 						"name": "items",
+						"title": "Items",
+						"type": "`$ARRAY`",
 						"op": map[string]any{
 							"update": map[string]any{
 								"req": true,
@@ -529,10 +548,10 @@ func MakeConfig() map[string]any {
 							},
 						},
 						"short": "The full set of entities.",
-						"type": "`$ARRAY`",
 					},
 					map[string]any{
 						"name": "set",
+						"title": "Set",
 						"type": "`$STRING`",
 					},
 				},
@@ -543,25 +562,9 @@ func MakeConfig() map[string]any {
 						"name": "update",
 						"points": []any{
 							map[string]any{
-								"args": map[string]any{
-									"params": []any{
-										map[string]any{
-											"kind": "param",
-											"name": "set_id",
-											"orig": "set_id",
-											"reqd": true,
-											"type": "`$STRING`",
-										},
-									},
-								},
 								"kind": "http",
 								"method": "PUT",
 								"orig": "/api/catalog/roadie-entities/sets/{setId}",
-								"rename": map[string]any{
-									"param": map[string]any{
-										"setId": "set_id",
-									},
-								},
 								"segments": []any{
 									map[string]any{
 										"lit": "api",
@@ -579,15 +582,6 @@ func MakeConfig() map[string]any {
 										"var": "set_id",
 									},
 								},
-								"select": map[string]any{
-									"exist": []any{
-										"set_id",
-									},
-								},
-								"transform": map[string]any{
-									"req": "`reqdata`",
-									"res": "`body`",
-								},
 								"parts": []any{
 									"api",
 									"catalog",
@@ -595,16 +589,37 @@ func MakeConfig() map[string]any {
 									"sets",
 									"{set_id}",
 								},
+								"rename": map[string]any{
+									"param": map[string]any{
+										"setId": "set_id",
+									},
+								},
+								"transform": map[string]any{
+									"req": "`reqdata`",
+									"res": "`body`",
+								},
+								"args": map[string]any{
+									"params": []any{
+										map[string]any{
+											"name": "set_id",
+											"orig": "set_id",
+											"type": "`$STRING`",
+											"kind": "param",
+											"reqd": true,
+										},
+									},
+								},
+								"select": map[string]any{
+									"exist": []any{
+										"set_id",
+									},
+								},
 							},
 						},
 					},
 				},
 				"relations": map[string]any{
-					"ancestors": []any{
-						[]any{
-							"set",
-						},
-					},
+					"ancestors": []any{},
 				},
 			},
 		},
