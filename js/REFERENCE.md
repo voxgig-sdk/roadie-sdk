@@ -61,18 +61,6 @@ Create a new `Entity` entity instance.
 
 **Returns:** `EntityEntity` instance.
 
-#### `EntitySet(data?: object)`
-
-Create a new `EntitySet` entity instance.
-
-**Parameters:**
-
-| Name | Type | Description |
-| --- | --- | --- |
-| `data` | `object` | Initial entity data. |
-
-**Returns:** `EntitySetEntity` instance.
-
 #### `EntitySetPush(data?: object)`
 
 Create a new `EntitySetPush` entity instance.
@@ -112,8 +100,10 @@ Make a direct HTTP request to any API endpoint.
 | `fetchargs.headers` | `object` | Request headers (merged with defaults). |
 | `fetchargs.body` | `any` | Request body (objects are JSON-serialized). |
 | `fetchargs.ctrl` | `object` | Control options (e.g. `{ explain: true }`). |
+| `fetchargs.ctrl.signal` | `AbortSignal` | Aborts the request in flight: `ok` is then `false` and `err.code` is `request_aborted`. |
 
-**Returns:** `Promise<{ ok, status, headers, data } | Error>`
+**Returns:** `Promise<{ ok, status, headers, data }>`. On a failure
+`ok` is `false` and `err` holds the error.
 
 #### `prepare(fetchargs?: object)`
 
@@ -127,6 +117,15 @@ same parameters as `direct()`.
 Alias for `RoadieSDK.test()`.
 
 **Returns:** `RoadieSDK` instance in test mode.
+
+#### Cancelling a call
+
+Every entity operation takes an optional `ctrl` object after its match or
+data, and an `AbortSignal` in `ctrl.signal` cancels the request in flight.
+The operation then rejects with an error whose `code` is
+`request_aborted` and whose `cause` is the signal's reason. A request
+whose signal has already aborted is not sent. `stream()` takes the signal
+as `callopts.signal`, and ends when it aborts.
 
 
 ---
@@ -158,7 +157,7 @@ const entity = client.Entity()
 
 #### `create(data: object, ctrl?: object)`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Resolves to the created entity.
 
 ```ts
 const result = await client.Entity().create({
@@ -171,7 +170,7 @@ const result = await client.Entity().create({
 
 #### `list(match: object, ctrl?: object)`
 
-List entities matching the given criteria. Returns an array.
+List entities matching the given criteria. Resolves to an array of entities, one per record.
 
 ```ts
 const results = await client.Entity().list()
@@ -179,7 +178,7 @@ const results = await client.Entity().list()
 
 #### `load(match: object, ctrl?: object)`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Resolves to the entity, whose record `data()` reads.
 
 ```ts
 const result = await client.Entity().load({ id: 'entity_id' })
@@ -187,7 +186,7 @@ const result = await client.Entity().load({ id: 'entity_id' })
 
 #### `remove(match: object, ctrl?: object)`
 
-Remove the entity matching the given criteria.
+Remove the entity matching the given criteria. Resolves to the entity, marked as deleted.
 
 ```ts
 const result = await client.Entity().remove({ id: 'entity_id' })
@@ -221,56 +220,6 @@ Return a copy of the entity options.
 
 ---
 
-## EntitySetEntity
-
-```ts
-const entity_set = client.EntitySet()
-```
-
-### Fields
-
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `name` | `string` | No |  |
-
-### Operations
-
-#### `list(match: object, ctrl?: object)`
-
-List entities matching the given criteria. Returns an array.
-
-```ts
-const results = await client.EntitySet().list()
-```
-
-### Common Methods
-
-#### `data(data?: object)`
-
-Get or set the entity data. When called with data, sets the entity's
-internal data and returns the current data. When called without
-arguments, returns a copy of the current data.
-
-#### `match(match?: object)`
-
-Get or set the entity match criteria. Works the same as `data()`.
-
-#### `make()`
-
-Create a new `EntitySetEntity` instance with the same client and
-options.
-
-#### `client()`
-
-Return the parent `RoadieSDK` instance.
-
-#### `entopts()`
-
-Return a copy of the entity options.
-
-
----
-
 ## EntitySetPushEntity
 
 ```ts
@@ -282,20 +231,30 @@ const entity_set_push = client.EntitySetPush()
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `items` | `Array` | No | The full set of entities. |
+| `name` | `string` | No |  |
 | `set` | `string` | No |  |
 
 ### Field Usage by Operation
 
-| Field | update |
-| --- | --- |
-| `items` | Yes |
-| `set` | - |
+| Field | list | update |
+| --- | --- | --- |
+| `items` | - | Yes |
+| `name` | - | - |
+| `set` | - | - |
 
 ### Operations
 
+#### `list(match: object, ctrl?: object)`
+
+List entities matching the given criteria. Resolves to an array of entities, one per record.
+
+```ts
+const results = await client.EntitySetPush().list()
+```
+
 #### `update(data: object, ctrl?: object)`
 
-Update an existing entity. The data must include the entity `id`.
+Update an existing entity. The data must include the entity `id`. Resolves to the updated entity.
 
 ```ts
 const result = await client.EntitySetPush().update({
@@ -622,6 +581,7 @@ Timeout.
 | Option | Type |
 |---|---|
 | `clearTimer` | function |
+| `now` | function |
 | `setTimer` | function |
 
 These take no default: the feature behaves one way when you supply them and

@@ -12,13 +12,13 @@ Learn more about Voxgig SDKs at [voxgig.com/sdk](https://voxgig.com/sdk/).
 
 > TypeScript, Python, PHP, Golang, Lua, JavaScript SDKs, a CLI with an interactive REPL, and an MCP server for AI agents — all generated from one OpenAPI spec by [@voxgig/sdkgen](https://github.com/voxgig/sdkgen).
 
-> **Features:** `undefined`, `undefined`, `undefined`, `undefined`, `undefined`, `undefined`, `undefined`, `undefined` — opt-in,
+> **Features:** `debug`, `idempotency`, `metrics`, `paging`, `ratelimit`, `retry`, `test`, `timeout` — opt-in,
 > inactive until switched on, and configured per client. See the Features
 > section of any SDK README below for what each one does.
 
 ## Entities, not endpoints
 
-This SDK exposes the API as a small set of **semantic entities** — Entity, EntitySet and EntitySetPush — that you
+This SDK exposes the API as a small set of **semantic entities** — Entity and EntitySetPush — that you
 call directly, instead of assembling URL paths and query strings. Entities are
 **Capitalised** to mark them as the primary surface, each with the operations they
 support (`list`, `load`, `create`, `update`, `remove`):
@@ -50,9 +50,8 @@ const client = RoadieSDK.test({
   },
 })
 const entitys = await client.Entity().list()
-// entitys is an array of Entity entities, populated with mock data
-// — call entitys[0].data() for the record itself
-console.log(entitys)
+// entitys is an array of Entity entities, one per mock record
+console.log(entitys.map((entity) => entity.data()))
 ```
 
 ### Python
@@ -60,7 +59,7 @@ console.log(entitys)
 ```python
 client = RoadieSDK.test()
 entitys = client.Entity().list()
-print(entitys)
+print([item.data_get() for item in entitys])
 ```
 
 ### PHP
@@ -94,23 +93,22 @@ local results, err = client:Entity():list()
 ```js
 const client = RoadieSDK.test()
 const entitys = await client.Entity().list()
-// entitys is an array of entities, populated with mock data
-// — call entitys[0].data() for the record itself
-console.log(entitys)
+// entitys is an array of Entity entities, one per mock record
+console.log(entitys.map((entity) => entity.data()))
 ```
 
 ## Packages
 
 | Language | Package | Install |
 | --- | --- | --- |
-| TypeScript | `@voxgig-sdk/roadie-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/roadie-sdk/tags) |
-| Python | `voxgig-sdk-roadie-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/roadie-sdk/tags) |
-| PHP | `voxgig-sdk/roadie-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/roadie-sdk/tags) |
+| TypeScript | `@voxgig-sdk/roadie-sdk` | publish pending — [install from source](ts/README.md#install) |
+| Python | `voxgig-sdk-roadie-sdk` | publish pending — [install from source](py/README.md#install) |
+| PHP | `voxgig-sdk/roadie-sdk` | publish pending — [install from source](php/README.md#install) |
 | Golang | `github.com/voxgig-sdk/roadie-sdk/go` | `go get github.com/voxgig-sdk/roadie-sdk/go@latest` |
-| Lua | `voxgig-sdk-roadie-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/roadie-sdk/tags) |
-| JavaScript | `@voxgig-sdk/roadie-sdk-js` | publish pending — [install from git tag](https://github.com/voxgig-sdk/roadie-sdk/tags) |
-| Go CLI | `github.com/voxgig-sdk/roadie-sdk/go-cli` | `go install github.com/voxgig-sdk/roadie-sdk/go-cli/cmd/roadie@latest` |
-| Go MCP server | `github.com/voxgig-sdk/roadie-sdk/go-mcp` | `go get github.com/voxgig-sdk/roadie-sdk/go-mcp@latest` |
+| Lua | `voxgig-sdk-roadie-sdk` | publish pending — [install from source](lua/README.md#install) |
+| JavaScript | `@voxgig-sdk/roadie-sdk-js` | publish pending — [install from source](js/README.md#install) |
+| Go CLI | `github.com/voxgig-sdk/roadie-sdk/go-cli` | build from source — [go-cli/README.md](go-cli/README.md) |
+| Go MCP server | `github.com/voxgig-sdk/roadie-sdk/go-mcp` | build from source — [go-mcp/README.md](go-mcp/README.md) |
 
 ## Quickstart
 
@@ -123,10 +121,10 @@ const client = new RoadieSDK({
   apikey: process.env.ROADIE_APIKEY,
 })
 
-// List all entitys (returns EntityEntity[] — .data() for the record)
+// List all entitys (returns EntityEntity[], one entity per record)
 const entitys = await client.Entity().list()
 for (const entity of entitys) {
-  console.log(entity)
+  console.log(entity.data())
 }
 ```
 
@@ -142,9 +140,10 @@ See the [TypeScript README](ts/README.md) for the full guide.
 
 ## Use it from an AI agent (MCP)
 
-The generated MCP server exposes every operation in this SDK as an
-[MCP](https://modelcontextprotocol.io) tool that Claude, Cursor or Cline
-can call directly. Build and register it:
+The generated MCP server exposes this SDK's list and load operations as
+[MCP](https://modelcontextprotocol.io) tools that Claude, Cursor or Cline
+can call directly. It only reads: create, update, patch and remove become tools when the SDK's model sets
+`main: kit: target: 'go-mcp': tool: write: true`. Build and register it:
 
 ```bash
 cd go-mcp && go build -o roadie-mcp .
@@ -164,13 +163,12 @@ Then add it to your agent's MCP config (Claude Desktop, Cursor, etc.):
 
 ## Entities
 
-The API exposes 3 entities:
+The API exposes 2 entities:
 
 | Entity | Description | API path |
 | --- | --- | --- |
 | **Entity** | The Entity entity (create, list, load, remove). | `/api/catalog/roadie-entities/entities` |
-| **EntitySet** | The EntitySet entity (list). | `/api/catalog/roadie-entities/sets` |
-| **EntitySetPush** | The EntitySetPush entity (update). | `/api/catalog/roadie-entities/sets/{setId}` |
+| **EntitySetPush** | The EntitySetPush entity (list, update). | `/api/catalog/roadie-entities/sets` |
 
 The operations available across these entities are **load**, **list**, **create**, **update**, **remove** — see each entity's
 own list above for exactly which it supports.
@@ -187,14 +185,14 @@ client = RoadieSDK({
     "apikey": os.environ.get("ROADIE_APIKEY"),
 })
 
-# List all entitys (returns a list, raises on error)
+# List all entitys (a list of entities, one per record; raises on error)
 entitys = client.Entity().list()
 for entity in entitys:
-    print(entity)
+    print(entity.data_get())
 
-# Load a specific entity (returns the record, raises on error)
+# Load a specific entity (returns the entity, raises on error)
 entity = client.Entity().load({"id": "example_id"})
-print(entity)
+print(entity.data_get())
 ```
 
 ### PHP
@@ -207,11 +205,11 @@ $client = new RoadieSDK([
     "apikey" => getenv("ROADIE_APIKEY"),
 ]);
 
-// List all entitys (returns an array; throws on error)
+// List all entitys (an array of entities, one per record; throws on error)
 $entitys = $client->Entity()->list();
 print_r(array_map(fn($item) => $item->data_get(), $entitys));
 
-// Load a specific entity (returns the ENTITY; call data_get() for the record; throws on error)
+// Load a specific entity (returns the entity; data_get() reads its record; throws on error)
 $entity = $client->Entity()->load(["id" => "example_id"]);
 print_r($entity->data_get());
 ```
@@ -225,30 +223,37 @@ client := sdk.NewRoadieSDK(map[string]any{
     "apikey": os.Getenv("ROADIE_APIKEY"),
 })
 
-// List all entitys
+// List all entitys (one entity per record; err is non-nil on failure)
 entitys, err := client.Entity(nil).List(nil, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(entitys)
+for _, entity := range entitys.([]any) {
+    fmt.Println(entity.(sdk.Entity).Data())
+}
 ```
 
 ### Lua
 
 ```lua
 local sdk = require("roadie_sdk")
+local json = require("dkjson")
 
 local client = sdk.new({
   apikey = os.getenv("ROADIE_APIKEY"),
 })
 
--- List all entitys
+-- List all entitys (an array of entities, one per record; err on failure)
 local entitys, err = client:Entity():list()
-print(entitys)
+if err then error(err) end
+for _, entity in ipairs(entitys) do
+  print(json.encode(entity:data_get()))
+end
 
--- Load a specific entity
+-- Load a specific entity (returns the entity; err on failure)
 local entity, err = client:Entity():load({ id = "example_id" })
-print(entity)
+if err then error(err) end
+print(json.encode(entity:data_get()))
 ```
 
 ### JavaScript
@@ -260,10 +265,10 @@ const client = new RoadieSDK({
   apikey: process.env.ROADIE_APIKEY,
 })
 
-// List all entitys (returns an array)
+// List all entitys (an array of entities, one per record)
 const entitys = await client.Entity().list()
 for (const entity of entitys) {
-  console.log(entity)
+  console.log(entity.data())
 }
 ```
 
@@ -290,10 +295,9 @@ const result = await client.direct({
   method: 'GET',
   params: { id: 'example' },
 })
-if (result instanceof Error) {
-  throw result
+if (result.ok) {
+  console.log(result.data)
 }
-console.log(result.data)
 ```
 
 **Python:**
@@ -343,10 +347,9 @@ const result = await client.direct({
   method: 'GET',
   params: { id: 'example' },
 })
-if (result instanceof Error) {
-  throw result
+if (result.ok) {
+  console.log(result.data)
 }
-console.log(result.data)
 ```
 
 ## Advanced
@@ -395,10 +398,12 @@ customizable without forking any upstream tool:
 - **Templates** (`.sdk/tm/`) and **components** (`.sdk/src/cmp/`) are
   the two layers of generation, copied into this repo: templates are the
   literal per-language source, components generate the API-shaped parts.
-- **Regeneration merges.** By default, newly generated content is
-  three-way merged into existing files, so generator updates and local
-  edits usually converge without manual conflict handling. A project can
-  opt for plain overwrite instead.
+- **Regeneration overwrites.** Each run rewrites every generated file from
+  the model, the templates and the components, so an edit made to
+  generated output is lost. Say what this project needs in its own model
+  (`.sdk/model/sdk.aontu`), or extend a target with a component of its
+  own in `.sdk/src/cmp/<target>/`, registered with `registerComponent`,
+  which `voxgig-sdkgen doctor` reports as an addition rather than drift.
 - **Custom features and entire custom targets** arrive through sdkgen
   packages (`voxgig-sdkgen package add`), on the same rails as the
   bundled languages, and `voxgig-sdkgen doctor` reports any drift from

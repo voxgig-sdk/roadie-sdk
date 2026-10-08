@@ -14,9 +14,16 @@ predictable and low-friction for both humans and AI agents.
 
 
 ## Install
-```js
-npm install roadie
+This package is not yet published to npm. Install it from the GitHub
+release tag (`js/vX.Y.Z`, see [Tags](https://github.com/voxgig-sdk/roadie-sdk/tags)), or from a
+clone:
+
+```bash
+git clone https://github.com/voxgig-sdk/roadie-sdk
+npm install ./roadie-sdk/js
 ```
+
+
 ## Tutorial: your first API call
 
 This tutorial walks through creating a client, listing entities, and
@@ -37,7 +44,7 @@ const client = new RoadieSDK({
 
 ```js
 const entity = await client.Entity().load({ id: 'entity_id' })
-console.log(entity)
+console.log(entity.data())
 ```
 
 ### List Entity Records
@@ -45,7 +52,7 @@ console.log(entity)
 ```js
 const entitys = await client.Entity().list()
 for (const entity of entitys) {
-  console.log(entity)
+  console.log(entity.data())
 }
 ```
 
@@ -58,7 +65,7 @@ const created = await client.Entity().create({
   kind: 'example_kind',
   metadata: {},
 })
-console.log(created)
+console.log(created.data())
 ```
 
 ### Remove a Entity
@@ -91,14 +98,15 @@ Entity operations reject on failure, so wrap them in `try` / `catch`:
 ```ts
 try {
   const entitys = await client.Entity().list()
-  console.log(entitys)
+  console.log(entitys.map((item) => item.data()))
 } catch (err) {
   console.error('list failed:', err)
 }
 ```
 
 The low-level `direct()` method does **not** throw — it returns the
-value or an `Error`, so check the result before using it:
+result envelope. Branch on `ok`; on failure `status` holds the HTTP status
+(for error responses) and `err` holds the error:
 
 ```ts
 const result = await client.direct({
@@ -107,8 +115,8 @@ const result = await client.direct({
   params: { id: 'example_id' },
 })
 
-if (result instanceof Error) {
-  throw result
+if (!result.ok) {
+  console.error('request failed:', result.status, result.err)
 }
 ```
 
@@ -126,9 +134,6 @@ const result = await client.direct({
   params: { id: 'example' },
 })
 
-if (result instanceof Error) {
-  throw result
-}
 if (result.ok) {
   console.log(result.status)  // 200
   console.log(result.data)    // response body
@@ -157,10 +162,9 @@ Create a mock client for unit testing — no server required:
 ```js
 const client = RoadieSDK.test()
 
-const entity = await client.Entity().list()
-// entity is the entity, populated with mock response data
-// — call entity.data() for the record itself
-console.log(entity)
+const entitys = await client.Entity().list()
+// entitys is an array of Entity entities, one per mock record
+console.log(entitys.map((entity) => entity.data()))
 ```
 
 You can also use the instance method:
@@ -251,7 +255,6 @@ new RoadieSDK(options?)
 | `prepare(fetchargs?)` | `Promise<FetchDef>` | Build an HTTP request definition without sending it. |
 | `direct(fetchargs?)` | `Promise<DirectResult>` | Build and send an HTTP request. |
 | `Entity(data?)` | `EntityEntity` | Create an Entity entity instance. |
-| `EntitySet(data?)` | `EntitySetEntity` | Create an EntitySet entity instance. |
 | `EntitySetPush(data?)` | `EntitySetPushEntity` | Create an EntitySetPush entity instance. |
 | `tester(testopts?, sdkopts?)` | `RoadieSDK` | Create a test-mode client instance. |
 
@@ -269,11 +272,11 @@ All entities share the same interface.
 
 | Method | Signature | Description |
 | --- | --- | --- |
-| `load` | `load(reqmatch?, ctrl?): Promise<Entity>` | Load a single entity by match criteria. |
-| `list` | `list(reqmatch?, ctrl?): Promise<Entity[]>` | List entities matching the criteria. |
-| `create` | `create(reqdata?, ctrl?): Promise<Entity>` | Create a new entity. |
-| `update` | `update(reqdata?, ctrl?): Promise<Entity>` | Update an existing entity. |
-| `remove` | `remove(reqmatch?, ctrl?): Promise<void>` | Remove an entity. |
+| `load` | `load(reqmatch?, ctrl?): Promise<Entity>` | Load a single entity by match criteria, and return it. |
+| `list` | `list(reqmatch?, ctrl?): Promise<Entity[]>` | List entities matching the criteria, one per record. |
+| `create` | `create(reqdata?, ctrl?): Promise<Entity>` | Create a new entity, and return it. |
+| `update` | `update(reqdata?, ctrl?): Promise<Entity>` | Update an existing entity, and return it. |
+| `remove` | `remove(reqmatch?, ctrl?): Promise<Entity>` | Remove an entity, and return it marked as deleted. |
 | `data` | `data(data?: Partial<Entity>): Entity` | Get or set entity data. |
 | `match` | `match(match?: Partial<Entity>): Partial<Entity>` | Get or set entity match criteria. |
 | `make` | `make(): Entity` | Create a new instance with the same options. |
@@ -282,13 +285,13 @@ All entities share the same interface.
 
 #### Return values
 
-Entity operations resolve to the entity data directly — there is no
-result envelope:
+Entity operations resolve to the entity itself — there is no result
+envelope, and an entity's `data()` reads its record:
 
 - `load`, `create` and `update` resolve to a single entity object.
 - `list` resolves to an **array** of entity objects (iterate it directly;
   there is no `.data` and no `.ok`).
-- `remove` resolves to `undefined`.
+- `remove` resolves to the entity, marked as deleted.
 
 On a failed request these methods **throw**, so wrap calls in
 `try`/`catch` to handle errors. Only `direct()` returns the result
@@ -345,26 +348,17 @@ Operations: create, list, load, remove.
 
 API path: `/api/catalog/roadie-entities/entities`
 
-#### EntitySet
-
-| Field | Description |
-| --- | --- |
-| `name` |  |
-
-Operations: list.
-
-API path: `/api/catalog/roadie-entities/sets`
-
 #### EntitySetPush
 
 | Field | Description |
 | --- | --- |
 | `items` | The full set of entities. |
+| `name` |  |
 | `set` |  |
 
-Operations: update.
+Operations: list, update.
 
-API path: `/api/catalog/roadie-entities/sets/{setId}`
+API path: `/api/catalog/roadie-entities/sets`
 
 
 
@@ -425,29 +419,6 @@ const entity = await client.Entity().create({
 ```
 
 
-### EntitySet
-
-Create an instance: `const entity_set = client.EntitySet()`
-
-#### Operations
-
-| Method | Description |
-| --- | --- |
-| `list(match)` | List entities matching the criteria. |
-
-#### Fields
-
-| Field | Type | Description |
-| --- | --- | --- |
-| `name` | `string` |  |
-
-#### Example: List
-
-```ts
-const entity_sets = await client.EntitySet().list()
-```
-
-
 ### EntitySetPush
 
 Create an instance: `const entity_set_push = client.EntitySetPush()`
@@ -456,6 +427,7 @@ Create an instance: `const entity_set_push = client.EntitySetPush()`
 
 | Method | Description |
 | --- | --- |
+| `list(match)` | List entities matching the criteria. |
 | `update(data)` | Update an existing entity. |
 
 #### Fields
@@ -463,7 +435,14 @@ Create an instance: `const entity_set_push = client.EntitySetPush()`
 | Field | Type | Description |
 | --- | --- | --- |
 | `items` | `Array` | The full set of entities. |
+| `name` | `string` |  |
 | `set` | `string` |  |
+
+#### Example: List
+
+```ts
+const entity_set_pushs = await client.EntitySetPush().list()
+```
 
 ## Features
 

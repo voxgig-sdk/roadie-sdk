@@ -53,7 +53,7 @@
         },
         "edition": {
           "github-pages": {
-            "active": true,
+            "active": false,
             "base": "node_modules/@voxgig/docgen/project/.sdk",
             "brand": {},
             "filter": {
@@ -230,6 +230,13 @@
               "points": [
                 {
                   "a": true,
+                  "bf": [
+                    "apiVersion",
+                    "kind",
+                    "metadata",
+                    "relations",
+                    "spec"
+                  ],
                   "co": {
                     "id": "POST /api/catalog/roadie-entities/entities",
                     "source": "openapi3",
@@ -241,6 +248,10 @@
                   "o": "/api/catalog/roadie-entities/entities",
                   "q": {},
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "api"
@@ -294,6 +305,10 @@
                     ]
                   },
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "api"
@@ -326,6 +341,10 @@
                   "o": "/api/catalog/entities",
                   "q": {},
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "api"
@@ -361,7 +380,7 @@
                         "a": true,
                         "k": "param",
                         "n": "id",
-                        "or": "entity_id",
+                        "or": "entityId",
                         "r": true,
                         "t": "`$STRING`"
                       }
@@ -379,6 +398,10 @@
                     "param": {
                       "entityId": "id"
                     }
+                  },
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
                   },
                   "s": [
                     {
@@ -421,7 +444,7 @@
                         "a": true,
                         "k": "param",
                         "n": "id",
-                        "or": "entity_id",
+                        "or": "entityId",
                         "r": true,
                         "t": "`$STRING`"
                       }
@@ -469,65 +492,6 @@
             "ancestors": []
           }
         },
-        "entity_set": {
-          "active": true,
-          "alias": {
-            "field": {}
-          },
-          "fields": {
-            "name": {
-              "a": true,
-              "h": "Name",
-              "n": "name",
-              "r": false,
-              "t": "`$STRING`"
-            }
-          },
-          "name": "entity_set",
-          "op": {
-            "list": {
-              "input": "data",
-              "name": "list",
-              "points": [
-                {
-                  "a": true,
-                  "co": {
-                    "id": "GET /api/catalog/roadie-entities/sets",
-                    "source": "openapi3",
-                    "version": 2
-                  },
-                  "g": {},
-                  "k": "http",
-                  "m": "GET",
-                  "o": "/api/catalog/roadie-entities/sets",
-                  "q": {},
-                  "r": {},
-                  "s": [
-                    {
-                      "lit": "api"
-                    },
-                    {
-                      "lit": "catalog"
-                    },
-                    {
-                      "lit": "roadie-entities"
-                    },
-                    {
-                      "lit": "sets"
-                    }
-                  ],
-                  "t": {
-                    "req": "`reqdata`",
-                    "res": "`body`"
-                  }
-                }
-              ]
-            }
-          },
-          "relations": {
-            "ancestors": []
-          }
-        },
         "entity_set_push": {
           "active": true,
           "alias": {
@@ -548,6 +512,13 @@
               "sh": "The full set of entities.",
               "t": "`$ARRAY`"
             },
+            "name": {
+              "a": true,
+              "h": "Name",
+              "n": "name",
+              "r": false,
+              "t": "`$STRING`"
+            },
             "set": {
               "a": true,
               "h": "Set",
@@ -558,12 +529,57 @@
           },
           "name": "entity_set_push",
           "op": {
+            "list": {
+              "input": "data",
+              "name": "list",
+              "points": [
+                {
+                  "a": true,
+                  "co": {
+                    "id": "GET /api/catalog/roadie-entities/sets",
+                    "source": "openapi3",
+                    "version": 2
+                  },
+                  "g": {},
+                  "k": "http",
+                  "m": "GET",
+                  "o": "/api/catalog/roadie-entities/sets",
+                  "q": {},
+                  "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
+                  "s": [
+                    {
+                      "lit": "api"
+                    },
+                    {
+                      "lit": "catalog"
+                    },
+                    {
+                      "lit": "roadie-entities"
+                    },
+                    {
+                      "lit": "sets"
+                    }
+                  ],
+                  "t": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            },
             "update": {
               "input": "data",
               "name": "update",
               "points": [
                 {
                   "a": true,
+                  "bf": [
+                    "items"
+                  ],
                   "co": {
                     "id": "PUT /api/catalog/roadie-entities/sets/{setId}",
                     "source": "openapi3",
@@ -575,7 +591,7 @@
                         "a": true,
                         "k": "param",
                         "n": "set_id",
-                        "or": "set_id",
+                        "or": "setId",
                         "r": true,
                         "t": "`$STRING`"
                       }
@@ -593,6 +609,10 @@
                     "param": {
                       "setId": "set_id"
                     }
+                  },
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
                   },
                   "s": [
                     {
@@ -1376,6 +1396,7 @@
             },
             "optspec": {
               "clearTimer": "`$FUNCTION`",
+              "now": "`$FUNCTION`",
               "setTimer": "`$FUNCTION`"
             },
             "strict": false
@@ -1556,12 +1577,12 @@
             }
           ]
         },
-        "BasicEntitySetFlow": {
+        "BasicEntitySetPushFlow": {
           "active": true,
-          "entity": "entity_set",
-          "key$": "BasicEntitySetFlow",
+          "entity": "entity_set_push",
+          "key$": "BasicEntitySetPushFlow",
           "kind": "basic",
-          "name": "BasicEntitySetFlow",
+          "name": "BasicEntitySetPushFlow",
           "param": {},
           "step": [
             {
@@ -1575,21 +1596,11 @@
                 {
                   "apply": "ItemExists",
                   "def": {
-                    "ref": "entity_set_ref01"
+                    "ref": "entity_set_push_ref01"
                   }
                 }
               ]
-            }
-          ]
-        },
-        "BasicEntitySetPushFlow": {
-          "active": true,
-          "entity": "entity_set_push",
-          "key$": "BasicEntitySetPushFlow",
-          "kind": "basic",
-          "name": "BasicEntitySetPushFlow",
-          "param": {},
-          "step": [
+            },
             {
               "a": true,
               "d": {},
@@ -1597,7 +1608,7 @@
                 "ref": "entity_set_push_ref01",
                 "srcdatavar": "entity_set_push_ref01_data",
                 "suffix": "_up0",
-                "textfield": "set"
+                "textfield": "name"
               },
               "m": {},
               "o": "update",
@@ -1637,7 +1648,7 @@
       "optspec": {
         "allow": {
           "method": "GET,PUT,POST,PATCH,DELETE,OPTIONS",
-          "op": "create,update,load,list,remove,command,direct,graphql"
+          "op": "create,update,patch,load,list,remove,command,direct,graphql"
         },
         "apikey": "",
         "auth": {
@@ -1648,7 +1659,12 @@
         },
         "base": "http://localhost:8000",
         "clean": {
-          "keys": "key,token,id"
+          "active": true,
+          "hint": "0",
+          "keys": "key,secret,token,password,passwd,authorization,cookie,credential,signature",
+          "mask": "[redacted]",
+          "min": "4",
+          "values": ""
         },
         "entity": {
           "`$CHILD`": {
@@ -1685,6 +1701,11 @@
         "top": {
           "active": true
         }
+      },
+      "publisher": {
+        "name": "",
+        "security": "",
+        "url": ""
       },
       "repo": {
         "host": "github.com",
@@ -1915,7 +1936,10 @@
             "version": "0.1.1"
           },
           "superseded": [],
-          "title": "Go MCP server"
+          "title": "Go MCP server",
+          "tool": {
+            "write": false
+          }
         },
         "js": {
           "active": true,
@@ -2291,6 +2315,17 @@
           "base": "",
           "strict": true
         }
+      },
+      "text": {
+        "about_md": "",
+        "docs_url": "",
+        "entity_desc": {},
+        "homepage": "",
+        "meta_source": "",
+        "summary": "",
+        "tagline": "",
+        "title": "",
+        "website": ""
       }
     }
   },

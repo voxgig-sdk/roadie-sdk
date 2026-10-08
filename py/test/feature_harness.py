@@ -20,6 +20,7 @@ from roadie_sdk.core.control import RoadieControl
 from roadie_sdk.core.error import RoadieError
 from roadie_sdk.core.result import RoadieResult
 from roadie_sdk.core.spec import RoadieSpec
+from roadie_sdk.utility.clean import clean_util, clean_add_util
 
 
 # True when this SDK was generated with the named feature.
@@ -96,7 +97,7 @@ def recording_server(reply=None):
 def default_method(op):
     if op == "create":
         return "POST"
-    if op == "update":
+    if op == "update" or op == "patch":
         return "PATCH"
     if op == "remove":
         return "DELETE"
@@ -115,6 +116,9 @@ def build_url(spec):
 class _Utility:
     def __init__(self, fetcher):
         self.fetcher = fetcher
+        # The real ones: every feature record leaves through clean.
+        self.clean = clean_util
+        self.clean_add = clean_add_util
 
         def param(ctx, name):
             params = ctx.spec.params if ctx.spec is not None else {}

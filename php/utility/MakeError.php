@@ -31,18 +31,23 @@ class RoadieMakeError
             $err = $ctx->make_error('unknown', 'unknown error');
         }
 
-        $errmsg = ($err instanceof RoadieError) ? $err->msg : (string)$err;
+        $errmsg = ($err instanceof RoadieError) ? $err->msg
+            : (($err instanceof \Throwable) ? $err->getMessage() : (string)$err);
         $msg = "RoadieSDK: {$opname}: {$errmsg}";
-        $msg = ($ctx->utility->clean)($ctx, $msg);
 
         $result->err = null;
         $spec = $ctx->spec;
 
+        $sdk_err = new RoadieError(
+            ($err instanceof RoadieError) ? $err->sdk_code : '', $msg, $ctx);
+        ($ctx->utility->clean)($ctx, $sdk_err);
+
         if ($ctx->ctrl->explain) {
-            $ctx->ctrl->explain['err'] = ['message' => $msg];
+            $ctx->ctrl->explain['err'] = ['message' => $sdk_err->msg];
+            // A failure before done() leaves the record holding the live spec.
+            ($ctx->utility->clean_explain)($ctx);
         }
 
-        $sdk_err = new RoadieError('', $msg, $ctx);
         $sdk_err->result = ($ctx->utility->clean)($ctx, $result);
         $sdk_err->spec = ($ctx->utility->clean)($ctx, $spec);
 
@@ -50,9 +55,6 @@ class RoadieMakeError
         // on `err->status` / `err->notFound()` rather than reaching into
         // `err->result`.
         $sdk_err->status = null === $result->status ? -1 : (int)$result->status;
-        if ($err instanceof RoadieError) {
-            $sdk_err->sdk_code = $err->sdk_code;
-        }
 
         $ctx->ctrl->err = $sdk_err;
 

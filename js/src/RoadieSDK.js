@@ -1,7 +1,6 @@
 // Roadie Js SDK
 
 const { EntityEntity } = require('./entity/EntityEntity')
-const { EntitySetEntity } = require('./entity/EntitySetEntity')
 const { EntitySetPushEntity } = require('./entity/EntitySetPushEntity')
 
 
@@ -9,6 +8,9 @@ const { inspect } = require('node:util')
 
 const { config } = require('./Config')
 const { Utility } = require('./utility/Utility')
+const { unreadableBody } = require('./utility/ResultBodyUtility')
+const { abortError } = require('./utility/MakeRequestUtility')
+const { allowed } = require('./utility/PrepareMethodUtility')
 const { RoadieEntityBase } = require('./RoadieEntityBase')
 
 
@@ -38,6 +40,15 @@ class RoadieSDK {
     })
 
     this._options = this._utility.makeOptions(this._rootctx)
+
+    // Each can hold a credential; feature state a resolved or bought one.
+    // toJSON and inspect already leave them out; a spread or a structured
+    // logger walking own properties must too.
+    for (const key of ['_options', '_rootctx', '_features']) {
+      Object.defineProperty(this, key, {
+        value: this[key], enumerable: false, writable: true, configurable: true
+      })
+    }
 
     const struct = this._utility.struct
     const getpath = struct.getpath
@@ -121,6 +132,12 @@ class RoadieSDK {
     }, this._rootctx)
 
     const options = this._options
+    const method = String(fetchargs.method || 'GET').toUpperCase()
+
+    if (!allowed(options.allow.method, method)) {
+      return ctx.error('spec_method_allow', 'Method "' + method +
+        '" not allowed by SDK option allow.method value: "' + options.allow.method + '"')
+    }
 
     // Build spec directly from SDK options + user-provided fetch args.
     const spec = {
@@ -128,7 +145,7 @@ class RoadieSDK {
       prefix: options.prefix,
       suffix: options.suffix,
       path: fetchargs.path || '',
-      method: fetchargs.method || 'GET',
+      method,
       params: fetchargs.params || {},
       query: fetchargs.query || {},
       headers: prepareHeaders(ctx),
@@ -162,7 +179,7 @@ class RoadieSDK {
   // Blocking it means denying BOTH the 'direct' and 'graphql' tokens, since
   // either one reaches the same endpoint.
   async direct(fetchargs) {
-    if (!this._options.allow.op.includes('direct')) {
+    if (!allowed(this._options.allow.op, 'direct')) {
       return {
         ok: false,
         err: new Error('RoadieSDK: direct: operation not allowed by' +
@@ -186,7 +203,7 @@ class RoadieSDK {
 
     const fetchdef = await this.prepare(fetchargs)
     if (fetchdef instanceof Error) {
-      return fetchdef
+      return { ok: false, err: utility.clean(this._rootctx, fetchdef) }
     }
 
     let ctx = makeContext({
@@ -195,13 +212,17 @@ class RoadieSDK {
     }, this._rootctx)
 
     try {
+      if (true === fetchdef.signal?.aborted) {
+        throw fetchdef.signal.reason
+      }
+
       const fetched = await fetcher(ctx, fetchdef.url, fetchdef)
 
       if (null == fetched) {
         return { ok: false, err: ctx.error('direct_no_response', 'response: undefined') }
       }
       else if (fetched instanceof Error) {
-        return { ok: false, err: fetched }
+        return { ok: false, err: utility.clean(ctx, abortError(ctx, fetched)) }
       }
 
       const status = fetched.status
@@ -216,26 +237,41 @@ class RoadieSDK {
       const noBody = 204 === status || 304 === status || '0' === String(contentLength)
 
       let json = undefined
+      let err = undefined
       if (!noBody) {
+        let text = undefined
         try {
-          json = 'function' === typeof fetched.json ? await fetched.json() : fetched.json
+          const raw = fetched
+          if ('function' === typeof raw.text) {
+            text = await raw.text()
+            json = '' === text.trim() ? undefined : JSON.parse(text)
+          }
+          else {
+            json = 'function' === typeof fetched.json ? await fetched.json() : fetched.json
+          }
         }
         catch (parseErr) {
-          // Body wasn't valid JSON — surface the raw response rather than
-          // throwing. data stays undefined; callers can inspect status/headers.
-          json = undefined
+          if ('SyntaxError' !== parseErr?.name) {
+            throw parseErr
+          }
+          err = unreadableBody(ctx, {
+            status, headers, text: text ?? parseErr.text, sent: fetchdef.headers,
+            failed: 200 <= status && status < 300 ? undefined :
+              ctx.error('request_status', 'request: ' + status + ': ' + fetched.statusText),
+          })
         }
       }
 
       return {
-        ok: status >= 200 && status < 300,
+        ok: null == err && status >= 200 && status < 300,
         status,
         headers: fetched.headers,
         data: json,
+        ...(null == err ? {} : { err: utility.clean(ctx, err) }),
       }
     }
     catch (err) {
-      return { ok: false, err }
+      return { ok: false, err: utility.clean(ctx, abortError(ctx, err)) }
     }
   }
 
@@ -256,7 +292,7 @@ class RoadieSDK {
   async graphql(query, variables, ctrl) {
     const options = this._options
 
-    if (!options.allow.op.includes('graphql')) {
+    if (!allowed(options.allow.op, 'graphql')) {
       return {
         ok: false,
         err: new Error('RoadieSDK: graphql: operation not allowed by' +
@@ -270,10 +306,6 @@ class RoadieSDK {
       body: { query, variables: variables || {} },
       ctrl,
     })
-
-    if (res instanceof Error) {
-      return res
-    }
 
     // Errors are read BEFORE any status check: a GraphQL parse or validation
     // failure comes back as HTTP 400 carrying the standard { errors: [...] }
@@ -301,15 +333,6 @@ class RoadieSDK {
   Entity(entopts) {
     const self = this
     return new EntityEntity(self, entopts)
-  }
-
-
-  // Entity access: `client.EntitySet().list()` / `client.EntitySet().load({ id })`.
-  // The argument is the entity OPTIONS object (passed to the entity
-  // constructor as entopts), not initial entity data.
-  EntitySet(entopts) {
-    const self = this
-    return new EntitySetEntity(self, entopts)
   }
 
 

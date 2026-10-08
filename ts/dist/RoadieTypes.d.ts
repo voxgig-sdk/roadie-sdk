@@ -46,18 +46,19 @@ export interface EntityCreateData {
 export interface EntityRemoveMatch {
     id: string;
 }
-export interface EntitySet {
-    name?: string;
-}
-export interface EntitySetListMatch {
-    name?: string;
-}
 export interface EntitySetPush {
     items?: any[];
+    name?: string;
+    set?: string;
+}
+export interface EntitySetPushListMatch {
+    items?: any[];
+    name?: string;
     set?: string;
 }
 export interface EntitySetPushUpdateData {
     set_id: string;
     items?: any[];
+    name?: string;
     set?: string;
 }

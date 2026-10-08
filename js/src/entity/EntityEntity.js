@@ -24,7 +24,7 @@ class EntityEntity extends RoadieEntityBase {
   /**
    * @param {EntityLoadMatch} [reqmatch]
    * @param {Object} [ctrl]
-   * @returns {Promise<Entity>}
+   * @returns {Promise<EntityEntity>}
    */
   async load(reqmatch, ctrl) {
 
@@ -129,9 +129,15 @@ class EntityEntity extends RoadieEntityBase {
       return (ctx.result && ctx.result.ok) ? this : out
     }
     catch (err) {
+      // What a hook throws here must not escape the cleaning below.
+      try {
 
-      fres = featureHook(ctx, 'PreUnexpected')
-      if (fres instanceof Promise) { await fres }
+        fres = featureHook(ctx, 'PreUnexpected')
+        if (fres instanceof Promise) { await fres }
+      }
+      catch (hookerr) {
+        err = hookerr
+      }
 
       err = this._unexpected(ctx, err)
 
@@ -149,7 +155,7 @@ class EntityEntity extends RoadieEntityBase {
   /**
    * @param {EntityListMatch} [reqmatch]
    * @param {Object} [ctrl]
-   * @returns {Promise<Entity[]>}
+   * @returns {Promise<EntityEntity[]>}
    */
   async list(reqmatch, ctrl) {
 
@@ -242,9 +248,15 @@ class EntityEntity extends RoadieEntityBase {
       return done(ctx)
     }
     catch (err) {
+      // What a hook throws here must not escape the cleaning below.
+      try {
 
-      fres = featureHook(ctx, 'PreUnexpected')
-      if (fres instanceof Promise) { await fres }
+        fres = featureHook(ctx, 'PreUnexpected')
+        if (fres instanceof Promise) { await fres }
+      }
+      catch (hookerr) {
+        err = hookerr
+      }
 
       err = this._unexpected(ctx, err)
 
@@ -262,7 +274,7 @@ class EntityEntity extends RoadieEntityBase {
   /**
    * @param {EntityCreateData} [reqdata]
    * @param {Object} [ctrl]
-   * @returns {Promise<Entity>}
+   * @returns {Promise<EntityEntity>}
    */
   async create(reqdata, ctrl) {
 
@@ -362,9 +374,15 @@ class EntityEntity extends RoadieEntityBase {
       return (ctx.result && ctx.result.ok) ? this : out
     }
     catch (err) {
+      // What a hook throws here must not escape the cleaning below.
+      try {
 
-      fres = featureHook(ctx, 'PreUnexpected')
-      if (fres instanceof Promise) { await fres }
+        fres = featureHook(ctx, 'PreUnexpected')
+        if (fres instanceof Promise) { await fres }
+      }
+      catch (hookerr) {
+        err = hookerr
+      }
 
       err = this._unexpected(ctx, err)
 
@@ -380,10 +398,11 @@ class EntityEntity extends RoadieEntityBase {
 
 
 
+
   /**
    * @param {EntityRemoveMatch} [reqmatch]
    * @param {Object} [ctrl]
-   * @returns {Promise<Entity>}
+   * @returns {Promise<EntityEntity>}
    */
   async remove(reqmatch, ctrl) {
 
@@ -495,9 +514,15 @@ class EntityEntity extends RoadieEntityBase {
       return out
     }
     catch (err) {
+      // What a hook throws here must not escape the cleaning below.
+      try {
 
-      fres = featureHook(ctx, 'PreUnexpected')
-      if (fres instanceof Promise) { await fres }
+        fres = featureHook(ctx, 'PreUnexpected')
+        if (fres instanceof Promise) { await fres }
+      }
+      catch (hookerr) {
+        err = hookerr
+      }
 
       err = this._unexpected(ctx, err)
 

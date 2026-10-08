@@ -1,5 +1,4 @@
 # Flows
 
 @"./BasicEntityFlow.aontu"
-@"./BasicEntitySetFlow.aontu"
 @"./BasicEntitySetPushFlow.aontu"

@@ -12,9 +12,14 @@ The SDK exposes the API as capitalised, semantic **Entities** — for example `$
 
 ## Install
 This package is not yet published to Packagist. Install it from the
-GitHub release tag (`php/vX.Y.Z`):
+GitHub release tag (`php/vX.Y.Z`, see [Tags](https://github.com/voxgig-sdk/roadie-sdk/tags)), or
+from a clone as a Composer path repository:
 
-- Releases: [https://github.com/voxgig-sdk/roadie-sdk/releases](https://github.com/voxgig-sdk/roadie-sdk/releases)
+```bash
+git clone https://github.com/voxgig-sdk/roadie-sdk
+composer config repositories.roadie-sdk path ./roadie-sdk/php
+composer require voxgig-sdk/roadie-sdk:@dev
+```
 
 
 ## Tutorial: your first API call
@@ -238,7 +243,6 @@ Creates a test-mode client with mock transport. Both arguments may be `null`.
 | `prepare` | `(array $fetchargs): array` | Build an HTTP request definition without sending. |
 | `direct` | `(array $fetchargs): array` | Build and send an HTTP request. |
 | `Entity` | `($data): EntityEntity` | Create an Entity entity instance. |
-| `EntitySet` | `($data): EntitySetEntity` | Create an EntitySet entity instance. |
 | `EntitySetPush` | `($data): EntitySetPushEntity` | Create an EntitySetPush entity instance. |
 
 ### Entity interface
@@ -247,11 +251,11 @@ All entities share the same interface.
 
 | Method | Signature | Description |
 | --- | --- | --- |
-| `load` | `($reqmatch, $ctrl): array` | Load a single entity by match criteria. |
-| `list` | `(?array $reqmatch = null, $ctrl): array` | List entities matching the criteria (call with no argument to list all). |
-| `create` | `($reqdata, $ctrl): array` | Create a new entity. |
-| `update` | `($reqdata, $ctrl): array` | Update an existing entity. |
-| `remove` | `($reqmatch, $ctrl): array` | Remove an entity. |
+| `load` | `($reqmatch, $ctrl): mixed` | Load a single entity by match criteria, and return it. |
+| `list` | `(?array $reqmatch = null, $ctrl): mixed` | List entities matching the criteria (call with no argument to list all), one per record. |
+| `create` | `($reqdata, $ctrl): mixed` | Create a new entity, and return it. |
+| `update` | `($reqdata, $ctrl): mixed` | Update an existing entity, and return it. |
+| `remove` | `($reqmatch, $ctrl): mixed` | Remove an entity, and return it marked as deleted. |
 | `data_get` | `(): array` | Get entity data. |
 | `data_set` | `($data): void` | Set entity data. |
 | `match_get` | `(): array` | Get entity match criteria. |
@@ -261,9 +265,9 @@ All entities share the same interface.
 
 ### Result shape
 
-Entity operations return the ENTITY (call data_get() for the record) (an `array` for single-entity
-ops, a `list` for `list`) and throw on error. Wrap calls in
-`try`/`catch` to handle failures.
+Entity operations return the entity, and `list` an `array` of entities, one
+per record; an entity's `data_get()` reads its record (an `array`). They
+throw on error, so wrap calls in `try`/`catch` to handle failures.
 
 The `direct()` escape hatch never throws — it returns a result `array`
 you branch on via `$result["ok"]`:
@@ -300,26 +304,17 @@ Operations: Create, List, Load, Remove.
 
 API path: `/api/catalog/roadie-entities/entities`
 
-#### EntitySet
-
-| Field | Description |
-| --- | --- |
-| `name` |  |
-
-Operations: List.
-
-API path: `/api/catalog/roadie-entities/sets`
-
 #### EntitySetPush
 
 | Field | Description |
 | --- | --- |
 | `items` | The full set of entities. |
+| `name` |  |
 | `set` |  |
 
-Operations: Update.
+Operations: List, Update.
 
-API path: `/api/catalog/roadie-entities/sets/{setId}`
+API path: `/api/catalog/roadie-entities/sets`
 
 
 
@@ -366,7 +361,7 @@ $entity = $client->Entity()->load(["id" => "entity_id"]);
 #### Example: List
 
 ```php
-// list() returns an array of Entity records (throws on error).
+// list() returns an array of Entity entities, one per record (throws on error).
 $entitys = $client->Entity()->list();
 ```
 
@@ -382,30 +377,6 @@ $entity = $client->Entity()->create([
 ```
 
 
-### EntitySet
-
-Create an instance: `$entity_set = $client->EntitySet();`
-
-#### Operations
-
-| Method | Description |
-| --- | --- |
-| `list(match)` | List entities matching the criteria. |
-
-#### Fields
-
-| Field | Type | Description |
-| --- | --- | --- |
-| `name` | `string` |  |
-
-#### Example: List
-
-```php
-// list() returns an array of EntitySet records (throws on error).
-$entity_sets = $client->EntitySet()->list();
-```
-
-
 ### EntitySetPush
 
 Create an instance: `$entity_set_push = $client->EntitySetPush();`
@@ -414,6 +385,7 @@ Create an instance: `$entity_set_push = $client->EntitySetPush();`
 
 | Method | Description |
 | --- | --- |
+| `list(match)` | List entities matching the criteria. |
 | `update(data)` | Update an existing entity. |
 
 #### Fields
@@ -421,7 +393,15 @@ Create an instance: `$entity_set_push = $client->EntitySetPush();`
 | Field | Type | Description |
 | --- | --- | --- |
 | `items` | `array` | The full set of entities. |
+| `name` | `string` |  |
 | `set` | `string` |  |
+
+#### Example: List
+
+```php
+// list() returns an array of EntitySetPush entities, one per record (throws on error).
+$entity_set_pushs = $client->EntitySetPush()->list();
+```
 
 ## Features
 

@@ -45,10 +45,6 @@ local client = sdk.test()
 
 Create a new `Entity` entity instance. Pass `nil` for no initial data.
 
-#### `EntitySet(data)`
-
-Create a new `EntitySet` entity instance. Pass `nil` for no initial data.
-
 #### `EntitySetPush(data)`
 
 Create a new `EntitySetPush` entity instance. Pass `nil` for no initial data.
@@ -116,7 +112,7 @@ local entity = client:Entity(nil)
 
 #### `create(reqdata, ctrl) -> any, err`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Returns the created entity, or `nil` and an error on failure.
 
 ```lua
 local result, err = client:Entity():create({
@@ -129,7 +125,7 @@ local result, err = client:Entity():create({
 
 #### `list(reqmatch, ctrl) -> any, err`
 
-List entities matching the given criteria. Returns an array.
+List entities matching the given criteria. Returns an array of entities, one per record, or `nil` and an error on failure.
 
 ```lua
 local results, err = client:Entity():list()
@@ -137,7 +133,7 @@ local results, err = client:Entity():list()
 
 #### `load(reqmatch, ctrl) -> any, err`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, or `nil` and an error on failure.
 
 ```lua
 local result, err = client:Entity():load({ id = "entity_id" })
@@ -145,7 +141,7 @@ local result, err = client:Entity():load({ id = "entity_id" })
 
 #### `remove(reqmatch, ctrl) -> any, err`
 
-Remove the entity matching the given criteria.
+Remove the entity matching the given criteria. Returns the entity, marked as deleted, or `nil` and an error on failure.
 
 ```lua
 local result, err = client:Entity():remove({ id = "entity_id" })
@@ -181,58 +177,6 @@ Return the entity name.
 
 ---
 
-## EntitySetEntity
-
-```lua
-local entity_set = client:EntitySet(nil)
-```
-
-### Fields
-
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `name` | `string` | No |  |
-
-### Operations
-
-#### `list(reqmatch, ctrl) -> any, err`
-
-List entities matching the given criteria. Returns an array.
-
-```lua
-local results, err = client:EntitySet():list()
-```
-
-### Common Methods
-
-#### `data_get() -> table`
-
-Get the entity data. Returns a copy of the current data.
-
-#### `data_set(data)`
-
-Set the entity data.
-
-#### `match_get() -> table`
-
-Get the entity match criteria.
-
-#### `match_set(match)`
-
-Set the entity match criteria.
-
-#### `make() -> Entity`
-
-Create a new `EntitySetEntity` instance with the same client and
-options.
-
-#### `get_name() -> string`
-
-Return the entity name.
-
-
----
-
 ## EntitySetPushEntity
 
 ```lua
@@ -244,20 +188,30 @@ local entity_set_push = client:EntitySetPush(nil)
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `items` | `table` | No | The full set of entities. |
+| `name` | `string` | No |  |
 | `set` | `string` | No |  |
 
 ### Field Usage by Operation
 
-| Field | update |
-| --- | --- |
-| `items` | Yes |
-| `set` | - |
+| Field | list | update |
+| --- | --- | --- |
+| `items` | - | Yes |
+| `name` | - | - |
+| `set` | - | - |
 
 ### Operations
 
+#### `list(reqmatch, ctrl) -> any, err`
+
+List entities matching the given criteria. Returns an array of entities, one per record, or `nil` and an error on failure.
+
+```lua
+local results, err = client:EntitySetPush():list()
+```
+
 #### `update(reqdata, ctrl) -> any, err`
 
-Update an existing entity. The data must include the entity `id`.
+Update an existing entity. The data must include the entity `id`. Returns the updated entity, or `nil` and an error on failure.
 
 ```lua
 local result, err = client:EntitySetPush():update({
@@ -586,6 +540,7 @@ Timeout.
 | Option | Type |
 |---|---|
 | `clearTimer` | function |
+| `now` | function |
 | `setTimer` | function |
 
 These take no default: the feature behaves one way when you supply them and

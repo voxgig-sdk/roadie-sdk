@@ -22,7 +22,7 @@ use Voxgig\Struct\Struct;
 // (_retry, _cache, _metrics, ...); allow them explicitly (PHP 8.2+
 // deprecates implicit dynamic properties).
 #[\AllowDynamicProperties]
-class RoadieSDK
+class RoadieSDK implements \JsonSerializable
 {
     public string $mode;
     public array $features;
@@ -117,6 +117,19 @@ class RoadieSDK
         return is_array($out) ? $out : [];
     }
 
+    // The options hold the credential, so the default print and json form
+    // name the client and nothing more; options_map() is the way to read
+    // them back.
+    public function jsonSerialize(): array
+    {
+        return ['name' => 'Roadie'];
+    }
+
+    public function __debugInfo(): array
+    {
+        return $this->jsonSerialize();
+    }
+
     public function get_utility()
     {
         return RoadieUtility::copy($this->_utility);
@@ -143,7 +156,13 @@ class RoadieSDK
         $path = Struct::getprop($fetchargs, "path") ?? "";
         $path = is_string($path) ? $path : "";
         $method_val = Struct::getprop($fetchargs, "method") ?? "GET";
-        $method_val = is_string($method_val) ? $method_val : "GET";
+        $method_val = strtoupper(is_string($method_val) && '' !== $method_val ? $method_val : "GET");
+        $allow_method = Struct::getpath($opts, "allow.method");
+        if (!RoadiePrepareMethod::allowed($allow_method, $method_val)) {
+            return ($utility->make_error)($ctx, $ctx->make_error("spec_method_allow",
+                "Method \"" . $method_val . "\" not allowed by SDK option allow.method value: \"" .
+                (is_string($allow_method) ? $allow_method : "") . "\""));
+        }
         $params = RoadieHelpers::to_map(Struct::getprop($fetchargs, "params")) ?? [];
         $query = RoadieHelpers::to_map(Struct::getprop($fetchargs, "query")) ?? [];
         $headers = ($utility->prepare_headers)($ctx);
@@ -198,8 +217,7 @@ class RoadieSDK
     // Is this raw-access op permitted by the SDK's allow.op option?
     private function op_allowed(string $op): bool
     {
-        $allow_op = Struct::getpath($this->options, "allow.op");
-        return is_string($allow_op) && str_contains($allow_op, $op);
+        return RoadiePrepareMethod::allowed(Struct::getpath($this->options, "allow.op"), $op);
     }
 
     private function op_denied(string $op): array
@@ -242,7 +260,7 @@ class RoadieSDK
         [$fetched, $fetch_err] = ($utility->fetcher)($ctx, $url, $fetchdef);
 
         if ($fetch_err) {
-            return ["ok" => false, "err" => $fetch_err];
+            return ["ok" => false, "err" => ($utility->clean)($ctx, $fetch_err)];
         }
 
         if ($fetched === null) {
@@ -262,6 +280,7 @@ class RoadieSDK
             $no_body = $status === 204 || $status === 304 || (string)$content_length === "0";
 
             $json_data = null;
+            $body_err = null;
             if (!$no_body) {
                 $jf = Struct::getprop($fetched, "json");
                 if (is_callable($jf)) {
@@ -272,14 +291,29 @@ class RoadieSDK
                         $json_data = null;
                     }
                 }
+                if (true === Struct::getprop($fetched, "unreadable")) {
+                    $failed = ($status >= 200 && $status < 300) ? null : $ctx->make_error(
+                        "request_status",
+                        "request: {$status}: " . (string)Struct::getprop($fetched, "statusText"));
+                    $sent = $fetchdef["headers"] ?? [];
+                    if (RoadieFetcher::usesDefault($ctx)) {
+                        $sent = RoadieFetcher::sentHeaders($sent);
+                    }
+                    $body_err = RoadieResultBody::unreadable($ctx, $status, $headers,
+                        Struct::getprop($fetched, "body"), $sent, $failed);
+                }
             }
 
-            return [
-                "ok" => $status >= 200 && $status < 300,
+            $out = [
+                "ok" => null === $body_err && $status >= 200 && $status < 300,
                 "status" => $status,
                 "headers" => Struct::getprop($fetched, "headers"),
                 "data" => $json_data,
             ];
+            if (null !== $body_err) {
+                $out["err"] = ($utility->clean)($ctx, $body_err);
+            }
+            return $out;
         }
 
         return [
@@ -356,24 +390,6 @@ class RoadieSDK
             return $this->_entity;
         }
         return new EntityEntity($this, $data);
-    }
-
-
-    private $_entity_set = null;
-
-    // Canonical facade: $client->EntitySet()->list() / ->load(["id" => ...]).
-    // PHP method names are case-insensitive, so lowercase $client->entity_set()
-    // resolves here too.
-    public function EntitySet($data = null)
-    {
-        require_once __DIR__ . '/entity/entity_set_entity.php';
-        if ($data === null) {
-            if ($this->_entity_set === null) {
-                $this->_entity_set = new EntitySetEntity($this, null);
-            }
-            return $this->_entity_set;
-        }
-        return new EntitySetEntity($this, $data);
     }
 
 

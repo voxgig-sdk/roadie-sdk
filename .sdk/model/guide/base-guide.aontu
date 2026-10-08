@@ -4,7 +4,7 @@
 #   guide.aontu
 
 guide: {
-  metrics: count: entity: 3
+  metrics: count: entity: 2
   metrics: count: path: 5
   metrics: count: method: 7
 
@@ -23,13 +23,10 @@ guide: {
     }
   }
 
-  entity: entity_set: {
+  entity: entity_set_push: {
     path: "/api/catalog/roadie-entities/sets": {
       op: list: method: *GET
     }
-  }
-
-  entity: entity_set_push: {
     path: "/api/catalog/roadie-entities/sets/{setId}": {
       rename: param: "setId": *"set_id"
       op: update: method: *PUT

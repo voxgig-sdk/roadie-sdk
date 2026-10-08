@@ -163,6 +163,7 @@ class RoadieConfig
           ],
           'optspec' => [
             'clearTimer' => '`$FUNCTION`',
+            'now' => '`$FUNCTION`',
             'setTimer' => '`$FUNCTION`',
           ],
           'strict' => false,
@@ -179,7 +180,6 @@ class RoadieConfig
         ],
                 "entity" => [
                     "entity" => [],
-                    "entity_set" => [],
                     "entity_set_push" => [],
                 ],
             ],
@@ -296,6 +296,10 @@ class RoadieConfig
                   ],
                   'args' => [],
                   'select' => [],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
+                  ],
                 ],
               ],
             ],
@@ -340,6 +344,7 @@ class RoadieConfig
                         'type' => '`$STRING`',
                         'kind' => 'query',
                         'reqd' => true,
+                        'field' => true,
                       ],
                     ],
                   ],
@@ -347,6 +352,10 @@ class RoadieConfig
                     'exist' => [
                       'set',
                     ],
+                  ],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
                   ],
                 ],
                 [
@@ -376,6 +385,10 @@ class RoadieConfig
                   ],
                   'args' => [],
                   'select' => [],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
+                  ],
                 ],
               ],
             ],
@@ -424,7 +437,7 @@ class RoadieConfig
                     'params' => [
                       [
                         'name' => 'id',
-                        'orig' => 'entity_id',
+                        'orig' => 'entityId',
                         'type' => '`$STRING`',
                         'kind' => 'param',
                         'reqd' => true,
@@ -435,6 +448,10 @@ class RoadieConfig
                     'exist' => [
                       'id',
                     ],
+                  ],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
                   ],
                 ],
               ],
@@ -484,7 +501,7 @@ class RoadieConfig
                     'params' => [
                       [
                         'name' => 'id',
-                        'orig' => 'entity_id',
+                        'orig' => 'entityId',
                         'type' => '`$STRING`',
                         'kind' => 'param',
                         'reqd' => true,
@@ -504,15 +521,32 @@ class RoadieConfig
             'ancestors' => [],
           ],
         ],
-        'entity_set' => [
+        'entity_set_push' => [
           'fields' => [
+            [
+              'name' => 'items',
+              'title' => 'Items',
+              'type' => '`$ARRAY`',
+              'op' => [
+                'update' => [
+                  'req' => true,
+                  'type' => '`$ARRAY`',
+                ],
+              ],
+              'short' => 'The full set of entities.',
+            ],
             [
               'name' => 'name',
               'title' => 'Name',
               'type' => '`$STRING`',
             ],
+            [
+              'name' => 'set',
+              'title' => 'Set',
+              'type' => '`$STRING`',
+            ],
           ],
-          'name' => 'entity_set',
+          'name' => 'entity_set_push',
           'op' => [
             'list' => [
               'input' => 'data',
@@ -549,36 +583,13 @@ class RoadieConfig
                   ],
                   'args' => [],
                   'select' => [],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
+                  ],
                 ],
               ],
             ],
-          ],
-          'relations' => [
-            'ancestors' => [],
-          ],
-        ],
-        'entity_set_push' => [
-          'fields' => [
-            [
-              'name' => 'items',
-              'title' => 'Items',
-              'type' => '`$ARRAY`',
-              'op' => [
-                'update' => [
-                  'req' => true,
-                  'type' => '`$ARRAY`',
-                ],
-              ],
-              'short' => 'The full set of entities.',
-            ],
-            [
-              'name' => 'set',
-              'title' => 'Set',
-              'type' => '`$STRING`',
-            ],
-          ],
-          'name' => 'entity_set_push',
-          'op' => [
             'update' => [
               'input' => 'data',
               'name' => 'update',
@@ -624,7 +635,7 @@ class RoadieConfig
                     'params' => [
                       [
                         'name' => 'set_id',
-                        'orig' => 'set_id',
+                        'orig' => 'setId',
                         'type' => '`$STRING`',
                         'kind' => 'param',
                         'reqd' => true,
@@ -635,6 +646,10 @@ class RoadieConfig
                     'exist' => [
                       'set_id',
                     ],
+                  ],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
                   ],
                 ],
               ],

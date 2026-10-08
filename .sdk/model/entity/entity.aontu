@@ -94,6 +94,13 @@ main: kit: entity: entity: {
       name: "create"
       points: [
         {
+          bf: [
+            "apiVersion"
+            "kind"
+            "metadata"
+            "relations"
+            "spec"
+          ]
           co: {
             id: "POST /api/catalog/roadie-entities/entities"
             source: "openapi3"
@@ -101,6 +108,10 @@ main: kit: entity: entity: {
           }
           m: "POST"
           o: "/api/catalog/roadie-entities/entities"
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
           s: [
             {
               lit: "api"
@@ -149,6 +160,10 @@ main: kit: entity: entity: {
               "set"
             ]
           }
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
           s: [
             {
               lit: "api"
@@ -176,6 +191,10 @@ main: kit: entity: entity: {
           }
           m: "GET"
           o: "/api/catalog/entities"
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
           s: [
             {
               lit: "api"
@@ -208,7 +227,7 @@ main: kit: entity: entity: {
               {
                 k: "param"
                 n: "id"
-                or: "entity_id"
+                or: "entityId"
                 r: true
                 t: "`$STRING`"
               }
@@ -225,6 +244,10 @@ main: kit: entity: entity: {
             param: {
               entityId: "id"
             }
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {
@@ -264,7 +287,7 @@ main: kit: entity: entity: {
               {
                 k: "param"
                 n: "id"
-                or: "entity_id"
+                or: "entityId"
                 r: true
                 t: "`$STRING`"
               }

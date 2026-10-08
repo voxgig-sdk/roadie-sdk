@@ -38,12 +38,73 @@ describe('EntityEntity', async () => {
   })
 
 
+  class FailHook extends BaseFeature {
+    constructor() {
+      super()
+      this.name = 'failhook'
+      this.version = '0.0.1'
+      this.active = true
+      this.unexpected = 0
+    }
+    init() { }
+    PreSpec() { throw new Error('entity hook failed') }
+    PreUnexpected() { this.unexpected++ }
+  }
+
+  test('stream-error', async () => {
+    const offline = { net: { offline: true } }
+    await assert.rejects(async () => {
+      for await (const _item of RoadieSDK.test(offline).Entity().stream('list')) { }
+    }, /offline/)
+
+    for await (const _item of RoadieSDK.test(offline).Entity()
+      .stream('list', undefined, { ctrl: { throw: false } })) { }
+
+    if (null != config.feature?.rbac) {
+      const denied = RoadieSDK.test(undefined, { feature: { rbac: { active: true, deny: true } } })
+      await assert.rejects(async () => {
+        for await (const _item of denied.Entity().stream('list')) { }
+      }, (err) => 'rbac_denied' === err.code)
+    }
+  })
+
+  test('stream-ctrl', async () => {
+    const explain = {}
+    const ctrl = { explain }
+    for await (const _item of RoadieSDK.test().Entity().stream('list', undefined, { ctrl })) { }
+    assert.deepStrictEqual(Object.keys(ctrl), ['explain'])
+    assert(explain === ctrl.explain && 0 < Object.keys(explain).length)
+  })
+
+  test('unexpected', async () => {
+    const hook = new FailHook()
+    const client = new RoadieSDK({ feature: { test: { active: true } }, extend: [hook] })
+    await assert.rejects(client.Entity().list(), /hook failed/)
+    assert(0 < hook.unexpected)
+
+    const fired = hook.unexpected
+    assert.strictEqual(await client.Entity().list(undefined, { throw: false }), undefined)
+    assert(fired < hook.unexpected)
+  })
+
+  test('validate', async (t) => {
+    if (null == config.feature?.validate) {
+      t.skip('feature not present in this SDK: validate')
+      return
+    }
+    const client = RoadieSDK.test(undefined, { feature: { validate: { active: true } } })
+    await assert.rejects(client.Entity().list({"apiVersion":1}),
+      (err) => 'validate_failed' === err.code)
+  })
+
+
+
   test('basic', async (t) => {
 
     
     const setup = basicSetup()
     if (setup.live) {
-      return runLiveEntity(setup, {"active":true,"alias":{"field":{}},"fields":{"apiVersion":{"a":true,"h":"Api Version","n":"apiVersion","r":true,"t":"`$STRING`","key$":"apiVersion","index$":0},"entityRef":{"a":true,"h":"Entity Ref","n":"entityRef","r":false,"t":"`$STRING`","key$":"entityRef","index$":1},"id":{"a":true,"fo":"uuid","h":"Id","n":"id","r":true,"t":"`$STRING`","key$":"id","index$":2},"kind":{"a":true,"h":"Kind","n":"kind","r":true,"sh":"Entity kind (Component, API, Resource, System, Group, User, ...).","t":"`$STRING`","key$":"kind","index$":3},"metadata":{"a":true,"h":"Metadata","n":"metadata","r":true,"t":"`$OBJECT`","key$":"metadata","index$":4},"rawData":{"a":true,"h":"Raw Data","n":"rawData","r":false,"t":"`$OBJECT`","key$":"rawData","index$":5},"relations":{"a":true,"h":"Relations","n":"relations","r":false,"t":"`$ARRAY`","key$":"relations","index$":6},"set":{"a":true,"h":"Set","n":"set","r":false,"t":"`$STRING`","key$":"set","index$":7},"source":{"a":true,"h":"Source","n":"source","r":false,"t":"`$STRING`","key$":"source","index$":8},"spec":{"a":true,"h":"Spec","n":"spec","r":false,"sh":"Kind-specific fields.","t":"`$OBJECT`","key$":"spec","index$":9},"updatedAt":{"a":true,"fo":"date-time","h":"Updated At","n":"updatedAt","r":false,"t":"`$STRING`","key$":"updatedAt","index$":10},"updatedBy":{"a":true,"h":"Updated By","n":"updatedBy","r":false,"t":"`$STRING`","key$":"updatedBy","index$":11}},"id":{"field":"id","name":"id"},"name":"entity","op":{"create":{"input":"data","name":"create","points":[{"a":true,"co":{"id":"POST /api/catalog/roadie-entities/entities","source":"openapi3","version":2},"g":{},"k":"http","m":"POST","o":"/api/catalog/roadie-entities/entities","q":{},"r":{},"s":[{"lit":"api"},{"lit":"catalog"},{"lit":"roadie-entities"},{"lit":"entities"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0}],"key$":"create"},"list":{"input":"data","name":"list","points":[{"a":true,"co":{"id":"GET /api/catalog/roadie-entities/entities","source":"openapi3","version":2},"g":{"query":[{"a":true,"k":"query","n":"set","or":"set","r":true,"t":"`$STRING`","index$":0}]},"k":"http","m":"GET","o":"/api/catalog/roadie-entities/entities","q":{"exist":["set"]},"r":{},"s":[{"lit":"api"},{"lit":"catalog"},{"lit":"roadie-entities"},{"lit":"entities"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0},{"a":true,"co":{"id":"GET /api/catalog/entities","source":"openapi3","version":2},"g":{},"k":"http","m":"GET","o":"/api/catalog/entities","q":{},"r":{},"s":[{"lit":"api"},{"lit":"catalog"},{"lit":"entities"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0}],"key$":"list"},"load":{"input":"data","name":"load","points":[{"a":true,"co":{"id":"GET /api/catalog/roadie-entities/entities/{entityId}","source":"openapi3","version":2},"g":{"params":[{"a":true,"k":"param","n":"id","or":"entity_id","r":true,"t":"`$STRING`","index$":0}]},"k":"http","m":"GET","o":"/api/catalog/roadie-entities/entities/{entityId}","q":{"exist":["id"]},"r":{"param":{"entityId":"id"}},"s":[{"lit":"api"},{"lit":"catalog"},{"lit":"roadie-entities"},{"lit":"entities"},{"var":"id"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0}],"key$":"load"},"remove":{"input":"data","name":"remove","points":[{"a":true,"co":{"id":"DELETE /api/catalog/roadie-entities/entities/{entityId}","source":"openapi3","version":2},"g":{"params":[{"a":true,"k":"param","n":"id","or":"entity_id","r":true,"t":"`$STRING`","index$":0}]},"k":"http","m":"DELETE","o":"/api/catalog/roadie-entities/entities/{entityId}","q":{"exist":["id"]},"r":{"param":{"entityId":"id"}},"s":[{"lit":"api"},{"lit":"catalog"},{"lit":"roadie-entities"},{"lit":"entities"},{"var":"id"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0}],"key$":"remove"}},"relations":{"ancestors":[]},"key$":"entity","name__orig":"entity","Name":"Entity","name_":"entity","name-":"entity","NAME":"ENTITY","index$":0}, {"active":true,"entity":"entity","key$":"BasicEntityFlow","kind":"basic","name":"BasicEntityFlow","param":{},"step":[{"a":true,"d":{},"i":{"ref":"entity_ref01"},"m":{},"o":"create","s":[],"v":[],"index$":0},{"a":true,"d":{},"i":{},"m":{},"o":"list","s":[],"v":[{"apply":"ItemExists","def":{"ref":"entity_ref01"}}],"index$":1},{"a":true,"d":{},"i":{"ref":"entity_ref01","srcdatavar":"entity_ref01_data","suffix":"_dt0"},"m":{"id":"entity01"},"o":"load","s":[],"v":[{"apply":"TextFieldMark","def":{"mark":"Mark01-entity_ref01"}}],"index$":2},{"a":true,"d":{},"i":{"ref":"entity_ref01","suffix":"_rm0"},"m":{"id":"entity01"},"o":"remove","s":[],"v":[],"index$":3},{"a":true,"d":{},"i":{"suffix":"_rt0"},"m":{},"o":"list","s":[],"v":[{"apply":"ItemNotExists","def":{"ref":"entity_ref01"}}],"index$":4}]}, 'Entity', {"POST /api/catalog/roadie-entities/entities":{"protocol":"http","requestBody":{"required":true,"content":{"application/json":{"schema":{"type":"object","description":"A Backstage-style catalog entity.","required":["apiVersion","kind","metadata"],"properties":{"apiVersion":{"type":"string","example":"backstage.io/v1alpha1","key$":"apiVersion"},"kind":{"type":"string","description":"Entity kind (Component, API, Resource, System, Group, User, ...).","example":"Resource","key$":"kind"},"metadata":{"type":"object","required":["name"],"properties":{"name":{"type":"string"},"namespace":{"type":"string","default":"default"},"title":{"type":"string"},"description":{"type":"string"},"labels":{"type":"object","additionalProperties":{"type":"string"}},"annotations":{"type":"object","additionalProperties":{"type":"string"}},"tags":{"type":"array","items":{"type":"string"}}},"x-ref":"#/components/schemas/EntityMetadata","key$":"metadata"},"spec":{"type":"object","description":"Kind-specific fields. Common ones shown; other properties allowed.","additionalProperties":true,"properties":{"owner":{"type":"string"},"type":{"type":"string"}},"key$":"spec"},"relations":{"type":"array","items":{"type":"object","properties":{"type":{"type":"string"},"targetRef":{"type":"string"}},"x-ref":"#/components/schemas/Relation"},"key$":"relations"}},"x-ref":"#/components/schemas/Entity","index$":1}}}},"parameters":[]},"GET /api/catalog/roadie-entities/entities":{"protocol":"http","parameters":[{"name":"set","in":"query","required":true,"schema":{"type":"string"},"index$":0}]},"GET /api/catalog/entities":{"protocol":"http","parameters":[]},"GET /api/catalog/roadie-entities/entities/{entityId}":{"protocol":"http","parameters":[{"name":"entityId","in":"path","required":true,"schema":{"type":"string","format":"uuid"},"index$":0}]},"DELETE /api/catalog/roadie-entities/entities/{entityId}":{"protocol":"http","parameters":[{"name":"entityId","in":"path","required":true,"schema":{"type":"string","format":"uuid"},"index$":0}]}})
+      return runLiveEntity(setup, {"active":true,"alias":{"field":{}},"fields":{"apiVersion":{"a":true,"h":"Api Version","n":"apiVersion","r":true,"t":"`$STRING`","key$":"apiVersion","index$":0},"entityRef":{"a":true,"h":"Entity Ref","n":"entityRef","r":false,"t":"`$STRING`","key$":"entityRef","index$":1},"id":{"a":true,"fo":"uuid","h":"Id","n":"id","r":true,"t":"`$STRING`","key$":"id","index$":2},"kind":{"a":true,"h":"Kind","n":"kind","r":true,"sh":"Entity kind (Component, API, Resource, System, Group, User, ...).","t":"`$STRING`","key$":"kind","index$":3},"metadata":{"a":true,"h":"Metadata","n":"metadata","r":true,"t":"`$OBJECT`","key$":"metadata","index$":4},"rawData":{"a":true,"h":"Raw Data","n":"rawData","r":false,"t":"`$OBJECT`","key$":"rawData","index$":5},"relations":{"a":true,"h":"Relations","n":"relations","r":false,"t":"`$ARRAY`","key$":"relations","index$":6},"set":{"a":true,"h":"Set","n":"set","r":false,"t":"`$STRING`","key$":"set","index$":7},"source":{"a":true,"h":"Source","n":"source","r":false,"t":"`$STRING`","key$":"source","index$":8},"spec":{"a":true,"h":"Spec","n":"spec","r":false,"sh":"Kind-specific fields.","t":"`$OBJECT`","key$":"spec","index$":9},"updatedAt":{"a":true,"fo":"date-time","h":"Updated At","n":"updatedAt","r":false,"t":"`$STRING`","key$":"updatedAt","index$":10},"updatedBy":{"a":true,"h":"Updated By","n":"updatedBy","r":false,"t":"`$STRING`","key$":"updatedBy","index$":11}},"id":{"field":"id","name":"id"},"name":"entity","op":{"create":{"input":"data","name":"create","points":[{"a":true,"bf":["apiVersion","kind","metadata","relations","spec"],"co":{"id":"POST /api/catalog/roadie-entities/entities","source":"openapi3","version":2},"g":{},"k":"http","m":"POST","o":"/api/catalog/roadie-entities/entities","q":{},"r":{},"rs":{"kind":"json","media":"application/json"},"s":[{"lit":"api"},{"lit":"catalog"},{"lit":"roadie-entities"},{"lit":"entities"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0}],"key$":"create"},"list":{"input":"data","name":"list","points":[{"a":true,"co":{"id":"GET /api/catalog/roadie-entities/entities","source":"openapi3","version":2},"g":{"query":[{"a":true,"k":"query","n":"set","or":"set","r":true,"t":"`$STRING`","index$":0}]},"k":"http","m":"GET","o":"/api/catalog/roadie-entities/entities","q":{"exist":["set"]},"r":{},"rs":{"kind":"json","media":"application/json"},"s":[{"lit":"api"},{"lit":"catalog"},{"lit":"roadie-entities"},{"lit":"entities"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0},{"a":true,"co":{"id":"GET /api/catalog/entities","source":"openapi3","version":2},"g":{},"k":"http","m":"GET","o":"/api/catalog/entities","q":{},"r":{},"rs":{"kind":"json","media":"application/json"},"s":[{"lit":"api"},{"lit":"catalog"},{"lit":"entities"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":1}],"key$":"list"},"load":{"input":"data","name":"load","points":[{"a":true,"co":{"id":"GET /api/catalog/roadie-entities/entities/{entityId}","source":"openapi3","version":2},"g":{"params":[{"a":true,"k":"param","n":"id","or":"entityId","r":true,"t":"`$STRING`","index$":0}]},"k":"http","m":"GET","o":"/api/catalog/roadie-entities/entities/{entityId}","q":{"exist":["id"]},"r":{"param":{"entityId":"id"}},"rs":{"kind":"json","media":"application/json"},"s":[{"lit":"api"},{"lit":"catalog"},{"lit":"roadie-entities"},{"lit":"entities"},{"var":"id"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0}],"key$":"load"},"remove":{"input":"data","name":"remove","points":[{"a":true,"co":{"id":"DELETE /api/catalog/roadie-entities/entities/{entityId}","source":"openapi3","version":2},"g":{"params":[{"a":true,"k":"param","n":"id","or":"entityId","r":true,"t":"`$STRING`","index$":0}]},"k":"http","m":"DELETE","o":"/api/catalog/roadie-entities/entities/{entityId}","q":{"exist":["id"]},"r":{"param":{"entityId":"id"}},"s":[{"lit":"api"},{"lit":"catalog"},{"lit":"roadie-entities"},{"lit":"entities"},{"var":"id"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0}],"key$":"remove"}},"relations":{"ancestors":[]},"key$":"entity","name__orig":"entity","Name":"Entity","name_":"entity","name-":"entity","NAME":"ENTITY","index$":0}, {"active":true,"entity":"entity","key$":"BasicEntityFlow","kind":"basic","name":"BasicEntityFlow","param":{},"step":[{"a":true,"d":{},"i":{"ref":"entity_ref01"},"m":{},"o":"create","s":[],"v":[],"index$":0},{"a":true,"d":{},"i":{},"m":{},"o":"list","s":[],"v":[{"apply":"ItemExists","def":{"ref":"entity_ref01"}}],"index$":1},{"a":true,"d":{},"i":{"ref":"entity_ref01","srcdatavar":"entity_ref01_data","suffix":"_dt0"},"m":{"id":"entity01"},"o":"load","s":[],"v":[{"apply":"TextFieldMark","def":{"mark":"Mark01-entity_ref01"}}],"index$":2},{"a":true,"d":{},"i":{"ref":"entity_ref01","suffix":"_rm0"},"m":{"id":"entity01"},"o":"remove","s":[],"v":[],"index$":3},{"a":true,"d":{},"i":{"suffix":"_rt0"},"m":{},"o":"list","s":[],"v":[{"apply":"ItemNotExists","def":{"ref":"entity_ref01"}}],"index$":4}]}, 'Entity', {"POST /api/catalog/roadie-entities/entities":{"protocol":"http","requestBody":{"required":true,"content":{"application/json":{"schema":{"type":"object","description":"A Backstage-style catalog entity.","required":["apiVersion","kind","metadata"],"properties":{"apiVersion":{"type":"string","example":"backstage.io/v1alpha1","key$":"apiVersion"},"kind":{"type":"string","description":"Entity kind (Component, API, Resource, System, Group, User, ...).","example":"Resource","key$":"kind"},"metadata":{"type":"object","required":["name"],"properties":{"name":{"type":"string"},"namespace":{"type":"string","default":"default"},"title":{"type":"string"},"description":{"type":"string"},"labels":{"type":"object","additionalProperties":{"type":"string"}},"annotations":{"type":"object","additionalProperties":{"type":"string"}},"tags":{"type":"array","items":{"type":"string"}}},"x-ref":"#/components/schemas/EntityMetadata","key$":"metadata"},"spec":{"type":"object","description":"Kind-specific fields. Common ones shown; other properties allowed.","additionalProperties":true,"properties":{"owner":{"type":"string"},"type":{"type":"string"}},"key$":"spec"},"relations":{"type":"array","items":{"type":"object","properties":{"type":{"type":"string"},"targetRef":{"type":"string"}},"x-ref":"#/components/schemas/Relation"},"key$":"relations"}},"x-ref":"#/components/schemas/Entity","index$":1}}}},"parameters":[]},"GET /api/catalog/roadie-entities/entities":{"protocol":"http","parameters":[{"name":"set","in":"query","required":true,"schema":{"type":"string"},"index$":0}]},"GET /api/catalog/entities":{"protocol":"http","parameters":[]},"GET /api/catalog/roadie-entities/entities/{entityId}":{"protocol":"http","parameters":[{"name":"entityId","in":"path","required":true,"schema":{"type":"string","format":"uuid"},"index$":0}]},"DELETE /api/catalog/roadie-entities/entities/{entityId}":{"protocol":"http","parameters":[{"name":"entityId","in":"path","required":true,"schema":{"type":"string","format":"uuid"},"index$":0}]}}, { strict: LIVE_STRICT, t })
     }
     const client = setup.client
     const struct = setup.struct
@@ -93,6 +154,12 @@ describe('EntityEntity', async () => {
 })
 
 
+
+// main.kit.test.live.strict is true (the default is true): a live
+// request that fails, or a live test missing an input it needs,
+// fails the test.
+// An account with no record for a test to read skips it either way.
+const LIVE_STRICT = true
 
 function basicSetup(extra) {
   // TODO: fix test def options

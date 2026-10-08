@@ -141,6 +141,7 @@ func MakeConfig() map[string]any {
 				},
 				"optspec": map[string]any{
 					"clearTimer": "`$FUNCTION`",
+					"now": "`$FUNCTION`",
 					"setTimer": "`$FUNCTION`",
 				},
 				"strict": false,
@@ -157,7 +158,6 @@ func MakeConfig() map[string]any {
 			},
 			"entity": map[string]any{
 				"entity": map[string]any{},
-				"entity_set": map[string]any{},
 				"entity_set_push": map[string]any{},
 			},
 		},
@@ -274,6 +274,10 @@ func MakeConfig() map[string]any {
 								},
 								"args": map[string]any{},
 								"select": map[string]any{},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
+								},
 							},
 						},
 					},
@@ -318,6 +322,7 @@ func MakeConfig() map[string]any {
 											"type": "`$STRING`",
 											"kind": "query",
 											"reqd": true,
+											"field": true,
 										},
 									},
 								},
@@ -325,6 +330,10 @@ func MakeConfig() map[string]any {
 									"exist": []any{
 										"set",
 									},
+								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
 								},
 							},
 							map[string]any{
@@ -354,6 +363,10 @@ func MakeConfig() map[string]any {
 								},
 								"args": map[string]any{},
 								"select": map[string]any{},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
+								},
 							},
 						},
 					},
@@ -402,7 +415,7 @@ func MakeConfig() map[string]any {
 									"params": []any{
 										map[string]any{
 											"name": "id",
-											"orig": "entity_id",
+											"orig": "entityId",
 											"type": "`$STRING`",
 											"kind": "param",
 											"reqd": true,
@@ -413,6 +426,10 @@ func MakeConfig() map[string]any {
 									"exist": []any{
 										"id",
 									},
+								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
 								},
 							},
 						},
@@ -462,7 +479,7 @@ func MakeConfig() map[string]any {
 									"params": []any{
 										map[string]any{
 											"name": "id",
-											"orig": "entity_id",
+											"orig": "entityId",
 											"type": "`$STRING`",
 											"kind": "param",
 											"reqd": true,
@@ -482,15 +499,32 @@ func MakeConfig() map[string]any {
 					"ancestors": []any{},
 				},
 			},
-			"entity_set": map[string]any{
+			"entity_set_push": map[string]any{
 				"fields": []any{
+					map[string]any{
+						"name": "items",
+						"title": "Items",
+						"type": "`$ARRAY`",
+						"op": map[string]any{
+							"update": map[string]any{
+								"req": true,
+								"type": "`$ARRAY`",
+							},
+						},
+						"short": "The full set of entities.",
+					},
 					map[string]any{
 						"name": "name",
 						"title": "Name",
 						"type": "`$STRING`",
 					},
+					map[string]any{
+						"name": "set",
+						"title": "Set",
+						"type": "`$STRING`",
+					},
 				},
-				"name": "entity_set",
+				"name": "entity_set_push",
 				"op": map[string]any{
 					"list": map[string]any{
 						"input": "data",
@@ -527,36 +561,13 @@ func MakeConfig() map[string]any {
 								},
 								"args": map[string]any{},
 								"select": map[string]any{},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
+								},
 							},
 						},
 					},
-				},
-				"relations": map[string]any{
-					"ancestors": []any{},
-				},
-			},
-			"entity_set_push": map[string]any{
-				"fields": []any{
-					map[string]any{
-						"name": "items",
-						"title": "Items",
-						"type": "`$ARRAY`",
-						"op": map[string]any{
-							"update": map[string]any{
-								"req": true,
-								"type": "`$ARRAY`",
-							},
-						},
-						"short": "The full set of entities.",
-					},
-					map[string]any{
-						"name": "set",
-						"title": "Set",
-						"type": "`$STRING`",
-					},
-				},
-				"name": "entity_set_push",
-				"op": map[string]any{
 					"update": map[string]any{
 						"input": "data",
 						"name": "update",
@@ -602,7 +613,7 @@ func MakeConfig() map[string]any {
 									"params": []any{
 										map[string]any{
 											"name": "set_id",
-											"orig": "set_id",
+											"orig": "setId",
 											"type": "`$STRING`",
 											"kind": "param",
 											"reqd": true,
@@ -613,6 +624,10 @@ func MakeConfig() map[string]any {
 									"exist": []any{
 										"set_id",
 									},
+								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
 								},
 							},
 						},

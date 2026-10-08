@@ -75,16 +75,15 @@ class EntityRemoveMatch(TypedDict):
     id: str
 
 
-class EntitySet(TypedDict, total=False):
-    name: str
-
-
-class EntitySetListMatch(TypedDict, total=False):
-    name: str
-
-
 class EntitySetPush(TypedDict, total=False):
     items: list
+    name: str
+    set: str
+
+
+class EntitySetPushListMatch(TypedDict, total=False):
+    items: list
+    name: str
     set: str
 
 
@@ -94,4 +93,5 @@ class EntitySetPushUpdateDataRequired(TypedDict):
 
 class EntitySetPushUpdateData(EntitySetPushUpdateDataRequired, total=False):
     items: list
+    name: str
     set: str

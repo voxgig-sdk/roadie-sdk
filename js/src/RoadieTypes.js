@@ -65,18 +65,16 @@
  */
 
 /**
- * @typedef {Object} EntitySet
- * @property {string} [name]
- */
-
-/**
- * @typedef {Object} EntitySetListMatch
- * @property {string} [name]
- */
-
-/**
  * @typedef {Object} EntitySetPush
  * @property {Array} [items]
+ * @property {string} [name]
+ * @property {string} [set]
+ */
+
+/**
+ * @typedef {Object} EntitySetPushListMatch
+ * @property {Array} [items]
+ * @property {string} [name]
  * @property {string} [set]
  */
 
@@ -84,6 +82,7 @@
  * @typedef {Object} EntitySetPushUpdateData
  * @property {string} set_id
  * @property {Array} [items]
+ * @property {string} [name]
  * @property {string} [set]
  */
 

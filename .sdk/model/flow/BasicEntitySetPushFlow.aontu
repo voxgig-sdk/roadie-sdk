@@ -7,11 +7,23 @@ main: kit: flow: BasicEntitySetPushFlow:
   name: "BasicEntitySetPushFlow",
   step: [
     {
+      o: "list",
+      v: [
+        {
+          apply: "ItemExists",
+          def: {
+            ref: "entity_set_push_ref01"
+          }
+        }
+      ]
+    }
+
+    {
       i: {
         ref: "entity_set_push_ref01",
         srcdatavar: "entity_set_push_ref01_data",
         suffix: "_up0",
-        textfield: "set"
+        textfield: "name"
       }
 
       o: "update",

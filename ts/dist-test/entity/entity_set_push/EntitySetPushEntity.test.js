@@ -54,31 +54,79 @@ const utility_1 = require("../../utility");
         const ent = testsdk.EntitySetPush();
         (0, node_assert_1.default)(null != ent);
     });
+    class FailHook extends __1.BaseFeature {
+        name = 'failhook';
+        version = '0.0.1';
+        active = true;
+        unexpected = 0;
+        init() { }
+        PreSpec() { throw new Error('entity_set_push hook failed'); }
+        PreUnexpected() { this.unexpected++; }
+    }
+    (0, node_test_1.test)('stream-error', async () => {
+        const offline = { net: { offline: true } };
+        await node_assert_1.default.rejects(async () => {
+            for await (const _item of __1.RoadieSDK.test(offline).EntitySetPush().stream('list')) { }
+        }, /offline/);
+        for await (const _item of __1.RoadieSDK.test(offline).EntitySetPush()
+            .stream('list', undefined, { ctrl: { throw: false } })) { }
+        if (null != __1.config.feature?.rbac) {
+            const denied = __1.RoadieSDK.test(undefined, { feature: { rbac: { active: true, deny: true } } });
+            await node_assert_1.default.rejects(async () => {
+                for await (const _item of denied.EntitySetPush().stream('list')) { }
+            }, (err) => 'rbac_denied' === err.code);
+        }
+    });
+    (0, node_test_1.test)('stream-ctrl', async () => {
+        const explain = {};
+        const ctrl = { explain };
+        for await (const _item of __1.RoadieSDK.test().EntitySetPush().stream('list', undefined, { ctrl })) { }
+        node_assert_1.default.deepStrictEqual(Object.keys(ctrl), ['explain']);
+        (0, node_assert_1.default)(explain === ctrl.explain && 0 < Object.keys(explain).length);
+    });
+    (0, node_test_1.test)('unexpected', async () => {
+        const hook = new FailHook();
+        const client = new __1.RoadieSDK({ feature: { test: { active: true } }, extend: [hook] });
+        await node_assert_1.default.rejects(client.EntitySetPush().list(), /hook failed/);
+        (0, node_assert_1.default)(0 < hook.unexpected);
+        const fired = hook.unexpected;
+        node_assert_1.default.strictEqual(await client.EntitySetPush().list(undefined, { throw: false }), undefined);
+        (0, node_assert_1.default)(fired < hook.unexpected);
+    });
+    (0, node_test_1.test)('validate', async (t) => {
+        if (null == __1.config.feature?.validate) {
+            t.skip('feature not present in this SDK: validate');
+            return;
+        }
+        const client = __1.RoadieSDK.test(undefined, { feature: { validate: { active: true } } });
+        await node_assert_1.default.rejects(client.EntitySetPush().list({ "name": 1 }), (err) => 'validate_failed' === err.code);
+    });
     (0, node_test_1.test)('basic', async (t) => {
         const live = 'TRUE' === process.env.ROADIE_TEST_LIVE;
-        for (const op of ['update']) {
+        for (const op of ['list']) {
             if (!live && (0, utility_1.maybeSkipControl)(t, 'entityOp', 'entity_set_push.' + op, live))
                 return;
         }
         const setup = basicSetup();
         if (setup.live) {
-            return (0, live_entity_1.runLiveEntity)(setup, { "active": true, "alias": { "field": {} }, "fields": { "items": { "a": true, "h": "Items", "n": "items", "op": { "update": { "req": true, "type": "`$ARRAY`" } }, "r": false, "sh": "The full set of entities.", "t": "`$ARRAY`", "key$": "items", "index$": 0 }, "set": { "a": true, "h": "Set", "n": "set", "r": false, "t": "`$STRING`", "key$": "set", "index$": 1 } }, "name": "entity_set_push", "op": { "update": { "input": "data", "name": "update", "points": [{ "a": true, "co": { "id": "PUT /api/catalog/roadie-entities/sets/{setId}", "source": "openapi3", "version": 2 }, "g": { "params": [{ "a": true, "k": "param", "n": "set_id", "or": "set_id", "r": true, "t": "`$STRING`", "index$": 0 }] }, "k": "http", "m": "PUT", "o": "/api/catalog/roadie-entities/sets/{setId}", "q": { "exist": ["set_id"] }, "r": { "param": { "setId": "set_id" } }, "s": [{ "lit": "api" }, { "lit": "catalog" }, { "lit": "roadie-entities" }, { "lit": "sets" }, { "var": "set_id" }], "t": { "req": "`reqdata`", "res": "`body`" }, "index$": 0 }], "key$": "update" } }, "relations": { "ancestors": [] }, "key$": "entity_set_push", "name__orig": "entity_set_push", "Name": "EntitySetPush", "name_": "entity_set_push", "name-": "entity-set-push", "NAME": "ENTITY_SET_PUSH", "index$": 2 }, { "active": true, "entity": "entity_set_push", "key$": "BasicEntitySetPushFlow", "kind": "basic", "name": "BasicEntitySetPushFlow", "param": {}, "step": [{ "a": true, "d": {}, "i": { "ref": "entity_set_push_ref01", "srcdatavar": "entity_set_push_ref01_data", "suffix": "_up0", "textfield": "set" }, "m": {}, "o": "update", "s": [{ "apply": "TextFieldMark", "def": { "mark": "Mark01-entity_set_push_ref01" } }], "v": [], "index$": 0 }] }, 'EntitySetPush', { "PUT /api/catalog/roadie-entities/sets/{setId}": { "protocol": "http", "requestBody": { "required": true, "content": { "application/json": { "schema": { "type": "object", "required": ["items"], "properties": { "items": { "type": "array", "description": "The full set of entities. This is a full mutation - the set is replaced.", "items": { "type": "object", "description": "A Backstage-style catalog entity.", "required": ["apiVersion", "kind", "metadata"], "properties": { "apiVersion": { "type": "string", "example": "backstage.io/v1alpha1", "key$": "apiVersion" }, "kind": { "type": "string", "description": "Entity kind (Component, API, Resource, System, Group, User, ...).", "example": "Resource", "key$": "kind" }, "metadata": { "type": "object", "required": [], "properties": {}, "x-ref": "#/components/schemas/EntityMetadata", "key$": "metadata" }, "spec": { "type": "object", "description": "Kind-specific fields. Common ones shown; other properties allowed.", "additionalProperties": true, "properties": {}, "key$": "spec" }, "relations": { "type": "array", "items": {}, "key$": "relations" } }, "x-ref": "#/components/schemas/Entity" }, "key$": "items" } }, "x-ref": "#/components/schemas/EntitySetPushRequest", "index$": 1 } } } }, "parameters": [{ "name": "setId", "in": "path", "required": true, "schema": { "type": "string" }, "index$": 0 }] } });
+            return (0, live_entity_1.runLiveEntity)(setup, { "active": true, "alias": { "field": {} }, "fields": { "items": { "a": true, "h": "Items", "n": "items", "op": { "update": { "req": true, "type": "`$ARRAY`" } }, "r": false, "sh": "The full set of entities.", "t": "`$ARRAY`", "key$": "items", "index$": 0 }, "name": { "a": true, "h": "Name", "n": "name", "r": false, "t": "`$STRING`", "key$": "name", "index$": 1 }, "set": { "a": true, "h": "Set", "n": "set", "r": false, "t": "`$STRING`", "key$": "set", "index$": 2 } }, "name": "entity_set_push", "op": { "list": { "input": "data", "name": "list", "points": [{ "a": true, "co": { "id": "GET /api/catalog/roadie-entities/sets", "source": "openapi3", "version": 2 }, "g": {}, "k": "http", "m": "GET", "o": "/api/catalog/roadie-entities/sets", "q": {}, "r": {}, "rs": { "kind": "json", "media": "application/json" }, "s": [{ "lit": "api" }, { "lit": "catalog" }, { "lit": "roadie-entities" }, { "lit": "sets" }], "t": { "req": "`reqdata`", "res": "`body`" }, "index$": 0 }], "key$": "list" }, "update": { "input": "data", "name": "update", "points": [{ "a": true, "bf": ["items"], "co": { "id": "PUT /api/catalog/roadie-entities/sets/{setId}", "source": "openapi3", "version": 2 }, "g": { "params": [{ "a": true, "k": "param", "n": "set_id", "or": "setId", "r": true, "t": "`$STRING`", "index$": 0 }] }, "k": "http", "m": "PUT", "o": "/api/catalog/roadie-entities/sets/{setId}", "q": { "exist": ["set_id"] }, "r": { "param": { "setId": "set_id" } }, "rs": { "kind": "json", "media": "application/json" }, "s": [{ "lit": "api" }, { "lit": "catalog" }, { "lit": "roadie-entities" }, { "lit": "sets" }, { "var": "set_id" }], "t": { "req": "`reqdata`", "res": "`body`" }, "index$": 0 }], "key$": "update" } }, "relations": { "ancestors": [] }, "key$": "entity_set_push", "name__orig": "entity_set_push", "Name": "EntitySetPush", "name_": "entity_set_push", "name-": "entity-set-push", "NAME": "ENTITY_SET_PUSH", "index$": 1 }, { "active": true, "entity": "entity_set_push", "key$": "BasicEntitySetPushFlow", "kind": "basic", "name": "BasicEntitySetPushFlow", "param": {}, "step": [{ "a": true, "d": {}, "i": {}, "m": {}, "o": "list", "s": [], "v": [{ "apply": "ItemExists", "def": { "ref": "entity_set_push_ref01" } }], "index$": 0 }, { "a": false, "d": {}, "i": { "ref": "entity_set_push_ref01", "srcdatavar": "entity_set_push_ref01_data", "suffix": "_up0", "textfield": "name" }, "m": {}, "o": "update", "s": [{ "apply": "TextFieldMark", "def": { "mark": "Mark01-entity_set_push_ref01" } }], "v": [], "unreachable": true }] }, 'EntitySetPush', { "GET /api/catalog/roadie-entities/sets": { "protocol": "http", "parameters": [] }, "PUT /api/catalog/roadie-entities/sets/{setId}": { "protocol": "http", "requestBody": { "required": true, "content": { "application/json": { "schema": { "type": "object", "required": ["items"], "properties": { "items": { "type": "array", "description": "The full set of entities. This is a full mutation - the set is replaced.", "items": { "type": "object", "description": "A Backstage-style catalog entity.", "required": ["apiVersion", "kind", "metadata"], "properties": { "apiVersion": { "type": "string", "example": "backstage.io/v1alpha1", "key$": "apiVersion" }, "kind": { "type": "string", "description": "Entity kind (Component, API, Resource, System, Group, User, ...).", "example": "Resource", "key$": "kind" }, "metadata": { "type": "object", "required": [], "properties": {}, "x-ref": "#/components/schemas/EntityMetadata", "key$": "metadata" }, "spec": { "type": "object", "description": "Kind-specific fields. Common ones shown; other properties allowed.", "additionalProperties": true, "properties": {}, "key$": "spec" }, "relations": { "type": "array", "items": {}, "key$": "relations" } }, "x-ref": "#/components/schemas/Entity" }, "key$": "items" } }, "x-ref": "#/components/schemas/EntitySetPushRequest", "index$": 1 } } } }, "parameters": [{ "name": "setId", "in": "path", "required": true, "schema": { "type": "string" }, "index$": 0 }] } }, { strict: LIVE_STRICT, t });
         }
         const client = setup.client;
         const struct = setup.struct;
         const isempty = struct.isempty;
         const select = struct.select;
         let entity_set_push_ref01_data = Object.values(setup.data.existing.entity_set_push)[0];
-        // UPDATE
+        // LIST
         const entity_set_push_ref01_ent = client.EntitySetPush();
-        const entity_set_push_ref01_data_up0 = {};
-        const entity_set_push_ref01_markdef_up0 = { name: 'set', value: 'Mark01-entity_set_push_ref01_' + setup.now };
-        entity_set_push_ref01_data_up0[entity_set_push_ref01_markdef_up0.name] = entity_set_push_ref01_markdef_up0.value;
-        const entity_set_push_ref01_resdata_up0 = (await entity_set_push_ref01_ent.update(entity_set_push_ref01_data_up0)).data();
-        (0, node_assert_1.default)(null != entity_set_push_ref01_resdata_up0);
-        (0, node_assert_1.default)(entity_set_push_ref01_resdata_up0[entity_set_push_ref01_markdef_up0.name] === entity_set_push_ref01_markdef_up0.value);
+        const entity_set_push_ref01_match = {};
+        const entity_set_push_ref01_list = (await entity_set_push_ref01_ent.list(entity_set_push_ref01_match)).map((e) => e.data());
     });
 });
+// main.kit.test.live.strict is true (the default is true): a live
+// request that fails, or a live test missing an input it needs,
+// fails the test.
+// An account with no record for a test to read skips it either way.
+const LIVE_STRICT = true;
 function basicSetup(extra) {
     // TODO: fix test def options
     const options = {}; // null

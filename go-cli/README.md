@@ -22,7 +22,7 @@ export ROADIE_APIKEY=sk_live_xxx
 ./roadie-cli list entity
 ./roadie-cli load 1 entity            # {id:1} shorthand
 ./roadie-cli load '{id:1}' entity       # explicit match map
-./roadie-cli list entity_set
+./roadie-cli list entity_set_push
 
 # 5. Override the API base URL for a single call
 ROADIE_BASE=https://api.example.com ./roadie-cli list entity
@@ -118,7 +118,7 @@ make build-all   # linux/darwin/windows x amd64/arm64, under dist/<os>-<arch>/
 ### Discover the available entities
 
 `/help` in the REPL prints the full entity list, or see [Entities](#entities)
-below — this SDK exposes 3 entities.
+below — this SDK exposes 2 entities.
 
 ## Reference
 
@@ -173,9 +173,9 @@ Meta-commands use the `/` prefix (everything else on a line is evaluated as boru
 
 ### Entities
 
-The 3 entities this SDK exposes (any is valid as `<entity>`):
+The 2 entities this SDK exposes (any is valid as `<entity>`):
 
-entity entity_set entity_set_push
+entity entity_set_push
 
 ## Explanation
 

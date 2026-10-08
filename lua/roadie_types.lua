@@ -54,19 +54,20 @@
 ---@class EntityRemoveMatch
 ---@field id string
 
----@class EntitySet
----@field name? string
-
----@class EntitySetListMatch
----@field name? string
-
 ---@class EntitySetPush
 ---@field items? table
+---@field name? string
+---@field set? string
+
+---@class EntitySetPushListMatch
+---@field items? table
+---@field name? string
 ---@field set? string
 
 ---@class EntitySetPushUpdateData
 ---@field set_id string
 ---@field items? table
+---@field name? string
 ---@field set? string
 
 local M = {}

@@ -14,6 +14,7 @@ type Utility = core.Utility
 type Feature = core.Feature
 type Entity = core.Entity
 type RoadieEntity = core.RoadieEntity
+type StreamItem = core.StreamItem
 type FetcherFunc = core.FetcherFunc
 type Spec = core.Spec
 type Result = core.Result
@@ -55,9 +56,6 @@ func init() {
 	}
 	core.NewEntityEntityFunc = func(client *core.RoadieSDK, entopts map[string]any) core.RoadieEntity {
 		return entity.NewEntityEntity(client, entopts)
-	}
-	core.NewEntitySetEntityFunc = func(client *core.RoadieSDK, entopts map[string]any) core.RoadieEntity {
-		return entity.NewEntitySetEntity(client, entopts)
 	}
 	core.NewEntitySetPushEntityFunc = func(client *core.RoadieSDK, entopts map[string]any) core.RoadieEntity {
 		return entity.NewEntitySetPushEntity(client, entopts)

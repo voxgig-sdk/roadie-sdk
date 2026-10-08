@@ -1,32 +1,22 @@
 {
   "files": [
-    "SUMMARY.md",
-    "docs/api/entity.html",
-    "docs/api/entity_set.html",
-    "docs/api/entity_set_push.html",
-    "docs/api/index.html",
-    "docs/features/debug.html",
-    "docs/features/idempotency.html",
-    "docs/features/metrics.html",
-    "docs/features/paging.html",
-    "docs/features/ratelimit.html",
-    "docs/features/retry.html",
-    "docs/features/test.html",
-    "docs/features/timeout.html",
-    "docs/guides/authentication.html",
-    "docs/guides/concepts.html",
-    "docs/guides/errors.html",
-    "docs/guides/first-call.html",
-    "docs/index.html",
-    "docs/sdks/go.html",
-    "docs/sdks/js.html",
-    "docs/sdks/lua.html",
-    "docs/sdks/php.html",
-    "docs/sdks/py.html",
-    "docs/sdks/ts.html",
-    "docs/tools/go-cli.html",
-    "docs/tools/go-mcp.html"
+    "SUMMARY.md"
   ],
   "config": ".sdk/doc/qa/vale.ini",
-  "routes": {}
+  "routes": {},
+  "quoted": {
+    "SUMMARY.md": [
+      "All entities in the Backstage software catalog.",
+      "Deleted",
+      "Draft OpenAPI spec for the Roadie (roadie.io) catalog + Entity Push API, authored by Voxgig from the public docs at https://roadie.io/docs/api/ . This is roadie.io (the Backstage company); it is NOT roadie.com (the delivery company).",
+      "Entity kind (Component, API, Resource, System, Group, User, ...).",
+      "Kind-specific fields. Common ones shown; other properties allowed.",
+      "Roadie API token, sent as &#39;Authorization: bearer &lt;token&gt;&#39;. User tokens and service tokens work identically.",
+      "The entity sets you have pushed.",
+      "The full set of entities.",
+      "The stored entities for the set",
+      "The stored entities in the given set.",
+      "The stored entity."
+    ]
+  }
 }

@@ -46,10 +46,6 @@ client = RoadieSDK.test()
 
 Create a new `EntityEntity` instance. Pass `None` for no initial data.
 
-#### `EntitySet(data=None)`
-
-Create a new `EntitySetEntity` instance. Pass `None` for no initial data.
-
 #### `EntitySetPush(data=None)`
 
 Create a new `EntitySetPushEntity` instance. Pass `None` for no initial data.
@@ -111,9 +107,9 @@ entity = client.Entity()
 
 ### Operations
 
-#### `create(reqdata, ctrl=None) -> dict`
+#### `create(reqdata, ctrl=None) -> EntityEntity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```python
 result = client.Entity().create({
@@ -124,27 +120,27 @@ result = client.Entity().create({
 })
 ```
 
-#### `list(reqmatch=None, ctrl=None) -> list`
+#### `list(reqmatch=None, ctrl=None) -> list[EntityEntity]`
 
-List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list of entities, one per record, and raises on error.
 
 ```python
 results = client.Entity().list()
 for entity in results:
-    print(entity)
+    print(entity.data_get())
 ```
 
-#### `load(reqmatch, ctrl=None) -> dict`
+#### `load(reqmatch, ctrl=None) -> EntityEntity`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and raises on error.
 
 ```python
 result = client.Entity().load({"id": "entity_id"})
 ```
 
-#### `remove(reqmatch, ctrl=None) -> dict`
+#### `remove(reqmatch, ctrl=None) -> EntityEntity`
 
-Remove the entity matching the given criteria. Raises on error.
+Remove the entity matching the given criteria. Returns the entity, marked as deleted, and raises on error.
 
 ```python
 result = client.Entity().remove({"id": "entity_id"})
@@ -179,59 +175,6 @@ Return the entity name.
 
 ---
 
-## EntitySetEntity
-
-```python
-entity_set = client.EntitySet()
-```
-
-### Fields
-
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `name` | `str` | No |  |
-
-### Operations
-
-#### `list(reqmatch=None, ctrl=None) -> list`
-
-List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
-
-```python
-results = client.EntitySet().list()
-for entity_set in results:
-    print(entity_set)
-```
-
-### Common Methods
-
-#### `data_get() -> dict`
-
-Get the entity data.
-
-#### `data_set(data)`
-
-Set the entity data.
-
-#### `match_get() -> dict`
-
-Get the entity match criteria.
-
-#### `match_set(match)`
-
-Set the entity match criteria.
-
-#### `make() -> Entity`
-
-Create a new `EntitySetEntity` instance with the same options.
-
-#### `get_name() -> str`
-
-Return the entity name.
-
-
----
-
 ## EntitySetPushEntity
 
 ```python
@@ -243,20 +186,32 @@ entity_set_push = client.EntitySetPush()
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `items` | `list` | No | The full set of entities. |
+| `name` | `str` | No |  |
 | `set` | `str` | No |  |
 
 ### Field Usage by Operation
 
-| Field | update |
-| --- | --- |
-| `items` | Yes |
-| `set` | - |
+| Field | list | update |
+| --- | --- | --- |
+| `items` | - | Yes |
+| `name` | - | - |
+| `set` | - | - |
 
 ### Operations
 
-#### `update(reqdata, ctrl=None) -> dict`
+#### `list(reqmatch=None, ctrl=None) -> list[EntitySetPushEntity]`
 
-Update an existing entity. The data must include the entity `id`. Returns the updated entity data and raises on error.
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list of entities, one per record, and raises on error.
+
+```python
+results = client.EntitySetPush().list()
+for entity_set_push in results:
+    print(entity_set_push.data_get())
+```
+
+#### `update(reqdata, ctrl=None) -> EntitySetPushEntity`
+
+Update an existing entity. The data must include the entity `id`. Returns the updated entity and raises on error.
 
 ```python
 result = client.EntitySetPush().update({
@@ -584,6 +539,7 @@ Timeout.
 | Option | Type |
 |---|---|
 | `clearTimer` | function |
+| `now` | function |
 | `setTimer` | function |
 
 These take no default: the feature behaves one way when you supply them and

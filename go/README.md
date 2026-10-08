@@ -16,7 +16,7 @@ go get github.com/voxgig-sdk/roadie-sdk/go@latest
 ```
 
 The Go module proxy resolves the version from the `go/vX.Y.Z` GitHub
-release tag — see [Releases](https://github.com/voxgig-sdk/roadie-sdk/releases) for the available versions.
+release tag — see [Tags](https://github.com/voxgig-sdk/roadie-sdk/tags) for the available versions.
 
 To vendor from a local checkout instead, clone this repo alongside your
 project and add a `replace` directive pointing at the checked-out
@@ -35,9 +35,10 @@ loading a specific record.
 ### Quickstart
 
 A complete program: create a client, then call the entity operations.
-Each operation returns `(value, error)` — the value is the data itself
-(there is no `{ok, data}` wrapper), so check `err` and use the value
-directly.
+Each operation returns `(value, error)` — the value is the entity, and for
+`List` a `[]any` of entities, one per record (there is no `{ok, data}`
+wrapper), so check `err` and read a record through the entity's
+`Data()`.
 
 ```go
 package main
@@ -53,35 +54,35 @@ func main() {
         "apikey": os.Getenv("ROADIE_APIKEY"),
     })
 
-    // List entity records — the value is the array of records itself.
+    // List entity records — the value is a []any of entities, one per record.
     entitys, err := client.Entity(nil).List(nil, nil)
     if err != nil {
         panic(err)
     }
     for _, item := range entitys.([]any) {
-        fmt.Println(item)
+        fmt.Println(item.(sdk.Entity).Data())
     }
 
-    // Load a single entity — the value is the loaded record.
+    // Load a single entity — the value is the entity; Data() reads its record.
     entity, err := client.Entity(nil).Load(map[string]any{"id": "example_id"}, nil)
     if err != nil {
         panic(err)
     }
-    fmt.Println(entity)
+    fmt.Println(entity.(sdk.Entity).Data())
 
     // Create a entity.
     created, err := client.Entity(nil).Create(map[string]any{"apiVersion": "example_apiVersion", "id": "example_id", "kind": "example_kind", "metadata": map[string]any{}}, nil)
     if err != nil {
         panic(err)
     }
-    fmt.Println(created)
+    fmt.Println(created.(sdk.Entity).Data())
 
     // Remove a entity.
     removed, err := client.Entity(nil).Remove(map[string]any{"id": "example_id"}, nil)
     if err != nil {
         panic(err)
     }
-    fmt.Println(removed)
+    fmt.Println(removed.(sdk.Entity).Data())
 }
 ```
 
@@ -161,13 +162,16 @@ Create a mock client for unit testing — no server required:
 ```go
 client := sdk.Test()
 
-entity, err := client.Entity(nil).List(
+entitys, err := client.Entity(nil).List(
     nil, nil,
 )
 if err != nil {
     panic(err)
 }
-fmt.Println(entity) // the returned mock data
+// A []any of entities, one per mock record.
+for _, item := range entitys.([]any) {
+    fmt.Println(item.(sdk.Entity).Data())
+}
 ```
 
 ### Use a custom fetch function
@@ -247,7 +251,6 @@ Creates a test-mode client with mock transport. Both arguments may be `nil`.
 | `Prepare` | `(fetchargs map[string]any) (map[string]any, error)` | Build an HTTP request definition without sending. |
 | `Direct` | `(fetchargs map[string]any) (map[string]any, error)` | Build and send an HTTP request. |
 | `Entity` | `(data map[string]any) RoadieEntity` | Create an Entity entity instance. |
-| `EntitySet` | `(data map[string]any) RoadieEntity` | Create an EntitySet entity instance. |
 | `EntitySetPush` | `(data map[string]any) RoadieEntity` | Create an EntitySetPush entity instance. |
 
 ### Entity interface (RoadieEntity)
@@ -256,11 +259,11 @@ All entities implement the `RoadieEntity` interface.
 
 | Method | Signature | Description |
 | --- | --- | --- |
-| `Load` | `(reqmatch, ctrl map[string]any) (any, error)` | Load a single entity by match criteria. |
-| `List` | `(reqmatch, ctrl map[string]any) (any, error)` | List entities matching the criteria. |
-| `Create` | `(reqdata, ctrl map[string]any) (any, error)` | Create a new entity. |
-| `Update` | `(reqdata, ctrl map[string]any) (any, error)` | Update an existing entity. |
-| `Remove` | `(reqmatch, ctrl map[string]any) (any, error)` | Remove an entity. |
+| `Load` | `(reqmatch, ctrl map[string]any) (any, error)` | Load a single entity by match criteria, and return it. |
+| `List` | `(reqmatch, ctrl map[string]any) (any, error)` | List entities matching the criteria, one per record. |
+| `Create` | `(reqdata, ctrl map[string]any) (any, error)` | Create a new entity, and return it. |
+| `Update` | `(reqdata, ctrl map[string]any) (any, error)` | Update an existing entity, and return it. |
+| `Remove` | `(reqmatch, ctrl map[string]any) (any, error)` | Remove an entity, and return it marked as deleted. |
 | `Data` | `(args ...any) any` | Get or set entity data. |
 | `Match` | `(args ...any) any` | Get or set entity match criteria. |
 | `Make` | `() Entity` | Create a new instance with the same options. |
@@ -268,21 +271,21 @@ All entities implement the `RoadieEntity` interface.
 
 ### Result shape
 
-Entity operations return `(value, error)`. The `value` is the
-operation's data **directly** — there is no wrapper:
+Entity operations return `(value, error)`. The `value` is the entity
+itself — there is no wrapper:
 
 | Operation | `value` |
 | --- | --- |
-| `Load` / `Create` / `Update` / `Remove` | the entity record (`map[string]any`) |
-| `List` | a `[]any` of entity records |
+| `Load` / `Create` / `Update` / `Remove` | the entity, whose `Data()` reads its record (`map[string]any`) |
+| `List` | a `[]any` of entities, one per record |
 
 Check `err` first, then use the value directly (or the typed
 `...Typed` variants, which return the entity's model struct and a typed
 slice):
 
-    entity, err := client.Entity(nil).List(map[string]any{/* fields */}, nil)
+    entity, err := client.Entity(nil).List(nil, nil)
     if err != nil { /* handle */ }
-    // entity is the returned record
+    // entity is a []any of entities, one per record
 
 Only `Direct()` returns a response envelope — a `map[string]any` with
 `"ok"`, `"status"`, `"headers"`, and `"data"` keys.
@@ -310,26 +313,17 @@ Operations: Create, List, Load, Remove.
 
 API path: `/api/catalog/roadie-entities/entities`
 
-#### EntitySet
-
-| Field | Description |
-| --- | --- |
-| `"name"` |  |
-
-Operations: List.
-
-API path: `/api/catalog/roadie-entities/sets`
-
 #### EntitySetPush
 
 | Field | Description |
 | --- | --- |
 | `"items"` | The full set of entities. |
+| `"name"` |  |
 | `"set"` |  |
 
-Operations: Update.
+Operations: List, Update.
 
-API path: `/api/catalog/roadie-entities/sets/{setId}`
+API path: `/api/catalog/roadie-entities/sets`
 
 
 
@@ -373,7 +367,7 @@ entity, err := client.Entity(nil).Load(map[string]any{"id": "entity_id"}, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(entity) // the loaded record
+fmt.Println(entity.(sdk.Entity).Data()) // the loaded entity's record
 ```
 
 #### Example: List
@@ -383,7 +377,10 @@ entitys, err := client.Entity(nil).List(nil, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(entitys) // the array of records
+// A []any of entities, one per record.
+for _, item := range entitys.([]any) {
+    fmt.Println(item.(sdk.Entity).Data())
+}
 ```
 
 #### Example: Create
@@ -398,34 +395,7 @@ result, err := client.Entity(nil).Create(map[string]any{
 if err != nil {
     panic(err)
 }
-fmt.Println(result)
-```
-
-
-### EntitySet
-
-Create an instance: `entitySet := client.EntitySet(nil)`
-
-#### Operations
-
-| Method | Description |
-| --- | --- |
-| `List(match, ctrl)` | List entities matching the criteria. |
-
-#### Fields
-
-| Field | Type | Description |
-| --- | --- | --- |
-| `name` | `string` |  |
-
-#### Example: List
-
-```go
-entitySets, err := client.EntitySet(nil).List(nil, nil)
-if err != nil {
-    panic(err)
-}
-fmt.Println(entitySets) // the array of records
+fmt.Println(result.(sdk.Entity).Data()) // the created entity's record
 ```
 
 
@@ -437,6 +407,7 @@ Create an instance: `entitySetPush := client.EntitySetPush(nil)`
 
 | Method | Description |
 | --- | --- |
+| `List(match, ctrl)` | List entities matching the criteria. |
 | `Update(data, ctrl)` | Update an existing entity. |
 
 #### Fields
@@ -444,7 +415,21 @@ Create an instance: `entitySetPush := client.EntitySetPush(nil)`
 | Field | Type | Description |
 | --- | --- | --- |
 | `items` | `[]any` | The full set of entities. |
+| `name` | `string` |  |
 | `set` | `string` |  |
+
+#### Example: List
+
+```go
+entitySetPushs, err := client.EntitySetPush(nil).List(nil, nil)
+if err != nil {
+    panic(err)
+}
+// A []any of entities, one per record.
+for _, item := range entitySetPushs.([]any) {
+    fmt.Println(item.(sdk.Entity).Data())
+}
+```
 
 ## Features
 
@@ -639,7 +624,9 @@ The Go SDK uses `map[string]any` throughout rather than typed structs.
 This mirrors the dynamic nature of the API and keeps the SDK
 flexible — no code generation is needed when the API schema changes.
 
-Use `core.ToMapAny()` to safely cast results and nested data.
+An operation returns the entity, and its `Data()` returns the record. Use
+`core.ToMapAny()` to safely cast that record, or data nested in it, to
+`map[string]any`: it returns `nil` for anything else, an entity included.
 
 ### Package structure
 

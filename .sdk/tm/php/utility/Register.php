@@ -37,6 +37,8 @@ require_once __DIR__ . '/TransformResponse.php';
 
 RoadieUtility::setRegistrar(function (RoadieUtility $u): void {
     $u->clean = [RoadieClean::class, 'call'];
+    $u->clean_add = [RoadieClean::class, 'add'];
+    $u->clean_explain = [RoadieDone::class, 'clean_explain'];
     $u->done = [RoadieDone::class, 'call'];
     $u->make_error = [RoadieMakeError::class, 'call'];
     $u->feature_add = [RoadieFeatureAdd::class, 'call'];

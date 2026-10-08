@@ -192,6 +192,7 @@ class Config {
       },
       "optspec": {
         "clearTimer": "`$FUNCTION`",
+        "now": "`$FUNCTION`",
         "setTimer": "`$FUNCTION`"
       },
       "strict": false,
@@ -215,9 +216,6 @@ class Config {
     entity: {
       
         entity: {
-        },
-  
-        entity_set: {
         },
   
         entity_set_push: {
@@ -339,7 +337,11 @@ class Config {
                 "res": "`body`"
               },
               "args": {},
-              "select": {}
+              "select": {},
+              "response": {
+                "kind": "json",
+                "media": "application/json"
+              }
             }
           ]
         },
@@ -383,7 +385,8 @@ class Config {
                     "orig": "set",
                     "type": "`$STRING`",
                     "kind": "query",
-                    "reqd": true
+                    "reqd": true,
+                    "field": true
                   }
                 ]
               },
@@ -391,6 +394,10 @@ class Config {
                 "exist": [
                   "set"
                 ]
+              },
+              "response": {
+                "kind": "json",
+                "media": "application/json"
               }
             },
             {
@@ -419,7 +426,11 @@ class Config {
                 "res": "`body`"
               },
               "args": {},
-              "select": {}
+              "select": {},
+              "response": {
+                "kind": "json",
+                "media": "application/json"
+              }
             }
           ]
         },
@@ -468,7 +479,7 @@ class Config {
                 "params": [
                   {
                     "name": "id",
-                    "orig": "entity_id",
+                    "orig": "entityId",
                     "type": "`$STRING`",
                     "kind": "param",
                     "reqd": true
@@ -479,6 +490,10 @@ class Config {
                 "exist": [
                   "id"
                 ]
+              },
+              "response": {
+                "kind": "json",
+                "media": "application/json"
               }
             }
           ]
@@ -528,7 +543,7 @@ class Config {
                 "params": [
                   {
                     "name": "id",
-                    "orig": "entity_id",
+                    "orig": "entityId",
                     "type": "`$STRING`",
                     "kind": "param",
                     "reqd": true
@@ -548,15 +563,32 @@ class Config {
         "ancestors": []
       }
     },
-    "entity_set": {
+    "entity_set_push": {
       "fields": [
+        {
+          "name": "items",
+          "title": "Items",
+          "type": "`$ARRAY`",
+          "op": {
+            "update": {
+              "req": true,
+              "type": "`$ARRAY`"
+            }
+          },
+          "short": "The full set of entities."
+        },
         {
           "name": "name",
           "title": "Name",
           "type": "`$STRING`"
+        },
+        {
+          "name": "set",
+          "title": "Set",
+          "type": "`$STRING`"
         }
       ],
-      "name": "entity_set",
+      "name": "entity_set_push",
       "op": {
         "list": {
           "input": "data",
@@ -592,37 +624,14 @@ class Config {
                 "res": "`body`"
               },
               "args": {},
-              "select": {}
+              "select": {},
+              "response": {
+                "kind": "json",
+                "media": "application/json"
+              }
             }
           ]
-        }
-      },
-      "relations": {
-        "ancestors": []
-      }
-    },
-    "entity_set_push": {
-      "fields": [
-        {
-          "name": "items",
-          "title": "Items",
-          "type": "`$ARRAY`",
-          "op": {
-            "update": {
-              "req": true,
-              "type": "`$ARRAY`"
-            }
-          },
-          "short": "The full set of entities."
         },
-        {
-          "name": "set",
-          "title": "Set",
-          "type": "`$STRING`"
-        }
-      ],
-      "name": "entity_set_push",
-      "op": {
         "update": {
           "input": "data",
           "name": "update",
@@ -668,7 +677,7 @@ class Config {
                 "params": [
                   {
                     "name": "set_id",
-                    "orig": "set_id",
+                    "orig": "setId",
                     "type": "`$STRING`",
                     "kind": "param",
                     "reqd": true
@@ -679,6 +688,10 @@ class Config {
                 "exist": [
                   "set_id"
                 ]
+              },
+              "response": {
+                "kind": "json",
+                "media": "application/json"
               }
             }
           ]
