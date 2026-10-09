@@ -46,9 +46,9 @@ client = RoadieSDK.test()
 
 Create a new `EntityEntity` instance. Pass `None` for no initial data.
 
-#### `EntitySetPush(data=None)`
+#### `EntitySet(data=None)`
 
-Create a new `EntitySetPushEntity` instance. Pass `None` for no initial data.
+Create a new `EntitySetEntity` instance. Pass `None` for no initial data.
 
 #### `options_map() -> dict`
 
@@ -175,10 +175,10 @@ Return the entity name.
 
 ---
 
-## EntitySetPushEntity
+## EntitySetEntity
 
 ```python
-entity_set_push = client.EntitySetPush()
+entity_set = client.EntitySet()
 ```
 
 ### Fields
@@ -199,22 +199,22 @@ entity_set_push = client.EntitySetPush()
 
 ### Operations
 
-#### `list(reqmatch=None, ctrl=None) -> list[EntitySetPushEntity]`
+#### `list(reqmatch=None, ctrl=None) -> list[EntitySetEntity]`
 
 List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list of entities, one per record, and raises on error.
 
 ```python
-results = client.EntitySetPush().list()
-for entity_set_push in results:
-    print(entity_set_push.data_get())
+results = client.EntitySet().list()
+for entity_set in results:
+    print(entity_set.data_get())
 ```
 
-#### `update(reqdata, ctrl=None) -> EntitySetPushEntity`
+#### `update(reqdata, ctrl=None) -> EntitySetEntity`
 
 Update an existing entity. The data must include the entity `id`. Returns the updated entity and raises on error.
 
 ```python
-result = client.EntitySetPush().update({
+result = client.EntitySet().update({
     "set_id": "set_id",
     # Fields to update
 })
@@ -240,7 +240,7 @@ Set the entity match criteria.
 
 #### `make() -> Entity`
 
-Create a new `EntitySetPushEntity` instance with the same options.
+Create a new `EntitySetEntity` instance with the same options.
 
 #### `get_name() -> str`
 

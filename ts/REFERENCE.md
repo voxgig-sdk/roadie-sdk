@@ -61,9 +61,9 @@ Create a new `Entity` entity instance.
 
 **Returns:** `EntityEntity` instance.
 
-#### `EntitySetPush(data?: object)`
+#### `EntitySet(data?: object)`
 
-Create a new `EntitySetPush` entity instance.
+Create a new `EntitySet` entity instance.
 
 **Parameters:**
 
@@ -71,7 +71,7 @@ Create a new `EntitySetPush` entity instance.
 | --- | --- | --- |
 | `data` | `object` | Initial entity data. |
 
-**Returns:** `EntitySetPushEntity` instance.
+**Returns:** `EntitySetEntity` instance.
 
 #### `options()`
 
@@ -220,10 +220,10 @@ Return a copy of the entity options.
 
 ---
 
-## EntitySetPushEntity
+## EntitySetEntity
 
 ```ts
-const entity_set_push = client.EntitySetPush()
+const entity_set = client.EntitySet()
 ```
 
 ### Fields
@@ -249,7 +249,7 @@ const entity_set_push = client.EntitySetPush()
 List entities matching the given criteria. Resolves to an array of entities, one per record.
 
 ```ts
-const results = await client.EntitySetPush().list()
+const results = await client.EntitySet().list()
 ```
 
 #### `update(data: object, ctrl?: object)`
@@ -257,7 +257,7 @@ const results = await client.EntitySetPush().list()
 Update an existing entity. The data must include the entity `id`. Resolves to the updated entity.
 
 ```ts
-const result = await client.EntitySetPush().update({
+const result = await client.EntitySet().update({
   set_id: 'set_id',
   // Fields to update
 })
@@ -277,7 +277,7 @@ Get or set the entity match criteria. Works the same as `data()`.
 
 #### `make()`
 
-Create a new `EntitySetPushEntity` instance with the same client and
+Create a new `EntitySetEntity` instance with the same client and
 options.
 
 #### `client()`

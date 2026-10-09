@@ -13,7 +13,7 @@ import (
 
 // ListArgs is what an agent sends to roadie_list.
 type ListArgs struct {
-	Entity string         `json:"entity" jsonschema:"one of: entity | entity_set_push"`
+	Entity string         `json:"entity" jsonschema:"one of: entity | entity_set"`
 	Query  map[string]any `json:"query,omitempty" jsonschema:"optional filter map; omit it for the first page"`
 }
 
@@ -28,7 +28,7 @@ func registerTools(server *mcp.Server, client *sdk.RoadieSDK) {
 		Name:        "roadie_list",
 		Description: "List records from Roadie. Args: entity, query (optional filter map; omit it for the first page). Returns the first page of records as JSON.",
 		Annotations: &mcp.ToolAnnotations{ReadOnlyHint: true},
-		InputSchema: entitySchema[ListArgs]("entity", "entity_set_push"),
+		InputSchema: entitySchema[ListArgs]("entity", "entity_set"),
 	}, func(ctx context.Context, req *mcp.CallToolRequest, args ListArgs) (*mcp.CallToolResult, any, error) {
 		return runOp(ctx, client, "list", args.Entity, args.Query)
 	})
@@ -105,8 +105,8 @@ func entityFor(client *sdk.RoadieSDK, name string) (sdk.RoadieEntity, error) {
 	switch strings.ToLower(name) {
 	case "entity":
 		return client.Entity(nil), nil
-	case "entity_set_push":
-		return client.EntitySetPush(nil), nil
+	case "entity_set":
+		return client.EntitySet(nil), nil
 	}
 	return nil, fmt.Errorf("unknown entity %q", name)
 }

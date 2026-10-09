@@ -75,24 +75,24 @@ class EntityRemoveMatch
     public string $id;
 }
 
-/** EntitySetPush entity data model. */
-class EntitySetPush
+/** EntitySet entity data model. */
+class EntitySet
 {
     public ?array $items = null;
     public ?string $name = null;
     public ?string $set = null;
 }
 
-/** Request payload for EntitySetPush#list. */
-class EntitySetPushListMatch
+/** Request payload for EntitySet#list. */
+class EntitySetListMatch
 {
     public ?array $items = null;
     public ?string $name = null;
     public ?string $set = null;
 }
 
-/** Request payload for EntitySetPush#update. */
-class EntitySetPushUpdateData
+/** Request payload for EntitySet#update. */
+class EntitySetUpdateData
 {
     public string $set_id;
     public ?array $items = null;

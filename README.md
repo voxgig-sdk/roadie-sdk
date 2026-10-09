@@ -18,7 +18,7 @@ Learn more about Voxgig SDKs at [voxgig.com/sdk](https://voxgig.com/sdk/).
 
 ## Entities, not endpoints
 
-This SDK exposes the API as a small set of **semantic entities** — Entity and EntitySetPush — that you
+This SDK exposes the API as a small set of **semantic entities** — Entity and EntitySet — that you
 call directly, instead of assembling URL paths and query strings. Entities are
 **Capitalised** to mark them as the primary surface, each with the operations they
 support (`list`, `load`, `create`, `update`, `remove`):
@@ -168,7 +168,7 @@ The API exposes 2 entities:
 | Entity | Description | API path |
 | --- | --- | --- |
 | **Entity** | The Entity entity (create, list, load, remove). | `/api/catalog/roadie-entities/entities` |
-| **EntitySetPush** | The EntitySetPush entity (list, update). | `/api/catalog/roadie-entities/sets` |
+| **EntitySet** | The EntitySet entity (list, update). | `/api/catalog/roadie-entities/sets` |
 
 The operations available across these entities are **load**, **list**, **create**, **update**, **remove** — see each entity's
 own list above for exactly which it supports.

@@ -79,8 +79,8 @@ func entityFor(client *sdk.RoadieSDK, name string) (sdk.RoadieEntity, error) {
 	switch strings.ToLower(name) {
 	case "entity":
 		return client.Entity(nil), nil
-	case "entity_set_push":
-		return client.EntitySetPush(nil), nil
+	case "entity_set":
+		return client.EntitySet(nil), nil
 
 	}
 	return nil, fmt.Errorf("unknown entity %q", name)

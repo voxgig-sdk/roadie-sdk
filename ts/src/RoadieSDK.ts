@@ -1,7 +1,7 @@
 // Roadie Ts SDK
 
 import { EntityEntity } from './entity/EntityEntity'
-import { EntitySetPushEntity } from './entity/EntitySetPushEntity'
+import { EntitySetEntity } from './entity/EntitySetEntity'
 
 export type * from './RoadieTypes'
 
@@ -329,12 +329,12 @@ class RoadieSDK {
   }
 
 
-  // Entity access: `client.EntitySetPush().list()` / `client.EntitySetPush().load({ id })`.
+  // Entity access: `client.EntitySet().list()` / `client.EntitySet().load({ id })`.
   // The argument is the entity OPTIONS object (passed to the entity
   // constructor as entopts), not initial entity data.
-  EntitySetPush(entopts?: Record<string, any>) {
+  EntitySet(entopts?: Record<string, any>) {
     const self = this
-    return new EntitySetPushEntity(self, entopts)
+    return new EntitySetEntity(self, entopts)
   }
 
 

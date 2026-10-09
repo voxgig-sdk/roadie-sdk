@@ -183,7 +183,7 @@ def make_config():
       },
             "entity": {
                 "entity": {},
-                "entity_set_push": {},
+                "entity_set": {},
             },
         },
         "entity": {
@@ -524,7 +524,7 @@ def make_config():
           "ancestors": [],
         },
       },
-      "entity_set_push": {
+      "entity_set": {
         "fields": [
           {
             "name": "items",
@@ -549,7 +549,7 @@ def make_config():
             "type": "`$STRING`",
           },
         ],
-        "name": "entity_set_push",
+        "name": "entity_set",
         "op": {
           "list": {
             "input": "data",

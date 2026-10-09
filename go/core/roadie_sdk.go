@@ -380,11 +380,11 @@ func (sdk *RoadieSDK) Entity(data map[string]any) RoadieEntity {
 }
 
 
-// EntitySetPush returns a EntitySetPush entity bound to this client.
-// Idiomatic usage: client.EntitySetPush(nil).List(nil, nil) or
-// client.EntitySetPush(nil).Load(map[string]any{"id": ...}, nil).
-func (sdk *RoadieSDK) EntitySetPush(data map[string]any) RoadieEntity {
-	return NewEntitySetPushEntityFunc(sdk, data)
+// EntitySet returns a EntitySet entity bound to this client.
+// Idiomatic usage: client.EntitySet(nil).List(nil, nil) or
+// client.EntitySet(nil).Load(map[string]any{"id": ...}, nil).
+func (sdk *RoadieSDK) EntitySet(data map[string]any) RoadieEntity {
+	return NewEntitySetEntityFunc(sdk, data)
 }
 
 

@@ -9,7 +9,7 @@ import (
 	vs "github.com/voxgig-sdk/roadie-sdk/go/utility/struct"
 )
 
-type EntitySetPushEntity struct {
+type EntitySetEntity struct {
 	name    string
 	client  *core.RoadieSDK
 	utility *core.Utility
@@ -20,7 +20,7 @@ type EntitySetPushEntity struct {
 	deleted bool
 }
 
-func NewEntitySetPushEntity(client *core.RoadieSDK, entopts map[string]any) *EntitySetPushEntity {
+func NewEntitySetEntity(client *core.RoadieSDK, entopts map[string]any) *EntitySetEntity {
 	if entopts == nil {
 		entopts = map[string]any{}
 	}
@@ -32,8 +32,8 @@ func NewEntitySetPushEntity(client *core.RoadieSDK, entopts map[string]any) *Ent
 		entopts["active"] = true
 	}
 
-	e := &EntitySetPushEntity{
-		name:    "entity_set_push",
+	e := &EntitySetEntity{
+		name:    "entity_set",
 		client:  client,
 		utility: client.GetUtility(),
 		entopts: entopts,
@@ -51,47 +51,47 @@ func NewEntitySetPushEntity(client *core.RoadieSDK, entopts map[string]any) *Ent
 	return e
 }
 
-func (e *EntitySetPushEntity) GetName() string { return e.name }
+func (e *EntitySetEntity) GetName() string { return e.name }
 
 // An entity prints and serialises as its data, as ts's toString and toJSON
 // do: the client it holds carries the options.
-func (e *EntitySetPushEntity) String() string {
-	return "EntitySetPush " + vs.Jsonify(e.data, map[string]any{"indent": 0})
+func (e *EntitySetEntity) String() string {
+	return "EntitySet " + vs.Jsonify(e.data, map[string]any{"indent": 0})
 }
 
-func (e *EntitySetPushEntity) GoString() string {
+func (e *EntitySetEntity) GoString() string {
 	return e.String()
 }
 
-func (e *EntitySetPushEntity) MarshalJSON() ([]byte, error) {
+func (e *EntitySetEntity) MarshalJSON() ([]byte, error) {
 	out := map[string]any{}
 	for k, v := range e.data {
 		out[k] = v
 	}
-	out["voxgig$entity"] = "EntitySetPush"
+	out["voxgig$entity"] = "EntitySet"
 	return json.Marshal(out)
 }
 
-func (e *EntitySetPushEntity) MarkDeleted() {
+func (e *EntitySetEntity) MarkDeleted() {
 	e.deleted = true
 }
 
 
 // Deleted reports whether a successful Remove has resolved on this instance.
-func (e *EntitySetPushEntity) Deleted() bool {
+func (e *EntitySetEntity) Deleted() bool {
 	return e.deleted
 }
 
 
-func (e *EntitySetPushEntity) Make() core.Entity {
+func (e *EntitySetEntity) Make() core.Entity {
 	opts := map[string]any{}
 	for k, v := range e.entopts {
 		opts[k] = v
 	}
-	return NewEntitySetPushEntity(e.client, opts)
+	return NewEntitySetEntity(e.client, opts)
 }
 
-func (e *EntitySetPushEntity) Data(args ...any) any {
+func (e *EntitySetEntity) Data(args ...any) any {
 	if len(args) > 0 && args[0] != nil {
 		e.data = core.ToMapAny(vs.Clone(args[0]))
 		if e.data == nil {
@@ -105,7 +105,7 @@ func (e *EntitySetPushEntity) Data(args ...any) any {
 	return out
 }
 
-func (e *EntitySetPushEntity) Match(args ...any) any {
+func (e *EntitySetEntity) Match(args ...any) any {
 	if len(args) > 0 && args[0] != nil {
 		e.match = core.ToMapAny(vs.Clone(args[0]))
 		if e.match == nil {
@@ -120,27 +120,27 @@ func (e *EntitySetPushEntity) Match(args ...any) any {
 }
 
 // DataTyped is the statically-typed accessor for this entity's data. With no
-// argument it returns the current data as an EntitySetPush; with an argument it
+// argument it returns the current data as an EntitySet; with an argument it
 // sets the data and returns the stored value. It delegates to the untyped Data
 // (identical runtime) and converts at the typed boundary.
-func (e *EntitySetPushEntity) DataTyped(data ...EntitySetPush) EntitySetPush {
+func (e *EntitySetEntity) DataTyped(data ...EntitySet) EntitySet {
 	if len(data) > 0 {
-		return typedFrom[EntitySetPush](e.Data(asMap(data[0])))
+		return typedFrom[EntitySet](e.Data(asMap(data[0])))
 	}
-	return typedFrom[EntitySetPush](e.Data())
+	return typedFrom[EntitySet](e.Data())
 }
 
 // MatchTyped mirrors DataTyped for the entity's match filter. The match is a
-// partial of the entity, so it round-trips through EntitySetPush (all fields
+// partial of the entity, so it round-trips through EntitySet (all fields
 // optional at the wire level).
-func (e *EntitySetPushEntity) MatchTyped(match ...EntitySetPush) EntitySetPush {
+func (e *EntitySetEntity) MatchTyped(match ...EntitySet) EntitySet {
 	if len(match) > 0 {
-		return typedFrom[EntitySetPush](e.Match(asMap(match[0])))
+		return typedFrom[EntitySet](e.Match(asMap(match[0])))
 	}
-	return typedFrom[EntitySetPush](e.Match())
+	return typedFrom[EntitySet](e.Match())
 }
 
-func (e *EntitySetPushEntity) Stream(action string, args map[string]any, callopts map[string]any) <-chan core.StreamItem {
+func (e *EntitySetEntity) Stream(action string, args map[string]any, callopts map[string]any) <-chan core.StreamItem {
 	out := make(chan core.StreamItem)
 
 	if callopts == nil {
@@ -251,7 +251,7 @@ func (e *EntitySetPushEntity) Stream(action string, args map[string]any, callopt
 
 // The steps an operation runs, with their hooks; the first that fails hands
 // back its error.
-func (e *EntitySetPushEntity) streamSteps(ctx *core.Context) error {
+func (e *EntitySetEntity) streamSteps(ctx *core.Context) error {
 	utility := e.utility
 
 	utility.FeatureHook(ctx, "PrePoint")
@@ -293,13 +293,13 @@ func (e *EntitySetPushEntity) streamSteps(ctx *core.Context) error {
 	return nil
 }
 
-func (e *EntitySetPushEntity) Load(_ map[string]any, _ map[string]any) (any, error) {
+func (e *EntitySetEntity) Load(_ map[string]any, _ map[string]any) (any, error) {
 	return core.UnsupportedOp("load", e.name)
 }
 
 
 
-func (e *EntitySetPushEntity) List(reqmatch map[string]any, ctrl map[string]any) (any, error) {
+func (e *EntitySetEntity) List(reqmatch map[string]any, ctrl map[string]any) (any, error) {
 	utility := e.utility
 	ctx := utility.MakeContext(map[string]any{
 		"opname":   "list",
@@ -319,25 +319,25 @@ func (e *EntitySetPushEntity) List(reqmatch map[string]any, ctrl map[string]any)
 }
 
 // ListTyped is the statically-typed variant of List: it takes an
-// EntitySetPushListMatch and returns []EntitySetPush. It delegates to the untyped
+// EntitySetListMatch and returns []EntitySet. It delegates to the untyped
 // List (identical runtime) and converts at the typed boundary.
-func (e *EntitySetPushEntity) ListTyped(reqmatch EntitySetPushListMatch, ctrl map[string]any) ([]EntitySetPush, error) {
+func (e *EntitySetEntity) ListTyped(reqmatch EntitySetListMatch, ctrl map[string]any) ([]EntitySet, error) {
 	res, err := e.List(asMap(reqmatch), ctrl)
 	if err != nil {
 		return nil, err
 	}
-	return typedSliceFrom[EntitySetPush](res), nil
+	return typedSliceFrom[EntitySet](res), nil
 }
 
 
 
-func (e *EntitySetPushEntity) Create(_ map[string]any, _ map[string]any) (any, error) {
+func (e *EntitySetEntity) Create(_ map[string]any, _ map[string]any) (any, error) {
 	return core.UnsupportedOp("create", e.name)
 }
 
 
 
-func (e *EntitySetPushEntity) Update(reqdata map[string]any, ctrl map[string]any) (any, error) {
+func (e *EntitySetEntity) Update(reqdata map[string]any, ctrl map[string]any) (any, error) {
 	utility := e.utility
 	ctx := utility.MakeContext(map[string]any{
 		"opname":  "update",
@@ -363,29 +363,29 @@ func (e *EntitySetPushEntity) Update(reqdata map[string]any, ctrl map[string]any
 }
 
 // UpdateTyped is the statically-typed variant of Update: it takes an
-// EntitySetPushUpdateData and returns an EntitySetPush. It delegates to the untyped
+// EntitySetUpdateData and returns an EntitySet. It delegates to the untyped
 // Update (identical runtime) and converts at the typed boundary.
-func (e *EntitySetPushEntity) UpdateTyped(reqdata EntitySetPushUpdateData, ctrl map[string]any) (EntitySetPush, error) {
+func (e *EntitySetEntity) UpdateTyped(reqdata EntitySetUpdateData, ctrl map[string]any) (EntitySet, error) {
 	res, err := e.Update(asMap(reqdata), ctrl)
 	if err != nil {
-		return EntitySetPush{}, err
+		return EntitySet{}, err
 	}
-	return typedFrom[EntitySetPush](res), nil
+	return typedFrom[EntitySet](res), nil
 }
 
 
 
-func (e *EntitySetPushEntity) Patch(_ map[string]any, _ map[string]any) (any, error) {
+func (e *EntitySetEntity) Patch(_ map[string]any, _ map[string]any) (any, error) {
 	return core.UnsupportedOp("patch", e.name)
 }
 
 
-func (e *EntitySetPushEntity) Remove(_ map[string]any, _ map[string]any) (any, error) {
+func (e *EntitySetEntity) Remove(_ map[string]any, _ map[string]any) (any, error) {
 	return core.UnsupportedOp("remove", e.name)
 }
 
 
-func (e *EntitySetPushEntity) runOp(ctx *core.Context, postDone func()) (out any, err error) {
+func (e *EntitySetEntity) runOp(ctx *core.Context, postDone func()) (out any, err error) {
 	utility := e.utility
 
 	defer func() {
@@ -454,7 +454,7 @@ func (e *EntitySetPushEntity) runOp(ctx *core.Context, postDone func()) (out any
 
 // A hook, fetcher or parser that panics never reached MakeError, and its
 // message can quote the request.
-func (e *EntitySetPushEntity) recovered(ctx *core.Context, r any) (any, error) {
+func (e *EntitySetEntity) recovered(ctx *core.Context, r any) (any, error) {
 	perr, ok := r.(error)
 	if !ok {
 		perr = fmt.Errorf("%v", r)

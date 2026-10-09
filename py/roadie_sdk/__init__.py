@@ -347,10 +347,10 @@ class RoadieSDK:
         return EntityEntity(self, data)
 
 
-    def EntitySetPush(self, data=None) -> "EntitySetPushEntity":
-        """Entity factory: client.EntitySetPush().list() / client.EntitySetPush().load({"id": ...})."""
-        from roadie_sdk.entity.entity_set_push_entity import EntitySetPushEntity
-        return EntitySetPushEntity(self, data)
+    def EntitySet(self, data=None) -> "EntitySetEntity":
+        """Entity factory: client.EntitySet().list() / client.EntitySet().load({"id": ...})."""
+        from roadie_sdk.entity.entity_set_entity import EntitySetEntity
+        return EntitySetEntity(self, data)
 
 
 
@@ -381,4 +381,4 @@ from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from roadie_sdk.entity.entity_entity import EntityEntity
-    from roadie_sdk.entity.entity_set_push_entity import EntitySetPushEntity
+    from roadie_sdk.entity.entity_set_entity import EntitySetEntity

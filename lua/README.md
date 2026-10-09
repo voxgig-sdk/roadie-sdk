@@ -220,7 +220,7 @@ Creates a test-mode client with mock transport. Both arguments may be `nil`.
 | `prepare` | `(fetchargs) -> table, err` | Build an HTTP request definition without sending. |
 | `direct` | `(fetchargs) -> table, err` | Build and send an HTTP request. |
 | `Entity` | `(data) -> EntityEntity` | Create an Entity entity instance. |
-| `EntitySetPush` | `(data) -> EntitySetPushEntity` | Create an EntitySetPush entity instance. |
+| `EntitySet` | `(data) -> EntitySetEntity` | Create an EntitySet entity instance. |
 
 ### Entity interface
 
@@ -282,7 +282,7 @@ Operations: Create, List, Load, Remove.
 
 API path: `/api/catalog/roadie-entities/entities`
 
-#### EntitySetPush
+#### EntitySet
 
 | Field | Description |
 | --- | --- |
@@ -353,9 +353,9 @@ local entity, err = client:Entity():create({
 ```
 
 
-### EntitySetPush
+### EntitySet
 
-Create an instance: `local entity_set_push = client:EntitySetPush(nil)`
+Create an instance: `local entity_set = client:EntitySet(nil)`
 
 #### Operations
 
@@ -375,7 +375,7 @@ Create an instance: `local entity_set_push = client:EntitySetPush(nil)`
 #### Example: List
 
 ```lua
-local entity_set_pushs, err = client:EntitySetPush():list()
+local entity_sets, err = client:EntitySet():list()
 ```
 
 ## Features

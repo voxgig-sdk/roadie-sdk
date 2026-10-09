@@ -14,11 +14,11 @@ import (
 // request that fails, or a live test missing an input it needs,
 // fails the test.
 // An account with no record for a test to read skips it either way.
-const entity_set_pushDirectLiveStrict = true
+const entity_setDirectLiveStrict = true
 
-func TestEntitySetPushDirect(t *testing.T) {
-	t.Run("direct-list-entity_set_push", func(t *testing.T) {
-		setup := entity_set_pushDirectSetup([]any{
+func TestEntitySetDirect(t *testing.T) {
+	t.Run("direct-list-entity_set", func(t *testing.T) {
+		setup := entity_setDirectSetup([]any{
 			map[string]any{"id": "direct01"},
 			map[string]any{"id": "direct02"},
 		})
@@ -26,7 +26,7 @@ func TestEntitySetPushDirect(t *testing.T) {
 		if setup.live {
 			_mode = "live"
 		}
-		if _shouldSkip, _reason := isControlSkipped("direct", "direct-list-entity_set_push", _mode); _shouldSkip {
+		if _shouldSkip, _reason := isControlSkipped("direct", "direct-list-entity_set", _mode); _shouldSkip {
 			if _reason == "" {
 				_reason = "skipped via sdk-test-control.json"
 			}
@@ -43,13 +43,13 @@ func TestEntitySetPushDirect(t *testing.T) {
 		})
 		if setup.live {
 			if err != nil {
-				liveMiss(t, entity_set_pushDirectLiveStrict, "Live list failed: %v", err)
+				liveMiss(t, entity_setDirectLiveStrict, "Live list failed: %v", err)
 			}
 			if status := core.ToInt(result["status"]); result["ok"] != true || status < 200 || status >= 300 {
-				liveMiss(t, entity_set_pushDirectLiveStrict, "Live list failed: %s", liveDescribe(result))
+				liveMiss(t, entity_setDirectLiveStrict, "Live list failed: %s", liveDescribe(result))
 			}
 			if _, ok := liveList(result["data"]); !ok {
-				liveMiss(t, entity_set_pushDirectLiveStrict, "Live list returned no list: %s", liveDescribe(result))
+				liveMiss(t, entity_setDirectLiveStrict, "Live list returned no list: %s", liveDescribe(result))
 			}
 		} else {
 			if err != nil {
@@ -80,20 +80,20 @@ func TestEntitySetPushDirect(t *testing.T) {
 
 }
 
-type entity_set_pushDirectSetupResult struct {
+type entity_setDirectSetupResult struct {
 	client *sdk.RoadieSDK
 	calls  *[]map[string]any
 	live   bool
 	idmap  map[string]any
 }
 
-func entity_set_pushDirectSetup(mockres any) *entity_set_pushDirectSetupResult {
+func entity_setDirectSetup(mockres any) *entity_setDirectSetupResult {
 	loadEnvLocal()
 
 	calls := &[]map[string]any{}
 
 	env := envOverride(map[string]any{
-		"ROADIE_TEST_ENTITY_SET_PUSH_ENTID": map[string]any{},
+		"ROADIE_TEST_ENTITY_SET_ENTID": map[string]any{},
 		"ROADIE_TEST_LIVE":    "FALSE",
 		"ROADIE_APIKEY":       "",
 	})
@@ -115,7 +115,7 @@ func entity_set_pushDirectSetup(mockres any) *entity_set_pushDirectSetupResult {
 		client := sdk.NewRoadieSDK(mergedOpts)
 
 		idmap := map[string]any{}
-		if entidRaw, ok := env["ROADIE_TEST_ENTITY_SET_PUSH_ENTID"]; ok {
+		if entidRaw, ok := env["ROADIE_TEST_ENTITY_SET_ENTID"]; ok {
 			if entidStr, ok := entidRaw.(string); ok && strings.HasPrefix(entidStr, "{") {
 				json.Unmarshal([]byte(entidStr), &idmap)
 			} else if entidMap, ok := entidRaw.(map[string]any); ok {
@@ -123,7 +123,7 @@ func entity_set_pushDirectSetup(mockres any) *entity_set_pushDirectSetupResult {
 			}
 		}
 
-		return &entity_set_pushDirectSetupResult{client: client, calls: calls, live: true, idmap: idmap}
+		return &entity_setDirectSetupResult{client: client, calls: calls, live: true, idmap: idmap}
 	}
 
 	mockFetch := func(url string, init map[string]any) (map[string]any, error) {
@@ -148,7 +148,7 @@ func entity_set_pushDirectSetup(mockres any) *entity_set_pushDirectSetupResult {
 		},
 	})
 
-	return &entity_set_pushDirectSetupResult{client: client, calls: calls, live: false, idmap: map[string]any{}}
+	return &entity_setDirectSetupResult{client: client, calls: calls, live: false, idmap: map[string]any{}}
 }
 
 var _ = os.Getenv

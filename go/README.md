@@ -251,7 +251,7 @@ Creates a test-mode client with mock transport. Both arguments may be `nil`.
 | `Prepare` | `(fetchargs map[string]any) (map[string]any, error)` | Build an HTTP request definition without sending. |
 | `Direct` | `(fetchargs map[string]any) (map[string]any, error)` | Build and send an HTTP request. |
 | `Entity` | `(data map[string]any) RoadieEntity` | Create an Entity entity instance. |
-| `EntitySetPush` | `(data map[string]any) RoadieEntity` | Create an EntitySetPush entity instance. |
+| `EntitySet` | `(data map[string]any) RoadieEntity` | Create an EntitySet entity instance. |
 
 ### Entity interface (RoadieEntity)
 
@@ -313,7 +313,7 @@ Operations: Create, List, Load, Remove.
 
 API path: `/api/catalog/roadie-entities/entities`
 
-#### EntitySetPush
+#### EntitySet
 
 | Field | Description |
 | --- | --- |
@@ -399,9 +399,9 @@ fmt.Println(result.(sdk.Entity).Data()) // the created entity's record
 ```
 
 
-### EntitySetPush
+### EntitySet
 
-Create an instance: `entitySetPush := client.EntitySetPush(nil)`
+Create an instance: `entitySet := client.EntitySet(nil)`
 
 #### Operations
 
@@ -421,12 +421,12 @@ Create an instance: `entitySetPush := client.EntitySetPush(nil)`
 #### Example: List
 
 ```go
-entitySetPushs, err := client.EntitySetPush(nil).List(nil, nil)
+entitySets, err := client.EntitySet(nil).List(nil, nil)
 if err != nil {
     panic(err)
 }
 // A []any of entities, one per record.
-for _, item := range entitySetPushs.([]any) {
+for _, item := range entitySets.([]any) {
     fmt.Println(item.(sdk.Entity).Data())
 }
 ```

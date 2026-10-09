@@ -5,27 +5,27 @@ const { RoadieEntityBase } = require('../RoadieEntityBase')
 
 
 // TODO: needs Entity superclass
-class EntitySetPushEntity extends RoadieEntityBase {
+class EntitySetEntity extends RoadieEntityBase {
 
   constructor(client, entopts) {
     super(client, entopts)
-    this.name = 'entity_set_push'
-    this.name_ = 'entity_set_push'
-    this.Name = 'EntitySetPush'
+    this.name = 'entity_set'
+    this.name_ = 'entity_set'
+    this.Name = 'EntitySet'
   }
 
 
   make() {
-    return new EntitySetPushEntity(this._client, this.entopts())
+    return new EntitySetEntity(this._client, this.entopts())
   }
 
 
 
 
   /**
-   * @param {EntitySetPushListMatch} [reqmatch]
+   * @param {EntitySetListMatch} [reqmatch]
    * @param {Object} [ctrl]
-   * @returns {Promise<EntitySetPushEntity[]>}
+   * @returns {Promise<EntitySetEntity[]>}
    */
   async list(reqmatch, ctrl) {
 
@@ -143,9 +143,9 @@ class EntitySetPushEntity extends RoadieEntityBase {
 
 
   /**
-   * @param {EntitySetPushUpdateData} [reqdata]
+   * @param {EntitySetUpdateData} [reqdata]
    * @param {Object} [ctrl]
-   * @returns {Promise<EntitySetPushEntity>}
+   * @returns {Promise<EntitySetEntity>}
    */
   async update(reqdata, ctrl) {
 
@@ -279,5 +279,5 @@ class EntitySetPushEntity extends RoadieEntityBase {
 
 
 module.exports = {
-  EntitySetPushEntity
+  EntitySetEntity
 }

@@ -57,8 +57,8 @@ func init() {
 	core.NewEntityEntityFunc = func(client *core.RoadieSDK, entopts map[string]any) core.RoadieEntity {
 		return entity.NewEntityEntity(client, entopts)
 	}
-	core.NewEntitySetPushEntityFunc = func(client *core.RoadieSDK, entopts map[string]any) core.RoadieEntity {
-		return entity.NewEntitySetPushEntity(client, entopts)
+	core.NewEntitySetEntityFunc = func(client *core.RoadieSDK, entopts map[string]any) core.RoadieEntity {
+		return entity.NewEntitySetEntity(client, entopts)
 	}
 }
 

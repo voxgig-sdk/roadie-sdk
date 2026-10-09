@@ -75,23 +75,23 @@ class EntityRemoveMatch(TypedDict):
     id: str
 
 
-class EntitySetPush(TypedDict, total=False):
+class EntitySet(TypedDict, total=False):
     items: list
     name: str
     set: str
 
 
-class EntitySetPushListMatch(TypedDict, total=False):
+class EntitySetListMatch(TypedDict, total=False):
     items: list
     name: str
     set: str
 
 
-class EntitySetPushUpdateDataRequired(TypedDict):
+class EntitySetUpdateDataRequired(TypedDict):
     set_id: str
 
 
-class EntitySetPushUpdateData(EntitySetPushUpdateDataRequired, total=False):
+class EntitySetUpdateData(EntitySetUpdateDataRequired, total=False):
     items: list
     name: str
     set: str

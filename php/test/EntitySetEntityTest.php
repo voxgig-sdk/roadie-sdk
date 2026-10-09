@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-// EntitySetPush entity test
+// EntitySet entity test
 
 require_once __DIR__ . '/../roadie_sdk.php';
 require_once __DIR__ . '/Runner.php';
@@ -9,7 +9,7 @@ require_once __DIR__ . '/Runner.php';
 use PHPUnit\Framework\TestCase;
 use Voxgig\Struct\Struct as Vs;
 
-class EntitySetPushEntityTestFailHook extends RoadieBaseFeature
+class EntitySetEntityTestFailHook extends RoadieBaseFeature
 {
     public int $unexpected = 0;
 
@@ -25,7 +25,7 @@ class EntitySetPushEntityTestFailHook extends RoadieBaseFeature
 
     public function PreSpec(RoadieContext $ctx): void
     {
-        throw new \RuntimeException('entity_set_push hook failed');
+        throw new \RuntimeException('entity_set hook failed');
     }
 
     public function PreUnexpected(RoadieContext $ctx): void
@@ -34,7 +34,7 @@ class EntitySetPushEntityTestFailHook extends RoadieBaseFeature
     }
 }
 
-class EntitySetPushEntityTest extends TestCase
+class EntitySetEntityTest extends TestCase
 {
     // main.kit.test.live.strict is true (the default is true): a live
     // request that fails, or a live test missing an input it needs,
@@ -45,7 +45,7 @@ class EntitySetPushEntityTest extends TestCase
     public function test_create_instance(): void
     {
         $testsdk = RoadieSDK::test(null, null);
-        $ent = $testsdk->EntitySetPush(null);
+        $ent = $testsdk->EntitySet(null);
         $this->assertNotNull($ent);
     }
 
@@ -57,7 +57,7 @@ class EntitySetPushEntityTest extends TestCase
     {
         $seed = [
             "entity" => [
-                "entity_set_push" => [
+                "entity_set" => [
                     "s1" => ["id" => "s1"],
                     "s2" => ["id" => "s2"],
                     "s3" => ["id" => "s3"],
@@ -67,7 +67,7 @@ class EntitySetPushEntityTest extends TestCase
 
         // Fallback: streaming inactive -> yields the materialised list items.
         $base = RoadieSDK::test($seed, null);
-        $seen = iterator_to_array($base->EntitySetPush(null)->stream("list", null, null), false);
+        $seen = iterator_to_array($base->EntitySet(null)->stream("list", null, null), false);
         $this->assertCount(3, $seen);
 
         // Inbound: streaming active -> yields each item from the feature.
@@ -75,7 +75,7 @@ class EntitySetPushEntityTest extends TestCase
         if (isset($cfg["feature"]) && is_array($cfg["feature"]) && isset($cfg["feature"]["streaming"])) {
             $sdk = RoadieSDK::test($seed, ["feature" => ["streaming" => ["active" => true]]]);
             $got = [];
-            foreach ($sdk->EntitySetPush(null)->stream("list", null, null) as $item) {
+            foreach ($sdk->EntitySet(null)->stream("list", null, null) as $item) {
                 if (is_array($item) && array_is_list($item)) {
                     foreach ($item as $sub) {
                         $got[] = $sub;
@@ -93,7 +93,7 @@ class EntitySetPushEntityTest extends TestCase
         $offline = ["net" => ["offline" => true]];
         $streamerr = null;
         try {
-            iterator_to_array(RoadieSDK::test($offline, null)->EntitySetPush(null)
+            iterator_to_array(RoadieSDK::test($offline, null)->EntitySet(null)
                 ->stream("list", null, null), false);
         } catch (\Throwable $e) {
             $streamerr = $e;
@@ -101,7 +101,7 @@ class EntitySetPushEntityTest extends TestCase
         $this->assertNotNull($streamerr, 'the stream should raise the transport failure');
         $this->assertStringContainsString('offline', $streamerr->getMessage());
 
-        iterator_to_array(RoadieSDK::test($offline, null)->EntitySetPush(null)
+        iterator_to_array(RoadieSDK::test($offline, null)->EntitySet(null)
             ->stream("list", null, ["ctrl" => ["throw" => false]]), false);
 
         $cfg = RoadieConfig::shared_config();
@@ -109,7 +109,7 @@ class EntitySetPushEntityTest extends TestCase
             $denied = RoadieSDK::test(null, ["feature" => ["rbac" => ["active" => true, "deny" => true]]]);
             $denyerr = null;
             try {
-                iterator_to_array($denied->EntitySetPush(null)->stream("list", null, null), false);
+                iterator_to_array($denied->EntitySet(null)->stream("list", null, null), false);
             } catch (\Throwable $e) {
                 $denyerr = $e;
             }
@@ -120,19 +120,19 @@ class EntitySetPushEntityTest extends TestCase
     public function test_stream_ctrl(): void
     {
         $ctrl = ["explain" => []];
-        iterator_to_array(RoadieSDK::test(null, null)->EntitySetPush(null)
+        iterator_to_array(RoadieSDK::test(null, null)->EntitySet(null)
             ->stream("list", null, ["ctrl" => $ctrl]), false);
         $this->assertSame(["explain"], array_keys($ctrl));
     }
 
     public function test_unexpected(): void
     {
-        $hook = new EntitySetPushEntityTestFailHook();
+        $hook = new EntitySetEntityTestFailHook();
         $client = new RoadieSDK(["feature" => ["test" => ["active" => true]], "extend" => [$hook]]);
 
         $err = null;
         try {
-            $client->EntitySetPush(null)->list(null, null);
+            $client->EntitySet(null)->list(null, null);
         } catch (\Throwable $e) {
             $err = $e;
         }
@@ -141,7 +141,7 @@ class EntitySetPushEntityTest extends TestCase
         $this->assertGreaterThan(0, $hook->unexpected, 'PreUnexpected did not fire');
 
         $fired = $hook->unexpected;
-        $this->assertNull($client->EntitySetPush(null)->list(null, ["throw" => false]));
+        $this->assertNull($client->EntitySet(null)->list(null, ["throw" => false]));
         $this->assertGreaterThan($fired, $hook->unexpected, 'PreUnexpected did not fire');
     }
 
@@ -155,20 +155,20 @@ class EntitySetPushEntityTest extends TestCase
             "test" => ["active" => true],
             "feature" => ["cost" => ["active" => true, "unit" => 1]],
             "utility" => ["fetcher" => function ($ctx, $url, $fetchdef) {
-                throw new \RuntimeException('entity_set_push transport failed');
+                throw new \RuntimeException('entity_set transport failed');
             }],
         ]);
 
         $err = null;
         try {
-            $client->EntitySetPush(null)->list(null, null);
+            $client->EntitySet(null)->list(null, null);
         } catch (\Throwable $e) {
             $err = $e;
         }
         $this->assertInstanceOf(RoadieError::class, $err);
         $this->assertStringContainsString('transport failed', $err->getMessage());
 
-        $client->EntitySetPush(null)->list(null, ["throw" => false]);
+        $client->EntitySet(null)->list(null, ["throw" => false]);
         $this->assertSame(2, $client->_cost["total"]["calls"]);
         $this->assertSame(2, $client->_cost["total"]["attempts"]);
     }
@@ -182,7 +182,7 @@ class EntitySetPushEntityTest extends TestCase
         $client = RoadieSDK::test(null, ["feature" => ["validate" => ["active" => true]]]);
         $err = null;
         try {
-            $client->EntitySetPush(null)->list(["name" => 1], null);
+            $client->EntitySet(null)->list(["name" => 1], null);
         } catch (\Throwable $e) {
             $err = $e;
         }
@@ -191,11 +191,11 @@ class EntitySetPushEntityTest extends TestCase
 
     public function test_basic_flow(): void
     {
-        $setup = entity_set_push_basic_setup(null);
+        $setup = entity_set_basic_setup(null);
         // Per-op sdk-test-control.json skip.
         $_live = !empty($setup["live"]);
         foreach (["list"] as $_op) {
-            [$_shouldSkip, $_reason] = Runner::is_control_skipped("entityOp", "entity_set_push." . $_op, $_live ? "live" : "unit");
+            [$_shouldSkip, $_reason] = Runner::is_control_skipped("entityOp", "entity_set." . $_op, $_live ? "live" : "unit");
             if ($_shouldSkip) {
                 $this->markTestSkipped($_reason ?? "skipped via sdk-test-control.json");
                 return;
@@ -204,28 +204,28 @@ class EntitySetPushEntityTest extends TestCase
         $client = $setup["client"];
 
         // Bootstrap entity data from existing test data.
-        $entity_set_push_ref01_data_raw = Vs::items(Helpers::to_map(
-            Vs::getpath($setup["data"], "existing.entity_set_push")));
-        $entity_set_push_ref01_data = null;
-        if (count($entity_set_push_ref01_data_raw) > 0) {
-            $entity_set_push_ref01_data = Helpers::to_map($entity_set_push_ref01_data_raw[0][1]);
+        $entity_set_ref01_data_raw = Vs::items(Helpers::to_map(
+            Vs::getpath($setup["data"], "existing.entity_set")));
+        $entity_set_ref01_data = null;
+        if (count($entity_set_ref01_data_raw) > 0) {
+            $entity_set_ref01_data = Helpers::to_map($entity_set_ref01_data_raw[0][1]);
         }
 
         // LIST
-        $entity_set_push_ref01_ent = $client->EntitySetPush(null);
-        $entity_set_push_ref01_match = [];
+        $entity_set_ref01_ent = $client->EntitySet(null);
+        $entity_set_ref01_match = [];
 
-        $entity_set_push_ref01_list_result = $entity_set_push_ref01_ent->list($entity_set_push_ref01_match, null);
-        $this->assertIsArray($entity_set_push_ref01_list_result);
+        $entity_set_ref01_list_result = $entity_set_ref01_ent->list($entity_set_ref01_match, null);
+        $this->assertIsArray($entity_set_ref01_list_result);
 
     }
 }
 
-function entity_set_push_basic_setup($extra)
+function entity_set_basic_setup($extra)
 {
     Runner::load_env_local();
 
-    $entity_data_file = __DIR__ . '/../../.sdk/test/entity/entity_set_push/EntitySetPushTestData.json';
+    $entity_data_file = __DIR__ . '/../../.sdk/test/entity/entity_set/EntitySetTestData.json';
     $entity_data_source = file_get_contents($entity_data_file);
     $entity_data = json_decode($entity_data_source, true);
 
@@ -236,24 +236,24 @@ function entity_set_push_basic_setup($extra)
 
     // Generate idmap.
     $idmap = [];
-    foreach (["entity_set_push01", "entity_set_push02", "entity_set_push03"] as $k) {
+    foreach (["entity_set01", "entity_set02", "entity_set03"] as $k) {
         $idmap[$k] = strtoupper($k);
     }
 
     // Whether *_ENTID supplied the idmap, read before env_override consumes
     // it: without it, the ids a live flow binds are the fixture's synthetic ones.
-    $entid_env_raw = getenv("ROADIE_TEST_ENTITY_SET_PUSH_ENTID");
+    $entid_env_raw = getenv("ROADIE_TEST_ENTITY_SET_ENTID");
     $idmap_overridden = $entid_env_raw !== false && str_starts_with(trim($entid_env_raw), "{");
 
     $env = Runner::env_override([
-        "ROADIE_TEST_ENTITY_SET_PUSH_ENTID" => $idmap,
+        "ROADIE_TEST_ENTITY_SET_ENTID" => $idmap,
         "ROADIE_TEST_LIVE" => "FALSE",
         "ROADIE_TEST_EXPLAIN" => "FALSE",
         "ROADIE_APIKEY" => "",
     ]);
 
     $idmap_resolved = Helpers::to_map(
-        $env["ROADIE_TEST_ENTITY_SET_PUSH_ENTID"]);
+        $env["ROADIE_TEST_ENTITY_SET_ENTID"]);
     if ($idmap_resolved === null) {
         $idmap_resolved = Helpers::to_map($idmap);
     }

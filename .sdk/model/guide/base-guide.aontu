@@ -23,7 +23,7 @@ guide: {
     }
   }
 
-  entity: entity_set_push: {
+  entity: entity_set: {
     path: "/api/catalog/roadie-entities/sets": {
       op: list: method: *GET
     }

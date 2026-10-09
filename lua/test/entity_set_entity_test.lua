@@ -1,4 +1,4 @@
--- EntitySetPush entity test
+-- EntitySet entity test
 
 local json = require("dkjson")
 local vs = require("utility.struct.struct")
@@ -29,7 +29,7 @@ function FailHook.new()
 end
 
 function FailHook:init(_ctx, _options) end
-function FailHook:PreSpec(_ctx) error("entity_set_push hook failed") end
+function FailHook:PreSpec(_ctx) error("entity_set hook failed") end
 function FailHook:PreUnexpected(_ctx) self.unexpected = self.unexpected + 1 end
 
 local function errtext(err)
@@ -39,10 +39,10 @@ local function errtext(err)
   return tostring(err)
 end
 
-describe("EntitySetPushEntity", function()
+describe("EntitySetEntity", function()
   it("should create instance", function()
     local testsdk = sdk.test(nil, nil)
-    local ent = testsdk:EntitySetPush(nil)
+    local ent = testsdk:EntitySet(nil)
     assert.is_not_nil(ent)
   end)
 
@@ -53,7 +53,7 @@ describe("EntitySetPushEntity", function()
   it("should stream", function()
     local seed = {
       entity = {
-        ["entity_set_push"] = {
+        ["entity_set"] = {
           s1 = { id = "s1" },
           s2 = { id = "s2" },
           s3 = { id = "s3" },
@@ -64,7 +64,7 @@ describe("EntitySetPushEntity", function()
     -- Fallback: streaming inactive -> yields the materialised list items.
     local base = sdk.test(seed, nil)
     local seen = {}
-    for item in base:EntitySetPush(nil):stream("list", nil, nil) do
+    for item in base:EntitySet(nil):stream("list", nil, nil) do
       table.insert(seen, item)
     end
     assert.are.equal(3, #seen)
@@ -74,7 +74,7 @@ describe("EntitySetPushEntity", function()
     if type(config.feature) == "table" and config.feature.streaming ~= nil then
       local streamsdk = sdk.test(seed, { feature = { streaming = { active = true } } })
       local got = {}
-      for item in streamsdk:EntitySetPush(nil):stream("list", nil, nil) do
+      for item in streamsdk:EntitySet(nil):stream("list", nil, nil) do
         if vs.islist(item) then
           for _, sub in ipairs(item) do
             table.insert(got, sub)
@@ -90,18 +90,18 @@ describe("EntitySetPushEntity", function()
   it("should report a failed stream", function()
     local offline = { net = { offline = true } }
     local ok, err = pcall(function()
-      for _ in sdk.test(offline, nil):EntitySetPush(nil):stream("list", nil, nil) do end
+      for _ in sdk.test(offline, nil):EntitySet(nil):stream("list", nil, nil) do end
     end)
     assert.is_false(ok)
     assert.truthy(string.find(errtext(err), "offline", 1, true))
 
-    for _ in sdk.test(offline, nil):EntitySetPush(nil):stream("list", nil, { ctrl = { throw = false } }) do end
+    for _ in sdk.test(offline, nil):EntitySet(nil):stream("list", nil, { ctrl = { throw = false } }) do end
 
     local config = require("config_shared")()
     if type(config.feature) == "table" and config.feature.rbac ~= nil then
       local denied = sdk.test(nil, { feature = { rbac = { active = true, deny = true } } })
       local dok, derr = pcall(function()
-        for _ in denied:EntitySetPush(nil):stream("list", nil, nil) do end
+        for _ in denied:EntitySet(nil):stream("list", nil, nil) do end
       end)
       assert.is_false(dok)
       assert.are.equal("rbac_denied", type(derr) == "table" and derr.code or nil)
@@ -111,7 +111,7 @@ describe("EntitySetPushEntity", function()
   it("should leave the caller's ctrl", function()
     local explain = {}
     local ctrl = { explain = explain }
-    for _ in sdk.test(nil, nil):EntitySetPush(nil):stream("list", nil, { ctrl = ctrl }) do end
+    for _ in sdk.test(nil, nil):EntitySet(nil):stream("list", nil, { ctrl = ctrl }) do end
     assert.is_nil(ctrl.stream)
     assert.are.equal(explain, ctrl.explain)
     assert.is_not_nil(next(explain))
@@ -121,13 +121,13 @@ describe("EntitySetPushEntity", function()
     local hook = FailHook.new()
     local client = sdk.new({ feature = { test = { active = true } }, extend = { hook } })
 
-    local out, err = client:EntitySetPush(nil):list(nil, nil)
+    local out, err = client:EntitySet(nil):list(nil, nil)
     assert.is_nil(out)
     assert.truthy(string.find(errtext(err), "hook failed", 1, true))
     assert.is_true(hook.unexpected > 0)
 
     local fired = hook.unexpected
-    out, err = client:EntitySetPush(nil):list(nil, { throw = false })
+    out, err = client:EntitySet(nil):list(nil, { throw = false })
     assert.is_nil(err)
     assert.is_true(hook.unexpected > fired)
   end)
@@ -139,16 +139,16 @@ describe("EntitySetPushEntity", function()
       return
     end
     local client = sdk.test(nil, { feature = { validate = { active = true } } })
-    local _, err = client:EntitySetPush(nil):list({ ["name"] = 1 }, nil)
+    local _, err = client:EntitySet(nil):list({ ["name"] = 1 }, nil)
     assert.are.equal("validate_failed", type(err) == "table" and err.code or nil)
   end)
 
   it("should run basic flow", function()
-    local setup = entity_set_push_basic_setup(nil)
+    local setup = entity_set_basic_setup(nil)
     -- Per-op sdk-test-control.json skip.
     local _live = setup.live or false
     for _, _op in ipairs({"list"}) do
-      local _should_skip, _reason = runner.is_control_skipped("entityOp", "entity_set_push." .. _op, _live and "live" or "unit")
+      local _should_skip, _reason = runner.is_control_skipped("entityOp", "entity_set." .. _op, _live and "live" or "unit")
       if _should_skip then
         pending(_reason or "skipped via sdk-test-control.json")
         return
@@ -157,31 +157,31 @@ describe("EntitySetPushEntity", function()
     local client = setup.client
 
     -- Bootstrap entity data from existing test data.
-    local entity_set_push_ref01_data_raw = vs.items(helpers.to_map(
-      vs.getpath(setup.data, "existing.entity_set_push")))
-    local entity_set_push_ref01_data = nil
-    if #entity_set_push_ref01_data_raw > 0 then
-      entity_set_push_ref01_data = helpers.to_map(entity_set_push_ref01_data_raw[1][2])
+    local entity_set_ref01_data_raw = vs.items(helpers.to_map(
+      vs.getpath(setup.data, "existing.entity_set")))
+    local entity_set_ref01_data = nil
+    if #entity_set_ref01_data_raw > 0 then
+      entity_set_ref01_data = helpers.to_map(entity_set_ref01_data_raw[1][2])
     end
 
     -- LIST
-    local entity_set_push_ref01_ent = client:EntitySetPush(nil)
-    local entity_set_push_ref01_match = {}
+    local entity_set_ref01_ent = client:EntitySet(nil)
+    local entity_set_ref01_match = {}
 
-    local entity_set_push_ref01_list_result, err = entity_set_push_ref01_ent:list(entity_set_push_ref01_match, nil)
+    local entity_set_ref01_list_result, err = entity_set_ref01_ent:list(entity_set_ref01_match, nil)
     assert.is_nil(err)
-    assert.is_table(entity_set_push_ref01_list_result)
+    assert.is_table(entity_set_ref01_list_result)
 
   end)
 end)
 
-function entity_set_push_basic_setup(extra)
+function entity_set_basic_setup(extra)
   runner.load_env_local()
 
-  local entity_data_file = _test_dir .. "../../.sdk/test/entity/entity_set_push/EntitySetPushTestData.json"
+  local entity_data_file = _test_dir .. "../../.sdk/test/entity/entity_set/EntitySetTestData.json"
   local f = io.open(entity_data_file, "r")
   if f == nil then
-    error("failed to read entity_set_push test data: " .. entity_data_file)
+    error("failed to read entity_set test data: " .. entity_data_file)
   end
   local entity_data_source = f:read("*a")
   f:close()
@@ -195,7 +195,7 @@ function entity_set_push_basic_setup(extra)
 
   -- Generate idmap via transform.
   local idmap = vs.transform(
-    { "entity_set_push01", "entity_set_push02", "entity_set_push03" },
+    { "entity_set01", "entity_set02", "entity_set03" },
     {
       ["`$PACK`"] = { "", {
         ["`$KEY`"] = "`$COPY`",
@@ -206,18 +206,18 @@ function entity_set_push_basic_setup(extra)
 
   -- Whether *_ENTID supplied the idmap, read before env_override consumes
   -- it: without it, the ids a live flow binds are the fixture's synthetic ones.
-  local entid_env_raw = os.getenv("ROADIE_TEST_ENTITY_SET_PUSH_ENTID")
+  local entid_env_raw = os.getenv("ROADIE_TEST_ENTITY_SET_ENTID")
   local idmap_overridden = entid_env_raw ~= nil and entid_env_raw:match("^%s*{") ~= nil
 
   local env = runner.env_override({
-    ["ROADIE_TEST_ENTITY_SET_PUSH_ENTID"] = idmap,
+    ["ROADIE_TEST_ENTITY_SET_ENTID"] = idmap,
     ["ROADIE_TEST_LIVE"] = "FALSE",
     ["ROADIE_TEST_EXPLAIN"] = "FALSE",
     ["ROADIE_APIKEY"] = "",
   })
 
   local idmap_resolved = helpers.to_map(
-    env["ROADIE_TEST_ENTITY_SET_PUSH_ENTID"])
+    env["ROADIE_TEST_ENTITY_SET_ENTID"])
   if idmap_resolved == nil then
     idmap_resolved = helpers.to_map(idmap)
   end

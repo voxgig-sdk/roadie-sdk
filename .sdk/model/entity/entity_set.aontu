@@ -1,6 +1,6 @@
-# Entity: entity_set_push
+# Entity: entity_set
 
-main: kit: entity: entity_set_push: {
+main: kit: entity: entity_set: {
 
   alias: field: {}
 
@@ -32,7 +32,7 @@ main: kit: entity: entity_set_push: {
     }
   }
 
-  name: "entity_set_push"
+  name: "entity_set"
   op: {
     list: {
       name: "list"

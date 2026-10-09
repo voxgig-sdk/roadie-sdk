@@ -45,9 +45,9 @@ local client = sdk.test()
 
 Create a new `Entity` entity instance. Pass `nil` for no initial data.
 
-#### `EntitySetPush(data)`
+#### `EntitySet(data)`
 
-Create a new `EntitySetPush` entity instance. Pass `nil` for no initial data.
+Create a new `EntitySet` entity instance. Pass `nil` for no initial data.
 
 #### `options_map() -> table`
 
@@ -177,10 +177,10 @@ Return the entity name.
 
 ---
 
-## EntitySetPushEntity
+## EntitySetEntity
 
 ```lua
-local entity_set_push = client:EntitySetPush(nil)
+local entity_set = client:EntitySet(nil)
 ```
 
 ### Fields
@@ -206,7 +206,7 @@ local entity_set_push = client:EntitySetPush(nil)
 List entities matching the given criteria. Returns an array of entities, one per record, or `nil` and an error on failure.
 
 ```lua
-local results, err = client:EntitySetPush():list()
+local results, err = client:EntitySet():list()
 ```
 
 #### `update(reqdata, ctrl) -> any, err`
@@ -214,7 +214,7 @@ local results, err = client:EntitySetPush():list()
 Update an existing entity. The data must include the entity `id`. Returns the updated entity, or `nil` and an error on failure.
 
 ```lua
-local result, err = client:EntitySetPush():update({
+local result, err = client:EntitySet():update({
   set_id = "set_id",
   -- Fields to update
 })
@@ -240,7 +240,7 @@ Set the entity match criteria.
 
 #### `make() -> Entity`
 
-Create a new `EntitySetPushEntity` instance with the same client and
+Create a new `EntitySetEntity` instance with the same client and
 options.
 
 #### `get_name() -> string`

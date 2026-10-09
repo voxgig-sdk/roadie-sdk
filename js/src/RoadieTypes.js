@@ -65,21 +65,21 @@
  */
 
 /**
- * @typedef {Object} EntitySetPush
+ * @typedef {Object} EntitySet
  * @property {Array} [items]
  * @property {string} [name]
  * @property {string} [set]
  */
 
 /**
- * @typedef {Object} EntitySetPushListMatch
+ * @typedef {Object} EntitySetListMatch
  * @property {Array} [items]
  * @property {string} [name]
  * @property {string} [set]
  */
 
 /**
- * @typedef {Object} EntitySetPushUpdateData
+ * @typedef {Object} EntitySetUpdateData
  * @property {string} set_id
  * @property {Array} [items]
  * @property {string} [name]

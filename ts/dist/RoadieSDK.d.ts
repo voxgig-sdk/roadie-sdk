@@ -1,5 +1,5 @@
 import { EntityEntity } from './entity/EntityEntity';
-import { EntitySetPushEntity } from './entity/EntitySetPushEntity';
+import { EntitySetEntity } from './entity/EntitySetEntity';
 export type * from './RoadieTypes';
 import { inspect } from 'node:util';
 import type { Context, Feature } from './types';
@@ -35,7 +35,7 @@ declare class RoadieSDK {
     _rawRequest(fetchargs?: any): Promise<DirectResult>;
     graphql(query: string, variables?: any, ctrl?: any): Promise<any>;
     Entity(entopts?: Record<string, any>): EntityEntity;
-    EntitySetPush(entopts?: Record<string, any>): EntitySetPushEntity;
+    EntitySet(entopts?: Record<string, any>): EntitySetEntity;
     static test(testoptsarg?: any, sdkoptsarg?: any): RoadieSDK;
     tester(testopts?: any, sdkopts?: any): RoadieSDK;
     toJSON(): {

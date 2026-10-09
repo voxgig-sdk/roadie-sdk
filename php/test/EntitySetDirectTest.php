@@ -1,14 +1,14 @@
 <?php
 declare(strict_types=1);
 
-// EntitySetPush direct test
+// EntitySet direct test
 
 require_once __DIR__ . '/../roadie_sdk.php';
 require_once __DIR__ . '/Runner.php';
 
 use PHPUnit\Framework\TestCase;
 
-class EntitySetPushDirectTest extends TestCase
+class EntitySetDirectTest extends TestCase
 {
     // main.kit.test.live.strict is true (the default is true): a live
     // request that fails, or a live test missing an input it needs,
@@ -22,13 +22,13 @@ class EntitySetPushDirectTest extends TestCase
         return empty($result["err"]) && !empty($result["ok"]) && $status >= 200 && $status < 300;
     }
 
-    public function test_direct_list_entity_set_push(): void
+    public function test_direct_list_entity_set(): void
     {
-        $setup = entity_set_push_direct_setup([
+        $setup = entity_set_direct_setup([
             ["id" => "direct01"],
             ["id" => "direct02"],
         ]);
-        [$_shouldSkip, $_reason] = Runner::is_control_skipped("direct", "direct-list-entity_set_push", $setup["live"] ? "live" : "unit");
+        [$_shouldSkip, $_reason] = Runner::is_control_skipped("direct", "direct-list-entity_set", $setup["live"] ? "live" : "unit");
         if ($_shouldSkip) {
             $this->markTestSkipped($_reason ?? "skipped via sdk-test-control.json");
             return;
@@ -63,14 +63,14 @@ class EntitySetPushDirectTest extends TestCase
 }
 
 
-function entity_set_push_direct_setup($mockres)
+function entity_set_direct_setup($mockres)
 {
     Runner::load_env_local();
 
     $calls = new \ArrayObject();
 
     $env = Runner::env_override([
-        "ROADIE_TEST_ENTITY_SET_PUSH_ENTID" => [],
+        "ROADIE_TEST_ENTITY_SET_ENTID" => [],
         "ROADIE_TEST_LIVE" => "FALSE",
         "ROADIE_APIKEY" => "",
     ]);
@@ -84,7 +84,7 @@ function entity_set_push_direct_setup($mockres)
             "apikey" => $env["ROADIE_APIKEY"],
         ]);
         $client = new RoadieSDK($merged_opts);
-        $idmap = $env["ROADIE_TEST_ENTITY_SET_PUSH_ENTID"] ?? [];
+        $idmap = $env["ROADIE_TEST_ENTITY_SET_ENTID"] ?? [];
         return [
             "client" => $client,
             "calls" => $calls,

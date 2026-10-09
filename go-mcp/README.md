@@ -141,7 +141,7 @@ operation, of the 2 the SDK has:
 
 | Tool | Entities |
 |------|----------|
-| `roadie_list` | entity, entity_set_push |
+| `roadie_list` | entity, entity_set |
 | `roadie_load` | entity |
 
 JSON schemas are emitted by the SDK from each tool's argument struct's

@@ -31,7 +31,7 @@ Each feature is generated into every SDK target — as a directory
 `<lang>/src/feature/<name>/` (ts/js) or a flat file in the `<lang>/feature/`
 package (other languages). Each target's guide documents its features.
 
-**Entities** (2): `Entity`, `EntitySetPush`.
+**Entities** (2): `Entity`, `EntitySet`.
 
 ## Generating and updating the SDK
 

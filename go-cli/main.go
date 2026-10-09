@@ -20,7 +20,7 @@ import (
 const prompt = "roadie"
 
 // entitiesHelp is the space-separated entity list shown by /help.
-const entitiesHelp = "entity entity_set_push"
+const entitiesHelp = "entity entity_set"
 
 func main() {
 	os.Exit(run(os.Args[1:], os.Stdin, os.Stdout, os.Stderr))

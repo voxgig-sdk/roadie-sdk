@@ -230,7 +230,7 @@ Creates a test-mode client with mock transport. Both arguments may be `None`.
 | `prepare` | `(fetchargs) -> dict` | Build an HTTP request definition without sending. Raises on error. |
 | `direct` | `(fetchargs) -> dict` | Build and send an HTTP request. Returns a result dict (branch on `ok`). |
 | `Entity` | `(data) -> EntityEntity` | Create an Entity entity instance. |
-| `EntitySetPush` | `(data) -> EntitySetPushEntity` | Create an EntitySetPush entity instance. |
+| `EntitySet` | `(data) -> EntitySetEntity` | Create an EntitySet entity instance. |
 
 ### Entity interface
 
@@ -291,7 +291,7 @@ Operations: Create, List, Load, Remove.
 
 API path: `/api/catalog/roadie-entities/entities`
 
-#### EntitySetPush
+#### EntitySet
 
 | Field | Description |
 | --- | --- |
@@ -362,9 +362,9 @@ entity = client.Entity().create({
 ```
 
 
-### EntitySetPush
+### EntitySet
 
-Create an instance: `entity_set_push = client.EntitySetPush()`
+Create an instance: `entity_set = client.EntitySet()`
 
 #### Operations
 
@@ -384,7 +384,7 @@ Create an instance: `entity_set_push = client.EntitySetPush()`
 #### Example: List
 
 ```python
-entity_set_pushs = client.EntitySetPush().list()
+entity_sets = client.EntitySet().list()
 ```
 
 ## Features

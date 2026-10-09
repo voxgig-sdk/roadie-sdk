@@ -1,15 +1,15 @@
--- Roadie SDK EntitySetPush entity
+-- Roadie SDK EntitySet entity
 
 local json = require("dkjson")
 local vs = require("utility.struct.struct")
 local helpers = require("core.helpers")
 
----@class EntitySetPushEntity
-local EntitySetPushEntity = {}
-EntitySetPushEntity.__index = EntitySetPushEntity
+---@class EntitySetEntity
+local EntitySetEntity = {}
+EntitySetEntity.__index = EntitySetEntity
 
 
-function EntitySetPushEntity.new(client, entopts)
+function EntitySetEntity.new(client, entopts)
   entopts = entopts or {}
   if entopts["active"] == nil then
     entopts["active"] = true
@@ -19,8 +19,8 @@ function EntitySetPushEntity.new(client, entopts)
     entopts["active"] = true
   end
 
-  local self = setmetatable({}, EntitySetPushEntity)
-  self._name = "entity_set_push"
+  local self = setmetatable({}, EntitySetEntity)
+  self._name = "entity_set"
   self._client = client
   self._utility = client:get_utility()
   self._entopts = entopts
@@ -39,53 +39,53 @@ function EntitySetPushEntity.new(client, entopts)
 end
 
 
-function EntitySetPushEntity:get_name()
+function EntitySetEntity:get_name()
   return self._name
 end
 
 
 -- The entity serialises and prints as its data, as ts does: the instance
 -- also holds the client and the utility.
-function EntitySetPushEntity:to_record()
+function EntitySetEntity:to_record()
   local rec = self._utility.clean(self._entctx, vs.clone(self._data or {}))
   rec["voxgig$entity"] = self._name
   return rec
 end
 
-EntitySetPushEntity.__tostring = function(self)
+EntitySetEntity.__tostring = function(self)
   local rec = self:to_record()
   rec["voxgig$entity"] = nil
   return self._name .. " " .. json.encode(rec)
 end
 
-EntitySetPushEntity.__tojson = function(self)
+EntitySetEntity.__tojson = function(self)
   return json.encode(self:to_record())
 end
 
 
-function EntitySetPushEntity:make()
+function EntitySetEntity:make()
   local opts = {}
   for k, v in pairs(self._entopts) do
     opts[k] = v
   end
-  return EntitySetPushEntity.new(self._client, opts)
+  return EntitySetEntity.new(self._client, opts)
 end
 
 
 -- Every operation resolves to the entity; `remove` additionally marks
 -- it. The instance KEEPS the data it held — a caller can still read what
 -- was deleted — but it is no longer a live record. See AGENTS.md.
-function EntitySetPushEntity:mark_deleted()
+function EntitySetEntity:mark_deleted()
   self._deleted = true
 end
 
 
-function EntitySetPushEntity:deleted()
+function EntitySetEntity:deleted()
   return true == self._deleted
 end
 
 
-function EntitySetPushEntity:data_set(args)
+function EntitySetEntity:data_set(args)
   if args ~= nil then
     self._data = helpers.to_map(vs.clone(args)) or {}
     self._utility.feature_hook(self._entctx, "SetData")
@@ -93,13 +93,13 @@ function EntitySetPushEntity:data_set(args)
 end
 
 
-function EntitySetPushEntity:data_get()
+function EntitySetEntity:data_get()
   self._utility.feature_hook(self._entctx, "GetData")
   return vs.clone(self._data)
 end
 
 
-function EntitySetPushEntity:match_set(args)
+function EntitySetEntity:match_set(args)
   if args ~= nil then
     self._match = helpers.to_map(vs.clone(args)) or {}
     self._utility.feature_hook(self._entctx, "SetMatch")
@@ -107,7 +107,7 @@ function EntitySetPushEntity:match_set(args)
 end
 
 
-function EntitySetPushEntity:match_get()
+function EntitySetEntity:match_get()
   self._utility.feature_hook(self._entctx, "GetMatch")
   return vs.clone(self._match)
 end
@@ -123,7 +123,7 @@ end
 --   - outbound (upload): an iterable `body` in callopts is attached to the
 --     request so the transport can stream the payload;
 --   - `ctrl` (pipeline control) and `signal` (cancellation) honoured.
-function EntitySetPushEntity:stream(action, args, callopts)
+function EntitySetEntity:stream(action, args, callopts)
   local utility = self._utility
   callopts = callopts or {}
   local signal = callopts["signal"]
@@ -253,7 +253,7 @@ end
 
 -- The steps an operation runs, with their hooks; the first that fails hands
 -- back its error.
-function EntitySetPushEntity:_stream_steps(ctx)
+function EntitySetEntity:_stream_steps(ctx)
   local utility = self._utility
 
   utility.feature_hook(ctx, "PrePoint")
@@ -303,11 +303,11 @@ end
 
 
 
----@param reqmatch EntitySetPushListMatch
+---@param reqmatch EntitySetListMatch
 ---@param ctrl? table
----@return EntitySetPushEntity[]
+---@return EntitySetEntity[]
 ---@return string? err
-function EntitySetPushEntity:list(reqmatch, ctrl)
+function EntitySetEntity:list(reqmatch, ctrl)
   local utility = self._utility
   local ctx = utility.make_context({
     opname = "list",
@@ -331,11 +331,11 @@ end
 
 
 
----@param reqdata EntitySetPushUpdateData
+---@param reqdata EntitySetUpdateData
 ---@param ctrl? table
----@return EntitySetPushEntity
+---@return EntitySetEntity
 ---@return string? err
-function EntitySetPushEntity:update(reqdata, ctrl)
+function EntitySetEntity:update(reqdata, ctrl)
   local utility = self._utility
   local ctx = utility.make_context({
     opname = "update",
@@ -366,7 +366,7 @@ end
 
 -- A hook, fetcher or parser that raises never reaches make_error: its error
 -- leaves cleaned, and so does the explain record it interrupted.
-function EntitySetPushEntity:_run_op(ctx, post_done)
+function EntitySetEntity:_run_op(ctx, post_done)
   local utility = self._utility
   local ok, out, err = pcall(self._run_steps, self, ctx, post_done)
   if ok then
@@ -385,7 +385,7 @@ end
 
 
 -- The raised error, cleaned; nil when the caller switched throwing off.
-function EntitySetPushEntity:_unexpected(ctx, raised)
+function EntitySetEntity:_unexpected(ctx, raised)
   local clean = self._utility.clean
   local cleanerr = clean(ctx, raised)
   ctx.ctrl.err = cleanerr
@@ -405,7 +405,7 @@ function EntitySetPushEntity:_unexpected(ctx, raised)
 end
 
 
-function EntitySetPushEntity:_run_steps(ctx, post_done)
+function EntitySetEntity:_run_steps(ctx, post_done)
   local utility = self._utility
 
   utility.feature_hook(ctx, "PrePoint")
@@ -482,4 +482,4 @@ function EntitySetPushEntity:_run_steps(ctx, post_done)
 end
 
 
-return EntitySetPushEntity
+return EntitySetEntity

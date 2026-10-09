@@ -77,7 +77,7 @@ _CLIENT_VARS = ("client", "sdk")
 # The API's capitalised semantic entities -> lowercase fixture key.
 _ENTITIES = {
     "Entity": "entity",
-    "EntitySetPush": "entity_set_push",
+    "EntitySet": "entity_set",
 }
 
 # The three documents held to the gate, tagged by human label.

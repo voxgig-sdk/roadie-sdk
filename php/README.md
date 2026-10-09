@@ -243,7 +243,7 @@ Creates a test-mode client with mock transport. Both arguments may be `null`.
 | `prepare` | `(array $fetchargs): array` | Build an HTTP request definition without sending. |
 | `direct` | `(array $fetchargs): array` | Build and send an HTTP request. |
 | `Entity` | `($data): EntityEntity` | Create an Entity entity instance. |
-| `EntitySetPush` | `($data): EntitySetPushEntity` | Create an EntitySetPush entity instance. |
+| `EntitySet` | `($data): EntitySetEntity` | Create an EntitySet entity instance. |
 
 ### Entity interface
 
@@ -304,7 +304,7 @@ Operations: Create, List, Load, Remove.
 
 API path: `/api/catalog/roadie-entities/entities`
 
-#### EntitySetPush
+#### EntitySet
 
 | Field | Description |
 | --- | --- |
@@ -377,9 +377,9 @@ $entity = $client->Entity()->create([
 ```
 
 
-### EntitySetPush
+### EntitySet
 
-Create an instance: `$entity_set_push = $client->EntitySetPush();`
+Create an instance: `$entity_set = $client->EntitySet();`
 
 #### Operations
 
@@ -399,8 +399,8 @@ Create an instance: `$entity_set_push = $client->EntitySetPush();`
 #### Example: List
 
 ```php
-// list() returns an array of EntitySetPush entities, one per record (throws on error).
-$entity_set_pushs = $client->EntitySetPush()->list();
+// list() returns an array of EntitySet entities, one per record (throws on error).
+$entity_sets = $client->EntitySet()->list();
 ```
 
 ## Features

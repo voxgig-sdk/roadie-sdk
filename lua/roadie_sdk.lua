@@ -436,15 +436,15 @@ function RoadieSDK:Entity(data)
 end
 
 
--- Idiomatic facade: client:EntitySetPush():list() / client:EntitySetPush():load({ id = ... })
+-- Idiomatic facade: client:EntitySet():list() / client:EntitySet():load({ id = ... })
 -- Entity access is capitalised (PascalCase) for parity with the other SDKs.
-function RoadieSDK:EntitySetPush(data)
-  local EntityMod = require("entity.entity_set_push_entity")
+function RoadieSDK:EntitySet(data)
+  local EntityMod = require("entity.entity_set_entity")
   if data == nil then
-    if self._entity_set_push == nil then
-      self._entity_set_push = EntityMod.new(self, nil)
+    if self._entity_set == nil then
+      self._entity_set = EntityMod.new(self, nil)
     end
-    return self._entity_set_push
+    return self._entity_set
   end
   return EntityMod.new(self, data)
 end

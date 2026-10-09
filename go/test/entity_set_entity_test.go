@@ -19,28 +19,28 @@ import (
 // request that fails, or a live test missing an input it needs,
 // fails the test.
 // An account with no record for a test to read skips it either way.
-const entity_set_pushEntityLiveStrict = true
+const entity_setEntityLiveStrict = true
 
 
-type entity_set_pushFailHook struct {
+type entity_setFailHook struct {
 	sdk.BaseFeature
 	unexpected int
 }
 
-func (f *entity_set_pushFailHook) PreSpec(ctx *sdk.Context) {
-	panic("entity_set_push hook failed")
+func (f *entity_setFailHook) PreSpec(ctx *sdk.Context) {
+	panic("entity_set hook failed")
 }
 
-func (f *entity_set_pushFailHook) PreUnexpected(ctx *sdk.Context) {
+func (f *entity_setFailHook) PreUnexpected(ctx *sdk.Context) {
 	f.unexpected++
 }
 
-func TestEntitySetPushEntity(t *testing.T) {
+func TestEntitySetEntity(t *testing.T) {
 	t.Run("instance", func(t *testing.T) {
 		testsdk := sdk.TestSDK(nil, nil)
-		ent := testsdk.EntitySetPush(nil)
+		ent := testsdk.EntitySet(nil)
 		if ent == nil {
-			t.Fatal("expected non-nil EntitySetPushEntity")
+			t.Fatal("expected non-nil EntitySetEntity")
 		}
 	})
 
@@ -51,7 +51,7 @@ func TestEntitySetPushEntity(t *testing.T) {
 	t.Run("stream", func(t *testing.T) {
 		seed := map[string]any{
 			"entity": map[string]any{
-				"entity_set_push": map[string]any{
+				"entity_set": map[string]any{
 					"s1": map[string]any{"id": "s1"},
 					"s2": map[string]any{"id": "s2"},
 					"s3": map[string]any{"id": "s3"},
@@ -62,7 +62,7 @@ func TestEntitySetPushEntity(t *testing.T) {
 		// Fallback: streaming inactive -> yields the materialised list items.
 		base := sdk.TestSDK(seed, nil)
 		var seen []any
-		for si := range base.EntitySetPush(nil).Stream("list", nil, nil) {
+		for si := range base.EntitySet(nil).Stream("list", nil, nil) {
 			if si.Err != nil {
 				t.Fatalf("stream failed: %v", si.Err)
 			}
@@ -82,7 +82,7 @@ func TestEntitySetPushEntity(t *testing.T) {
 				"feature": map[string]any{"streaming": map[string]any{"active": true}},
 			})
 			var got []any
-			for si := range streamSdk.EntitySetPush(nil).Stream("list", nil, nil) {
+			for si := range streamSdk.EntitySet(nil).Stream("list", nil, nil) {
 				if si.Err != nil {
 					t.Fatalf("stream failed: %v", si.Err)
 				}
@@ -101,7 +101,7 @@ func TestEntitySetPushEntity(t *testing.T) {
 	t.Run("stream-error", func(t *testing.T) {
 		offline := map[string]any{"net": map[string]any{"offline": true}}
 		var streamerr error
-		for si := range sdk.TestSDK(offline, nil).EntitySetPush(nil).Stream("list", nil, nil) {
+		for si := range sdk.TestSDK(offline, nil).EntitySet(nil).Stream("list", nil, nil) {
 			if si.Err != nil {
 				streamerr = si.Err
 			}
@@ -111,7 +111,7 @@ func TestEntitySetPushEntity(t *testing.T) {
 		}
 
 		quiet := map[string]any{"ctrl": map[string]any{"throw": false}}
-		for si := range sdk.TestSDK(offline, nil).EntitySetPush(nil).Stream("list", nil, quiet) {
+		for si := range sdk.TestSDK(offline, nil).EntitySet(nil).Stream("list", nil, quiet) {
 			if si.Err != nil {
 				t.Fatalf("throw false: expected no error value, got %v", si.Err)
 			}
@@ -122,7 +122,7 @@ func TestEntitySetPushEntity(t *testing.T) {
 				"feature": map[string]any{"rbac": map[string]any{"active": true, "deny": true}},
 			})
 			var denyerr error
-			for si := range denied.EntitySetPush(nil).Stream("list", nil, nil) {
+			for si := range denied.EntitySet(nil).Stream("list", nil, nil) {
 				if si.Err != nil {
 					denyerr = si.Err
 				}
@@ -136,7 +136,7 @@ func TestEntitySetPushEntity(t *testing.T) {
 	t.Run("stream-ctrl", func(t *testing.T) {
 		explain := map[string]any{}
 		ctrl := map[string]any{"explain": explain}
-		for range sdk.TestSDK(nil, nil).EntitySetPush(nil).Stream("list", nil, map[string]any{"ctrl": ctrl}) {
+		for range sdk.TestSDK(nil, nil).EntitySet(nil).Stream("list", nil, map[string]any{"ctrl": ctrl}) {
 		}
 		if _, has := ctrl["stream"]; has || 1 != len(ctrl) {
 			t.Fatalf("the stream changed the caller's ctrl")
@@ -147,11 +147,11 @@ func TestEntitySetPushEntity(t *testing.T) {
 	})
 
 	t.Run("unexpected", func(t *testing.T) {
-		hook := &entity_set_pushFailHook{
+		hook := &entity_setFailHook{
 			BaseFeature: sdk.BaseFeature{Version: "0.0.1", Name: "failhook", Active: true}}
 		client := sdk.TestSDK(nil, map[string]any{"extend": []any{hook}})
 
-		_, err := client.EntitySetPush(nil).List(nil, nil)
+		_, err := client.EntitySet(nil).List(nil, nil)
 		if nil == err || !strings.Contains(err.Error(), "hook failed") {
 			t.Fatalf("expected the hook's failure, got %v", err)
 		}
@@ -160,7 +160,7 @@ func TestEntitySetPushEntity(t *testing.T) {
 		}
 
 		fired := hook.unexpected
-		if _, err := client.EntitySetPush(nil).List(nil, map[string]any{"throw": false}); nil != err {
+		if _, err := client.EntitySet(nil).List(nil, map[string]any{"throw": false}); nil != err {
 			t.Fatalf("throw false: expected no error, got %v", err)
 		}
 		if fired == hook.unexpected {
@@ -175,7 +175,7 @@ func TestEntitySetPushEntity(t *testing.T) {
 		client := sdk.TestSDK(nil, map[string]any{
 			"feature": map[string]any{"validate": map[string]any{"active": true}},
 		})
-		_, err := client.EntitySetPush(nil).List(map[string]any{"name": 1}, nil)
+		_, err := client.EntitySet(nil).List(map[string]any{"name": 1}, nil)
 		if sdkerr, ok := err.(*core.RoadieError); !ok || "validate_failed" != sdkerr.Code {
 			t.Fatalf("expected validate_failed, got %v", err)
 		}
@@ -183,7 +183,7 @@ func TestEntitySetPushEntity(t *testing.T) {
 
 	t.Run("basic", func(tt *testing.T) {
 		var t testing.TB = tt
-		setup := entity_set_pushBasicSetup(nil)
+		setup := entity_setBasicSetup(nil)
 		// Per-op sdk-test-control.json skip — basic test exercises a flow
 		// with multiple ops; skipping any op skips the whole flow.
 		_mode := "unit"
@@ -191,7 +191,7 @@ func TestEntitySetPushEntity(t *testing.T) {
 			_mode = "live"
 		}
 		for _, _op := range []string{"list"} {
-			if _shouldSkip, _reason := isControlSkipped("entityOp", "entity_set_push." + _op, _mode); _shouldSkip {
+			if _shouldSkip, _reason := isControlSkipped("entityOp", "entity_set." + _op, _mode); _shouldSkip {
 				if _reason == "" {
 					_reason = "skipped via sdk-test-control.json"
 				}
@@ -200,49 +200,50 @@ func TestEntitySetPushEntity(t *testing.T) {
 			}
 		}
 		client := setup.client
+		_ = client
 
 		// Bootstrap entity data from existing test data (no create step in flow).
-		entitySetPushRef01DataRaw := vs.Items(core.ToMapAny(vs.GetPath(setup.data, "existing.entity_set_push")))
-		var entitySetPushRef01Data map[string]any
-		if len(entitySetPushRef01DataRaw) > 0 {
-			entitySetPushRef01Data = core.ToMapAny(entitySetPushRef01DataRaw[0][1])
+		entitySetRef01DataRaw := vs.Items(core.ToMapAny(vs.GetPath(setup.data, "existing.entity_set")))
+		var entitySetRef01Data map[string]any
+		if len(entitySetRef01DataRaw) > 0 {
+			entitySetRef01Data = core.ToMapAny(entitySetRef01DataRaw[0][1])
 		}
 		// Discard guards against Go's unused-var check when the flow's steps
 		// happen not to consume the bootstrap data (e.g. list-only flows).
-		_ = entitySetPushRef01Data
+		_ = entitySetRef01Data
 
 		// LIST
-		entitySetPushRef01Ent := client.EntitySetPush(nil)
-		entitySetPushRef01Match := map[string]any{}
+		entitySetRef01Ent := client.EntitySet(nil)
+		entitySetRef01Match := map[string]any{}
 
-		entitySetPushRef01ListResult, err := entitySetPushRef01Ent.List(entitySetPushRef01Match, nil)
+		entitySetRef01ListResult, err := entitySetRef01Ent.List(entitySetRef01Match, nil)
 		if err != nil {
 			t.Fatalf("list failed: %v", err)
 		}
-		_, entitySetPushRef01ListOk := entitySetPushRef01ListResult.([]any)
-		if !entitySetPushRef01ListOk {
-			t.Fatalf("expected list result to be an array, got %T", entitySetPushRef01ListResult)
+		_, entitySetRef01ListOk := entitySetRef01ListResult.([]any)
+		if !entitySetRef01ListOk {
+			t.Fatalf("expected list result to be an array, got %T", entitySetRef01ListResult)
 		}
 
 	})
 }
 
-func entity_set_pushBasicSetup(extra map[string]any) *entityTestSetup {
+func entity_setBasicSetup(extra map[string]any) *entityTestSetup {
 	loadEnvLocal()
 
 	_, filename, _, _ := runtime.Caller(0)
 	dir := filepath.Dir(filename)
 
-	entityDataFile := filepath.Join(dir, "..", "..", ".sdk", "test", "entity", "entity_set_push", "EntitySetPushTestData.json")
+	entityDataFile := filepath.Join(dir, "..", "..", ".sdk", "test", "entity", "entity_set", "EntitySetTestData.json")
 
 	entityDataSource, err := os.ReadFile(entityDataFile)
 	if err != nil {
-		panic("failed to read entity_set_push test data: " + err.Error())
+		panic("failed to read entity_set test data: " + err.Error())
 	}
 
 	var entityData map[string]any
 	if err := json.Unmarshal(entityDataSource, &entityData); err != nil {
-		panic("failed to parse entity_set_push test data: " + err.Error())
+		panic("failed to parse entity_set test data: " + err.Error())
 	}
 
 	options := map[string]any{}
@@ -252,7 +253,7 @@ func entity_set_pushBasicSetup(extra map[string]any) *entityTestSetup {
 
 	// Generate idmap via transform, matching TS pattern.
 	idmap, _ := vs.Transform(
-		[]any{"entity_set_push01", "entity_set_push02", "entity_set_push03"},
+		[]any{"entity_set01", "entity_set02", "entity_set03"},
 		map[string]any{
 			"`$PACK`": []any{"", map[string]any{
 				"`$KEY`": "`$COPY`",
@@ -263,17 +264,17 @@ func entity_set_pushBasicSetup(extra map[string]any) *entityTestSetup {
 
 	// Whether *_ENTID supplied the idmap, read before envOverride consumes it:
 	// without it, the ids a live flow binds are the fixture's synthetic ones.
-	entidEnvRaw := os.Getenv("ROADIE_TEST_ENTITY_SET_PUSH_ENTID")
+	entidEnvRaw := os.Getenv("ROADIE_TEST_ENTITY_SET_ENTID")
 	idmapOverridden := entidEnvRaw != "" && strings.HasPrefix(strings.TrimSpace(entidEnvRaw), "{")
 
 	env := envOverride(map[string]any{
-		"ROADIE_TEST_ENTITY_SET_PUSH_ENTID": idmap,
+		"ROADIE_TEST_ENTITY_SET_ENTID": idmap,
 		"ROADIE_TEST_LIVE":      "FALSE",
 		"ROADIE_TEST_EXPLAIN":   "FALSE",
 		"ROADIE_APIKEY":         "",
 	})
 
-	idmapResolved := core.ToMapAny(env["ROADIE_TEST_ENTITY_SET_PUSH_ENTID"])
+	idmapResolved := core.ToMapAny(env["ROADIE_TEST_ENTITY_SET_ENTID"])
 	if idmapResolved == nil {
 		idmapResolved = core.ToMapAny(idmap)
 	}

@@ -1,7 +1,7 @@
 // Roadie Js SDK
 
 const { EntityEntity } = require('./entity/EntityEntity')
-const { EntitySetPushEntity } = require('./entity/EntitySetPushEntity')
+const { EntitySetEntity } = require('./entity/EntitySetEntity')
 
 
 const { inspect } = require('node:util')
@@ -336,12 +336,12 @@ class RoadieSDK {
   }
 
 
-  // Entity access: `client.EntitySetPush().list()` / `client.EntitySetPush().load({ id })`.
+  // Entity access: `client.EntitySet().list()` / `client.EntitySet().load({ id })`.
   // The argument is the entity OPTIONS object (passed to the entity
   // constructor as entopts), not initial entity data.
-  EntitySetPush(entopts) {
+  EntitySet(entopts) {
     const self = this
-    return new EntitySetPushEntity(self, entopts)
+    return new EntitySetEntity(self, entopts)
   }
 
 

@@ -1,4 +1,4 @@
--- EntitySetPush direct test
+-- EntitySet direct test
 
 local json = require("dkjson")
 local vs = require("utility.struct.struct")
@@ -20,13 +20,13 @@ local function live_ok(result, err)
   return status >= 200 and status < 300
 end
 
-describe("EntitySetPushDirect", function()
-  it("should direct-list-entity_set_push", function()
-    local setup = entity_set_push_direct_setup({
+describe("EntitySetDirect", function()
+  it("should direct-list-entity_set", function()
+    local setup = entity_set_direct_setup({
       { id = "direct01" },
       { id = "direct02" },
     })
-    local _should_skip, _reason = runner.is_control_skipped("direct", "direct-list-entity_set_push", setup.live and "live" or "unit")
+    local _should_skip, _reason = runner.is_control_skipped("direct", "direct-list-entity_set", setup.live and "live" or "unit")
     if _should_skip then
       pending(_reason or "skipped via sdk-test-control.json")
       return
@@ -61,13 +61,13 @@ describe("EntitySetPushDirect", function()
 end)
 
 
-function entity_set_push_direct_setup(mockres)
+function entity_set_direct_setup(mockres)
   runner.load_env_local()
 
   local calls = {}
 
   local env = runner.env_override({
-    ["ROADIE_TEST_ENTITY_SET_PUSH_ENTID"] = {},
+    ["ROADIE_TEST_ENTITY_SET_ENTID"] = {},
     ["ROADIE_TEST_LIVE"] = "FALSE",
     ["ROADIE_APIKEY"] = "",
   })
@@ -86,7 +86,7 @@ function entity_set_push_direct_setup(mockres)
       end
     end
     local client = sdk.new(merged_opts)
-    local idmap = env["ROADIE_TEST_ENTITY_SET_PUSH_ENTID"]
+    local idmap = env["ROADIE_TEST_ENTITY_SET_ENTID"]
     return {
       client = client,
       calls = calls,

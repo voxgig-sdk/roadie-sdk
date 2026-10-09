@@ -158,7 +158,7 @@ func MakeConfig() map[string]any {
 			},
 			"entity": map[string]any{
 				"entity": map[string]any{},
-				"entity_set_push": map[string]any{},
+				"entity_set": map[string]any{},
 			},
 		},
 		"entity": map[string]any{
@@ -499,7 +499,7 @@ func MakeConfig() map[string]any {
 					"ancestors": []any{},
 				},
 			},
-			"entity_set_push": map[string]any{
+			"entity_set": map[string]any{
 				"fields": []any{
 					map[string]any{
 						"name": "items",
@@ -524,7 +524,7 @@ func MakeConfig() map[string]any {
 						"type": "`$STRING`",
 					},
 				},
-				"name": "entity_set_push",
+				"name": "entity_set",
 				"op": map[string]any{
 					"list": map[string]any{
 						"input": "data",

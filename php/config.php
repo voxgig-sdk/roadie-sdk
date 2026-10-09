@@ -180,7 +180,7 @@ class RoadieConfig
         ],
                 "entity" => [
                     "entity" => [],
-                    "entity_set_push" => [],
+                    "entity_set" => [],
                 ],
             ],
             "entity" => [
@@ -521,7 +521,7 @@ class RoadieConfig
             'ancestors' => [],
           ],
         ],
-        'entity_set_push' => [
+        'entity_set' => [
           'fields' => [
             [
               'name' => 'items',
@@ -546,7 +546,7 @@ class RoadieConfig
               'type' => '`$STRING`',
             ],
           ],
-          'name' => 'entity_set_push',
+          'name' => 'entity_set',
           'op' => [
             'list' => [
               'input' => 'data',

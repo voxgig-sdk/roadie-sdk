@@ -1,4 +1,4 @@
 # Entity Models
 
 @"./entity.aontu"
-@"./entity_set_push.aontu"
+@"./entity_set.aontu"

@@ -17,6 +17,25 @@ main: kit: flow: BasicEntitySetFlow:
         }
       ]
     }
+
+    {
+      i: {
+        ref: "entity_set_ref01",
+        srcdatavar: "entity_set_ref01_data",
+        suffix: "_up0",
+        textfield: "name"
+      }
+
+      o: "update",
+      s: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-entity_set_ref01"
+          }
+        }
+      ]
+    }
   ],
   "key$": "BasicEntitySetFlow"
 }

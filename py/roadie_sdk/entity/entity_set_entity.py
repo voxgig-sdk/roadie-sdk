@@ -1,17 +1,17 @@
-# Roadie SDK EntitySetPush entity
+# Roadie SDK EntitySet entity
 
 from __future__ import annotations
 
 from roadie_sdk.utility.voxgig_struct import voxgig_struct as vs
 from roadie_sdk.core import helpers
 from roadie_sdk.roadie_types import (
-    EntitySetPush,
-    EntitySetPushListMatch,
-    EntitySetPushUpdateData,
+    EntitySet,
+    EntitySetListMatch,
+    EntitySetUpdateData,
 )
 
 
-class EntitySetPushEntity:
+class EntitySetEntity:
 
     def __init__(self, client, entopts=None):
         if entopts is None:
@@ -23,7 +23,7 @@ class EntitySetPushEntity:
         else:
             entopts["active"] = True
 
-        self._name = "entity_set_push"
+        self._name = "entity_set"
         self._client = client
         self._utility = client.get_utility()
         self._entopts = entopts
@@ -55,14 +55,14 @@ class EntitySetPushEntity:
         opts = {}
         for k, v in self._entopts.items():
             opts[k] = v
-        return EntitySetPushEntity(self._client, opts)
+        return EntitySetEntity(self._client, opts)
 
     def data_set(self, args=None):
         if args is not None:
             self._data = helpers.to_map(vs.clone(args)) or {}
             self._utility.feature_hook(self._entctx, "SetData")
 
-    def data_get(self) -> EntitySetPush:
+    def data_get(self) -> EntitySet:
         self._utility.feature_hook(self._entctx, "GetData")
         return vs.clone(self._data)
 
@@ -71,7 +71,7 @@ class EntitySetPushEntity:
             self._match = helpers.to_map(vs.clone(args)) or {}
             self._utility.feature_hook(self._entctx, "SetMatch")
 
-    def match_get(self) -> EntitySetPush:
+    def match_get(self) -> EntitySet:
         self._utility.feature_hook(self._entctx, "GetMatch")
         return vs.clone(self._match)
 
@@ -202,10 +202,10 @@ class EntitySetPushEntity:
     
 
     
-    def list(self, reqmatch=None, ctrl=None) -> list[EntitySetPushEntity]:
+    def list(self, reqmatch=None, ctrl=None) -> list[EntitySetEntity]:
         utility = self._utility
         # reqmatch is optional: an omitted match lists all records. Treat None
-        # as an empty match so client.EntitySetPush().list() works with no args.
+        # as an empty match so client.EntitySet().list() works with no args.
         if reqmatch is None:
             reqmatch = {}
         ctx = utility.make_context({
@@ -228,7 +228,7 @@ class EntitySetPushEntity:
     
 
     
-    def update(self, reqdata: EntitySetPushUpdateData, ctrl=None) -> EntitySetPushEntity:
+    def update(self, reqdata: EntitySetUpdateData, ctrl=None) -> EntitySetEntity:
         utility = self._utility
         ctx = utility.make_context({
             "opname": "update",

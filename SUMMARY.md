@@ -23,7 +23,7 @@ Key fields to recognise:
 - `kind`: Entity kind (Component, API, Resource, System, Group, User, ...).
 - `spec`: Kind-specific fields. Common ones shown; other properties allowed.
 
-### EntitySetPush
+### EntitySet
 
 Results: The entity sets you have pushed.; The stored entities for the set.
 
@@ -44,8 +44,8 @@ Use this map to locate a capability. Consult the entity reference before supplyi
 | Entity | `list` | `GET /api/catalog/entities` | Required |
 | Entity | `load` | `GET /api/catalog/roadie-entities/entities/{entityId}` | Required |
 | Entity | `remove` | `DELETE /api/catalog/roadie-entities/entities/{entityId}` | Required |
-| EntitySetPush | `list` | `GET /api/catalog/roadie-entities/sets` | Required |
-| EntitySetPush | `update` | `PUT /api/catalog/roadie-entities/sets/{setId}` | Required |
+| EntitySet | `list` | `GET /api/catalog/roadie-entities/sets` | Required |
+| EntitySet | `update` | `PUT /api/catalog/roadie-entities/sets/{setId}` | Required |
 
 ## Connect to the API
 
@@ -97,7 +97,7 @@ Use the MCP server to expose supported API operations to an MCP client.
 
 Repository directory: `go-mcp/`. Not published. Build from the go-mcp directory.
 
-- `roadie_list`: List records for an entity. Supported entities: `entity`, `entity_set_push`.
+- `roadie_list`: List records for an entity. Supported entities: `entity`, `entity_set`.
 - `roadie_load`: Load one record for an entity. Supported entities: `entity`.
 
 ## Operational features

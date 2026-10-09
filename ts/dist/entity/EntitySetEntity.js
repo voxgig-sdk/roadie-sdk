@@ -1,16 +1,16 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.EntitySetPushEntity = void 0;
+exports.EntitySetEntity = void 0;
 const RoadieEntityBase_1 = require("../RoadieEntityBase");
-class EntitySetPushEntity extends RoadieEntityBase_1.RoadieEntityBase {
+class EntitySetEntity extends RoadieEntityBase_1.RoadieEntityBase {
     constructor(client, entopts) {
         super(client, entopts);
-        this.name = 'entity_set_push';
-        this.name_ = 'entity_set_push';
-        this.Name = 'EntitySetPush';
+        this.name = 'entity_set';
+        this.name_ = 'entity_set';
+        this.Name = 'EntitySet';
     }
     make() {
-        return new EntitySetPushEntity(this._client, this.entopts());
+        return new EntitySetEntity(this._client, this.entopts());
     }
     async list(reqmatch, ctrl) {
         const utility = this._utility;
@@ -94,7 +94,7 @@ class EntitySetPushEntity extends RoadieEntityBase_1.RoadieEntityBase {
             }
             else {
                 // Off-happy-path (throw disabled): typed as any so the method's
-                // Promise<EntitySetPushEntity[]> return stays clean under strict null checks.
+                // Promise<EntitySetEntity[]> return stays clean under strict null checks.
                 return undefined;
             }
         }
@@ -185,11 +185,11 @@ class EntitySetPushEntity extends RoadieEntityBase_1.RoadieEntityBase {
             }
             else {
                 // Off-happy-path (throw disabled): typed as any so the method's
-                // Promise<EntitySetPushEntity> return stays clean under strict null checks.
+                // Promise<EntitySetEntity> return stays clean under strict null checks.
                 return undefined;
             }
         }
     }
 }
-exports.EntitySetPushEntity = EntitySetPushEntity;
-//# sourceMappingURL=EntitySetPushEntity.js.map
+exports.EntitySetEntity = EntitySetEntity;
+//# sourceMappingURL=EntitySetEntity.js.map

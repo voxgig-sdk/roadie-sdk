@@ -393,21 +393,21 @@ class RoadieSDK implements \JsonSerializable
     }
 
 
-    private $_entity_set_push = null;
+    private $_entity_set = null;
 
-    // Canonical facade: $client->EntitySetPush()->list() / ->load(["id" => ...]).
-    // PHP method names are case-insensitive, so lowercase $client->entity_set_push()
+    // Canonical facade: $client->EntitySet()->list() / ->load(["id" => ...]).
+    // PHP method names are case-insensitive, so lowercase $client->entity_set()
     // resolves here too.
-    public function EntitySetPush($data = null)
+    public function EntitySet($data = null)
     {
-        require_once __DIR__ . '/entity/entity_set_push_entity.php';
+        require_once __DIR__ . '/entity/entity_set_entity.php';
         if ($data === null) {
-            if ($this->_entity_set_push === null) {
-                $this->_entity_set_push = new EntitySetPushEntity($this, null);
+            if ($this->_entity_set === null) {
+                $this->_entity_set = new EntitySetEntity($this, null);
             }
-            return $this->_entity_set_push;
+            return $this->_entity_set;
         }
-        return new EntitySetPushEntity($this, $data);
+        return new EntitySetEntity($this, $data);
     }
 
 

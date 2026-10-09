@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SDK = exports.RoadieSDK = exports.RoadieEntityBase = exports.BaseFeature = exports.config = exports.stdutil = void 0;
 const EntityEntity_1 = require("./entity/EntityEntity");
-const EntitySetPushEntity_1 = require("./entity/EntitySetPushEntity");
+const EntitySetEntity_1 = require("./entity/EntitySetEntity");
 const node_util_1 = require("node:util");
 const Config_1 = require("./Config");
 Object.defineProperty(exports, "config", { enumerable: true, get: function () { return Config_1.config; } });
@@ -246,12 +246,12 @@ class RoadieSDK {
         const self = this;
         return new EntityEntity_1.EntityEntity(self, entopts);
     }
-    // Entity access: `client.EntitySetPush().list()` / `client.EntitySetPush().load({ id })`.
+    // Entity access: `client.EntitySet().list()` / `client.EntitySet().load({ id })`.
     // The argument is the entity OPTIONS object (passed to the entity
     // constructor as entopts), not initial entity data.
-    EntitySetPush(entopts) {
+    EntitySet(entopts) {
         const self = this;
-        return new EntitySetPushEntity_1.EntitySetPushEntity(self, entopts);
+        return new EntitySetEntity_1.EntitySetEntity(self, entopts);
     }
     static test(testoptsarg, sdkoptsarg) {
         const struct = stdutil.struct;

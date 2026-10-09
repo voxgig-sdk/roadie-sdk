@@ -22,3 +22,12 @@
 {"at":"2026-10-08T19:06:46.669Z","op":"add","items":{"target/lua":{"package":"@voxgig/sdkgen","version":"4.34.3"}},"files":{}}
 {"at":"2026-10-08T19:06:48.908Z","op":"add","items":{"target/go-cli":{"package":"@voxgig/sdkgen","version":"4.34.3"}},"files":{}}
 {"at":"2026-10-08T19:06:51.413Z","op":"add","items":{"target/go-mcp":{"package":"@voxgig/sdkgen","version":"4.34.3"}},"files":{}}
+{"at":"2026-10-09T12:25:32.632Z","op":"add","items":{"target/ts":{"package":"@voxgig/sdkgen","version":"4.34.4"}},"files":{"src/cmp/ts/ReadmeTopQuick_ts.ts":"6d63aac9f5324ecd","src/cmp/ts/TestEntity_ts.ts":"90ea5ffde6783470"}}
+{"at":"2026-10-09T12:25:33.697Z","op":"add","items":{"feature/debug":{"package":"@voxgig/sdkgen","version":"4.34.4"},"feature/idempotency":{"package":"@voxgig/sdkgen","version":"4.34.4"},"feature/metrics":{"package":"@voxgig/sdkgen","version":"4.34.4"},"feature/paging":{"package":"@voxgig/sdkgen","version":"4.34.4"},"feature/ratelimit":{"package":"@voxgig/sdkgen","version":"4.34.4"},"feature/retry":{"package":"@voxgig/sdkgen","version":"4.34.4"},"feature/test":{"package":"@voxgig/sdkgen","version":"4.34.4"},"feature/timeout":{"package":"@voxgig/sdkgen","version":"4.34.4"}},"files":{}}
+{"at":"2026-10-09T12:25:36.017Z","op":"add","items":{"target/js":{"package":"@voxgig/sdkgen","version":"4.34.4"}},"files":{"src/cmp/js/ReadmeTopQuick_js.ts":"ec8bd5fcc72429b1","src/cmp/js/TestEntity_js.ts":"2edc203a43e42778"}}
+{"at":"2026-10-09T12:25:39.220Z","op":"add","items":{"target/go":{"package":"@voxgig/sdkgen","version":"4.34.4"}},"files":{"src/cmp/go/TestEntity_go.ts":"173f13a58bb0a8dc"}}
+{"at":"2026-10-09T12:25:42.232Z","op":"add","items":{"target/py":{"package":"@voxgig/sdkgen","version":"4.34.4"}},"files":{"src/cmp/py/TestEntity_py.ts":"ba2e4d3c6313660c"}}
+{"at":"2026-10-09T12:25:45.443Z","op":"add","items":{"target/php":{"package":"@voxgig/sdkgen","version":"4.34.4"}},"files":{"src/cmp/php/TestEntity_php.ts":"efa42bc32bcd8064"}}
+{"at":"2026-10-09T12:25:48.457Z","op":"add","items":{"target/lua":{"package":"@voxgig/sdkgen","version":"4.34.4"}},"files":{"src/cmp/lua/TestEntity_lua.ts":"fb108cdc2e4d5138"}}
+{"at":"2026-10-09T12:25:50.961Z","op":"add","items":{"target/go-cli":{"package":"@voxgig/sdkgen","version":"4.34.4"}},"files":{}}
+{"at":"2026-10-09T12:25:53.381Z","op":"add","items":{"target/go-mcp":{"package":"@voxgig/sdkgen","version":"4.34.4"}},"files":{}}

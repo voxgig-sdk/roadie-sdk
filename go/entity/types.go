@@ -58,19 +58,19 @@ type EntityRemoveMatch struct {
 	Id string `json:"id"`
 }
 
-// EntitySetPush is the typed data model for the entity_set_push entity.
-type EntitySetPush struct {
+// EntitySet is the typed data model for the entity_set entity.
+type EntitySet struct {
 }
 
-// EntitySetPushListMatch is the typed request payload for EntitySetPush.ListTyped.
-type EntitySetPushListMatch struct {
+// EntitySetListMatch is the typed request payload for EntitySet.ListTyped.
+type EntitySetListMatch struct {
 	Items *[]any `json:"items,omitempty"`
 	Name *string `json:"name,omitempty"`
 	Set *string `json:"set,omitempty"`
 }
 
-// EntitySetPushUpdateData is the typed request payload for EntitySetPush.UpdateTyped.
-type EntitySetPushUpdateData struct {
+// EntitySetUpdateData is the typed request payload for EntitySet.UpdateTyped.
+type EntitySetUpdateData struct {
 	SetId string `json:"set_id"`
 	Items *[]any `json:"items,omitempty"`
 	Name *string `json:"name,omitempty"`

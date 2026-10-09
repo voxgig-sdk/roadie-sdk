@@ -1,4 +1,4 @@
-# EntitySetPush direct test
+# EntitySet direct test
 
 import json
 import pytest
@@ -21,14 +21,14 @@ def _live_ok(result):
     return result.get("err") is None and bool(result.get("ok")) and 200 <= status < 300
 
 
-class TestEntitySetPushDirect:
+class TestEntitySetDirect:
 
-    def test_should_direct_list_entity_set_push(self):
-        setup = _entity_set_push_direct_setup([
+    def test_should_direct_list_entity_set(self):
+        setup = _entity_set_direct_setup([
             {"id": "direct01"},
             {"id": "direct02"},
         ])
-        _skip, _reason = runner.is_control_skipped("direct", "direct-list-entity_set_push", "live" if setup["live"] else "unit")
+        _skip, _reason = runner.is_control_skipped("direct", "direct-list-entity_set", "live" if setup["live"] else "unit")
         if _skip:
             pytest.skip(_reason or "skipped via sdk-test-control.json")
             return
@@ -55,13 +55,13 @@ class TestEntitySetPushDirect:
 
 
 
-def _entity_set_push_direct_setup(mockres):
+def _entity_set_direct_setup(mockres):
     runner.load_env_local()
 
     calls = []
 
     env = runner.env_override({
-        "ROADIE_TEST_ENTITY_SET_PUSH_ENTID": {},
+        "ROADIE_TEST_ENTITY_SET_ENTID": {},
         "ROADIE_TEST_LIVE": "FALSE",
         "ROADIE_APIKEY": "",
     })
@@ -76,7 +76,7 @@ def _entity_set_push_direct_setup(mockres):
             "apikey": env.get("ROADIE_APIKEY"),
         })
         client = RoadieSDK(merged_opts)
-        idmap = env.get("ROADIE_TEST_ENTITY_SET_PUSH_ENTID")
+        idmap = env.get("ROADIE_TEST_ENTITY_SET_ENTID")
         return {
             "client": client,
             "calls": calls,

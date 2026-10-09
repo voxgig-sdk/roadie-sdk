@@ -23,7 +23,7 @@ import {
 loadEnvLocal(__dirname + '/../../../.env.local')
 
 
-describe('EntitySetPushDirect', async () => {
+describe('EntitySetDirect', async () => {
 
   // Per-test live pacing. Delay is read from sdk-test-control.json's
   // `test.live.delayMs`; only sleeps when ROADIE_TEST_LIVE=TRUE.
@@ -39,10 +39,10 @@ describe('EntitySetPushDirect', async () => {
   })
 
 
-  test('direct-list-entity_set_push', async (t: any) => {
+  test('direct-list-entity_set', async (t: any) => {
     if (liveScenariosActive()) { t.skip('Covered by live operation scenarios'); return }
     const setup = directSetup([{ id: 'direct01' }, { id: 'direct02' }])
-    if (maybeSkipControl(t, 'direct', 'direct-list-entity_set_push', setup.live)) return
+    if (maybeSkipControl(t, 'direct', 'direct-list-entity_set', setup.live)) return
     const { client, calls } = setup
 
     const params: any = {}
@@ -89,7 +89,7 @@ function directSetup(mockres?: any) {
   const calls: any[] = []
 
   const env = envOverride({
-    'ROADIE_TEST_ENTITY_SET_PUSH_ENTID': {},
+    'ROADIE_TEST_ENTITY_SET_ENTID': {},
     'ROADIE_TEST_LIVE': 'FALSE',
     'ROADIE_APIKEY': '',
   })
@@ -105,7 +105,7 @@ function directSetup(mockres?: any) {
       apikey: env.ROADIE_APIKEY,
       }))
 
-    let idmap: any = env['ROADIE_TEST_ENTITY_SET_PUSH_ENTID']
+    let idmap: any = env['ROADIE_TEST_ENTITY_SET_ENTID']
     if ('string' === typeof idmap && idmap.startsWith('{')) {
       idmap = JSON.parse(idmap)
     }

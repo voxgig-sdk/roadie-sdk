@@ -182,7 +182,7 @@ class Config {
         },
         entity: {
             entity: {},
-            entity_set_push: {},
+            entity_set: {},
         }
     };
     entity = {
@@ -523,7 +523,7 @@ class Config {
                 "ancestors": []
             }
         },
-        "entity_set_push": {
+        "entity_set": {
             "fields": [
                 {
                     "name": "items",
@@ -548,7 +548,7 @@ class Config {
                     "type": "`$STRING`"
                 }
             ],
-            "name": "entity_set_push",
+            "name": "entity_set",
             "op": {
                 "list": {
                     "input": "data",

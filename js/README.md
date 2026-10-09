@@ -255,7 +255,7 @@ new RoadieSDK(options?)
 | `prepare(fetchargs?)` | `Promise<FetchDef>` | Build an HTTP request definition without sending it. |
 | `direct(fetchargs?)` | `Promise<DirectResult>` | Build and send an HTTP request. |
 | `Entity(data?)` | `EntityEntity` | Create an Entity entity instance. |
-| `EntitySetPush(data?)` | `EntitySetPushEntity` | Create an EntitySetPush entity instance. |
+| `EntitySet(data?)` | `EntitySetEntity` | Create an EntitySet entity instance. |
 | `tester(testopts?, sdkopts?)` | `RoadieSDK` | Create a test-mode client instance. |
 
 #### Static methods
@@ -348,7 +348,7 @@ Operations: create, list, load, remove.
 
 API path: `/api/catalog/roadie-entities/entities`
 
-#### EntitySetPush
+#### EntitySet
 
 | Field | Description |
 | --- | --- |
@@ -419,9 +419,9 @@ const entity = await client.Entity().create({
 ```
 
 
-### EntitySetPush
+### EntitySet
 
-Create an instance: `const entity_set_push = client.EntitySetPush()`
+Create an instance: `const entity_set = client.EntitySet()`
 
 #### Operations
 
@@ -441,7 +441,7 @@ Create an instance: `const entity_set_push = client.EntitySetPush()`
 #### Example: List
 
 ```ts
-const entity_set_pushs = await client.EntitySetPush().list()
+const entity_sets = await client.EntitySet().list()
 ```
 
 ## Features

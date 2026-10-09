@@ -288,8 +288,8 @@ const PLAN = [
         "idField": "id"
     },
     {
-        "entity": "entity_set_push",
-        "accessor": "EntitySetPush",
+        "entity": "entity_set",
+        "accessor": "EntitySet",
         "op": "list",
         "method": "GET",
         "path": "/api/catalog/roadie-entities/sets",
@@ -320,8 +320,8 @@ const PLAN = [
         "idField": "id"
     },
     {
-        "entity": "entity_set_push",
-        "accessor": "EntitySetPush",
+        "entity": "entity_set",
+        "accessor": "EntitySet",
         "op": "update",
         "method": "PUT",
         "path": "/api/catalog/roadie-entities/sets/{setId}",

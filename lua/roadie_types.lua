@@ -54,17 +54,17 @@
 ---@class EntityRemoveMatch
 ---@field id string
 
----@class EntitySetPush
+---@class EntitySet
 ---@field items? table
 ---@field name? string
 ---@field set? string
 
----@class EntitySetPushListMatch
+---@class EntitySetListMatch
 ---@field items? table
 ---@field name? string
 ---@field set? string
 
----@class EntitySetPushUpdateData
+---@class EntitySetUpdateData
 ---@field set_id string
 ---@field items? table
 ---@field name? string

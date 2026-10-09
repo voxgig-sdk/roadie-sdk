@@ -22,7 +22,7 @@ export ROADIE_APIKEY=sk_live_xxx
 ./roadie-cli list entity
 ./roadie-cli load 1 entity            # {id:1} shorthand
 ./roadie-cli load '{id:1}' entity       # explicit match map
-./roadie-cli list entity_set_push
+./roadie-cli list entity_set
 
 # 5. Override the API base URL for a single call
 ROADIE_BASE=https://api.example.com ./roadie-cli list entity
@@ -175,7 +175,7 @@ Meta-commands use the `/` prefix (everything else on a line is evaluated as boru
 
 The 2 entities this SDK exposes (any is valid as `<entity>`):
 
-entity entity_set_push
+entity entity_set
 
 ## Explanation
 

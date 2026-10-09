@@ -19,7 +19,7 @@ const {
 } = require('../../utility')
 
 
-describe('EntitySetPushDirect', async () => {
+describe('EntitySetDirect', async () => {
 
   // Per-test live pacing. Delay is read from sdk-test-control.json's
   // `test.live.delayMs`; only sleeps when ROADIE_TEST_LIVE=TRUE.
@@ -38,7 +38,7 @@ describe('EntitySetPushDirect', async () => {
   })
 
 
-  test('direct-list-entity_set_push', async (t) => {
+  test('direct-list-entity_set', async (t) => {
     if (liveScenariosActive()) { t.skip('Covered by live operation scenarios'); return }
     const setup = directSetup([{ id: 'direct01' }, { id: 'direct02' }])
     const { client, calls } = setup
@@ -83,7 +83,7 @@ function directSetup(mockres) {
   const calls = []
 
   const env = envOverride({
-    'ROADIE_TEST_ENTITY_SET_PUSH_ENTID': {},
+    'ROADIE_TEST_ENTITY_SET_ENTID': {},
     'ROADIE_TEST_LIVE': 'FALSE',
     'ROADIE_APIKEY': '',
   })
@@ -98,7 +98,7 @@ function directSetup(mockres) {
       apikey: env.ROADIE_APIKEY,
       }))
 
-    let idmap = env['ROADIE_TEST_ENTITY_SET_PUSH_ENTID']
+    let idmap = env['ROADIE_TEST_ENTITY_SET_ENTID']
     if ('string' === typeof idmap && idmap.startsWith('{')) {
       idmap = JSON.parse(idmap)
     }

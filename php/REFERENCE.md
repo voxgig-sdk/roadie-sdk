@@ -46,9 +46,9 @@ $client = RoadieSDK::test();
 
 Create a new `EntityEntity` instance. Pass `null` for no initial data.
 
-#### `EntitySetPush($data = null)`
+#### `EntitySet($data = null)`
 
-Create a new `EntitySetPushEntity` instance. Pass `null` for no initial data.
+Create a new `EntitySetEntity` instance. Pass `null` for no initial data.
 
 #### `options_map(): array`
 
@@ -179,10 +179,10 @@ Return the entity name.
 
 ---
 
-## EntitySetPushEntity
+## EntitySetEntity
 
 ```php
-$entity_set_push = $client->EntitySetPush();
+$entity_set = $client->EntitySet();
 ```
 
 ### Fields
@@ -208,7 +208,7 @@ $entity_set_push = $client->EntitySetPush();
 List entities matching the given criteria (call with no argument to list all). Returns an array of entities, one per record, and throws on error.
 
 ```php
-$results = $client->EntitySetPush()->list();
+$results = $client->EntitySet()->list();
 ```
 
 #### `update(array $reqdata, ?array $ctrl = null): mixed`
@@ -216,7 +216,7 @@ $results = $client->EntitySetPush()->list();
 Update an existing entity. The data must include the entity `id`. Returns the updated entity and throws on error.
 
 ```php
-$result = $client->EntitySetPush()->update([
+$result = $client->EntitySet()->update([
   "set_id" => "set_id",
   // Fields to update
 ]);
@@ -240,9 +240,9 @@ Get the entity match criteria.
 
 Set the entity match criteria.
 
-#### `make(): EntitySetPushEntity`
+#### `make(): EntitySetEntity`
 
-Create a new `EntitySetPushEntity` instance with the same client and
+Create a new `EntitySetEntity` instance with the same client and
 options.
 
 #### `get_name(): string`

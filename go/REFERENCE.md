@@ -52,9 +52,9 @@ client := sdk.TestSDK(testopts, sdkopts)
 
 Create a new `Entity` entity instance. Pass `nil` for no initial data.
 
-#### `EntitySetPush(data map[string]any) RoadieEntity`
+#### `EntitySet(data map[string]any) RoadieEntity`
 
-Create a new `EntitySetPush` entity instance. Pass `nil` for no initial data.
+Create a new `EntitySet` entity instance. Pass `nil` for no initial data.
 
 #### `OptionsMap() map[string]any`
 
@@ -205,11 +205,11 @@ Return the entity name.
 
 ---
 
-## EntitySetPushEntity
+## EntitySetEntity
 
 ```go
-entitySetPush := client.EntitySetPush(nil)
-fmt.Println(entitySetPush.GetName()) // "entity_set_push"
+entitySet := client.EntitySet(nil)
+fmt.Println(entitySet.GetName()) // "entity_set"
 ```
 
 ### Fields
@@ -235,7 +235,7 @@ fmt.Println(entitySetPush.GetName()) // "entity_set_push"
 List entities matching the given criteria. Returns a `[]any` of entities, one per record; `err` is non-nil on failure.
 
 ```go
-results, err := client.EntitySetPush(nil).List(nil, nil)
+results, err := client.EntitySet(nil).List(nil, nil)
 if err != nil {
     panic(err)
 }
@@ -249,7 +249,7 @@ for _, item := range results.([]any) {
 Update an existing entity. The data must include the entity `id`. Returns the updated entity; `err` is non-nil on failure.
 
 ```go
-result, err := client.EntitySetPush(nil).Update(map[string]any{
+result, err := client.EntitySet(nil).Update(map[string]any{
     "set_id": "set_id",
     // Fields to update
 }, nil)
@@ -273,7 +273,7 @@ Get or set the entity match criteria. Works the same as `Data()`.
 
 #### `Make() Entity`
 
-Create a new `EntitySetPushEntity` instance with the same client and
+Create a new `EntitySetEntity` instance with the same client and
 options.
 
 #### `Stream(action string, args map[string]any, callopts map[string]any) <-chan StreamItem`

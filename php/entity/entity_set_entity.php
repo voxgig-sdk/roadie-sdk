@@ -1,14 +1,14 @@
 <?php
 declare(strict_types=1);
 
-// Roadie SDK EntitySetPush entity
+// Roadie SDK EntitySet entity
 
 require_once __DIR__ . '/../utility/struct/Struct.php';
 require_once __DIR__ . '/../core/Helpers.php';
 
 use Voxgig\Struct\Struct;
 
-class EntitySetPushEntity
+class EntitySetEntity
 {
     private string $_name;
     private $_client;
@@ -30,7 +30,7 @@ class EntitySetPushEntity
             $entopts["active"] = true;
         }
 
-        $this->_name = "entity_set_push";
+        $this->_name = "entity_set";
         $this->_client = $client;
         $this->_utility = $client->get_utility();
         $this->_entopts = $entopts;
@@ -90,11 +90,11 @@ class EntitySetPushEntity
     public function make(): self
     {
         $opts = $this->_entopts;
-        return new EntitySetPushEntity($this->_client, $opts);
+        return new EntitySetEntity($this->_client, $opts);
     }
 
     /**
-     * @param EntitySetPush|array $args EntitySetPush data (assoc-array) to store.
+     * @param EntitySet|array $args EntitySet data (assoc-array) to store.
      */
     public function data_set($args): void
     {
@@ -105,7 +105,7 @@ class EntitySetPushEntity
     }
 
     /**
-     * @return EntitySetPush|array The current EntitySetPush data as an assoc-array.
+     * @return EntitySet|array The current EntitySet data as an assoc-array.
      */
     public function data_get()
     {
@@ -114,7 +114,7 @@ class EntitySetPushEntity
     }
 
     /**
-     * @param array $args Match filter (any subset of EntitySetPush fields).
+     * @param array $args Match filter (any subset of EntitySet fields).
      */
     public function match_set($args): void
     {
@@ -125,7 +125,7 @@ class EntitySetPushEntity
     }
 
     /**
-     * @return array The current match filter (any subset of EntitySetPush fields).
+     * @return array The current match filter (any subset of EntitySet fields).
      */
     public function match_get()
     {
@@ -290,12 +290,12 @@ class EntitySetPushEntity
 
     
     /**
-     * List EntitySetPush items matching the given filter.
+     * List EntitySet items matching the given filter.
      *
-     * @param EntitySetPushListMatch|array|null $reqmatch Match filter (any subset
-     *   of EntitySetPush fields) as an assoc-array; EntitySetPushListMatch names the shape.
+     * @param EntitySetListMatch|array|null $reqmatch Match filter (any subset
+     *   of EntitySet fields) as an assoc-array; EntitySetListMatch names the shape.
      * @param mixed $ctrl Optional per-call control overrides.
-     * @return EntitySetPushEntity[] The EntitySetPush entities, one per record, each read
+     * @return EntitySetEntity[] The EntitySet entities, one per record, each read
      *   with data_get(); throws RoadieError on failure (item-5 convention).
      */
     public function list(?array $reqmatch = null, $ctrl = null): mixed
@@ -324,12 +324,12 @@ class EntitySetPushEntity
 
     
     /**
-     * Update an existing EntitySetPush.
+     * Update an existing EntitySet.
      *
-     * @param EntitySetPushUpdateData|array|null $reqdata Body data as an assoc-array;
-     *   a typed EntitySetPushUpdateData names the shape.
+     * @param EntitySetUpdateData|array|null $reqdata Body data as an assoc-array;
+     *   a typed EntitySetUpdateData names the shape.
      * @param mixed $ctrl Optional per-call control overrides.
-     * @return EntitySetPushEntity The updated EntitySetPush entity, whose data_get() reads
+     * @return EntitySetEntity The updated EntitySet entity, whose data_get() reads
      *   its record; throws RoadieError on failure (item-5 convention).
      */
     public function update(?array $reqdata = null, $ctrl = null): mixed

@@ -15,29 +15,29 @@ import type {
 } from '../types'
 
 import type {
-  EntitySetPush,
-  EntitySetPushListMatch,
-  EntitySetPushUpdateData,
+  EntitySet,
+  EntitySetListMatch,
+  EntitySetUpdateData,
 } from '../RoadieTypes'
 
-class EntitySetPushEntity extends RoadieEntityBase<EntitySetPush> {
+class EntitySetEntity extends RoadieEntityBase<EntitySet> {
 
   constructor(client: RoadieSDK, entopts: any) {
     super(client, entopts)
-    this.name = 'entity_set_push'
-    this.name_ = 'entity_set_push'
-    this.Name = 'EntitySetPush'
+    this.name = 'entity_set'
+    this.name_ = 'entity_set'
+    this.Name = 'EntitySet'
   }
 
 
-  make(this: EntitySetPushEntity) {
-    return new EntitySetPushEntity(this._client, this.entopts())
+  make(this: EntitySetEntity) {
+    return new EntitySetEntity(this._client, this.entopts())
   }
 
 
 
 
-  async list(this: any, reqmatch?: EntitySetPushListMatch, ctrl?: Control): Promise<EntitySetPushEntity[]> {
+  async list(this: any, reqmatch?: EntitySetListMatch, ctrl?: Control): Promise<EntitySetEntity[]> {
 
     const utility = this._utility
 
@@ -145,7 +145,7 @@ class EntitySetPushEntity extends RoadieEntityBase<EntitySetPush> {
       }
       else {
         // Off-happy-path (throw disabled): typed as any so the method's
-        // Promise<EntitySetPushEntity[]> return stays clean under strict null checks.
+        // Promise<EntitySetEntity[]> return stays clean under strict null checks.
         return undefined as any
       }
     }
@@ -154,7 +154,7 @@ class EntitySetPushEntity extends RoadieEntityBase<EntitySetPush> {
 
 
 
-  async update(this: any, reqdata?: EntitySetPushUpdateData, ctrl?: Control): Promise<EntitySetPushEntity> {
+  async update(this: any, reqdata?: EntitySetUpdateData, ctrl?: Control): Promise<EntitySetEntity> {
 
     const utility = this._utility
 
@@ -269,7 +269,7 @@ class EntitySetPushEntity extends RoadieEntityBase<EntitySetPush> {
       }
       else {
         // Off-happy-path (throw disabled): typed as any so the method's
-        // Promise<EntitySetPushEntity> return stays clean under strict null checks.
+        // Promise<EntitySetEntity> return stays clean under strict null checks.
         return undefined as any
       }
     }
@@ -282,5 +282,5 @@ class EntitySetPushEntity extends RoadieEntityBase<EntitySetPush> {
 
 
 export {
-  EntitySetPushEntity
+  EntitySetEntity
 }

@@ -492,7 +492,7 @@
             "ancestors": []
           }
         },
-        "entity_set_push": {
+        "entity_set": {
           "active": true,
           "alias": {
             "field": {}
@@ -527,7 +527,7 @@
               "t": "`$STRING`"
             }
           },
-          "name": "entity_set_push",
+          "name": "entity_set",
           "op": {
             "list": {
               "input": "data",
@@ -1577,12 +1577,12 @@
             }
           ]
         },
-        "BasicEntitySetPushFlow": {
+        "BasicEntitySetFlow": {
           "active": true,
-          "entity": "entity_set_push",
-          "key$": "BasicEntitySetPushFlow",
+          "entity": "entity_set",
+          "key$": "BasicEntitySetFlow",
           "kind": "basic",
-          "name": "BasicEntitySetPushFlow",
+          "name": "BasicEntitySetFlow",
           "param": {},
           "step": [
             {
@@ -1596,7 +1596,7 @@
                 {
                   "apply": "ItemExists",
                   "def": {
-                    "ref": "entity_set_push_ref01"
+                    "ref": "entity_set_ref01"
                   }
                 }
               ]
@@ -1605,8 +1605,8 @@
               "a": true,
               "d": {},
               "i": {
-                "ref": "entity_set_push_ref01",
-                "srcdatavar": "entity_set_push_ref01_data",
+                "ref": "entity_set_ref01",
+                "srcdatavar": "entity_set_ref01_data",
                 "suffix": "_up0",
                 "textfield": "name"
               },
@@ -1616,7 +1616,7 @@
                 {
                   "apply": "TextFieldMark",
                   "def": {
-                    "mark": "Mark01-entity_set_push_ref01"
+                    "mark": "Mark01-entity_set_ref01"
                   }
                 }
               ],

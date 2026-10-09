@@ -2,25 +2,44 @@
   "existing": {
     "entity_set": {
       "ENTITY_SET00": {
-        "name": "sa"
+        "items": [],
+        "name": "s1f",
+        "set": "s20",
+        "set_id": "SET01",
+        "id": "ENTITY_SET00"
       },
       "ENTITY_SET01": {
-        "name": "s14"
+        "items": [],
+        "name": "s3d",
+        "set": "s3e",
+        "set_id": "SET01",
+        "id": "ENTITY_SET01"
       },
       "ENTITY_SET02": {
-        "name": "s1e"
+        "items": [],
+        "name": "s5b",
+        "set": "s5c",
+        "set_id": "SET01",
+        "id": "ENTITY_SET02"
       }
     }
   },
   "new": {
     "entity_set": {
       "entity_set_ref01": {
-        "name": "s28"
+        "items": [],
+        "name": "s79",
+        "set": "s7a"
       }
     }
   },
   "requests": {
     "GET /api/catalog/roadie-entities/sets": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    },
+    "PUT /api/catalog/roadie-entities/sets/{setId}": {
       "provenance": "operation-contract",
       "version": 2,
       "source": "openapi3"

@@ -127,7 +127,7 @@ declare class Config {
         };
         entity: {
             entity: {};
-            entity_set_push: {};
+            entity_set: {};
         };
     };
     entity: {
@@ -348,7 +348,7 @@ declare class Config {
                 ancestors: never[];
             };
         };
-        entity_set_push: {
+        entity_set: {
             fields: ({
                 name: string;
                 title: string;

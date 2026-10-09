@@ -41,7 +41,7 @@ const SDK_ROOT = Path.join(__dirname, '..').split(Path.sep).join('/')
 
 // A fixture for every entity, so list()/load() resolve offline with no
 // network. Snippet client construction is rewritten to seed this.
-const TEST_SEED = {"entity":{"entity":{"test01":{"id":"test01"}},"entity_set_push":{"test01":{"id":"test01"}}}}
+const TEST_SEED = {"entity":{"entity":{"test01":{"id":"test01"}},"entity_set":{"test01":{"id":"test01"}}}}
 const SEED_ARG = JSON.stringify(TEST_SEED)
 const SEEDED_CTOR = SDK_NAME + '.test(' + SEED_ARG + ')'
 
