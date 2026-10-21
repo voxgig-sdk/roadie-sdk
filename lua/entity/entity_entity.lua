@@ -48,13 +48,17 @@ end
 -- also holds the client and the utility.
 function EntityEntity:to_record()
   local rec = self._utility.clean(self._entctx, vs.clone(self._data or {}))
-  rec["voxgig$entity"] = self._name
+  if type(rec) == "table" then
+    rec["voxgig$entity"] = self._name
+  end
   return rec
 end
 
 EntityEntity.__tostring = function(self)
   local rec = self:to_record()
-  rec["voxgig$entity"] = nil
+  if type(rec) == "table" then
+    rec["voxgig$entity"] = nil
+  end
   return self._name .. " " .. json.encode(rec)
 end
 
@@ -87,7 +91,7 @@ end
 
 function EntityEntity:data_set(args)
   if args ~= nil then
-    self._data = helpers.to_map(vs.clone(args)) or {}
+    self._data = vs.clone(args)
     self._utility.feature_hook(self._entctx, "SetData")
   end
 end
@@ -238,7 +242,10 @@ function EntityEntity:stream(action, args, callopts)
     end
 
     -- What a hook raises here must not escape the cleaning below.
-    local hookok, hookerr = pcall(utility.feature_hook, ctx, "PreUnexpected")
+    local hookok, hookerr = true, nil
+    if not ctx.unexpected_fired then
+      hookok, hookerr = pcall(utility.feature_hook, ctx, "PreUnexpected")
+    end
     if not hookok then
       item = hookerr
     end
@@ -426,7 +433,10 @@ function EntityEntity:_run_op(ctx, post_done)
 
   -- What a hook raises here must not escape the cleaning below.
   local hookok, hookerr = pcall(function()
-    utility.feature_hook(ctx, "PreUnexpected")
+    -- Once per operation: make_error fires it for its own error.
+    if not ctx.unexpected_fired then
+      utility.feature_hook(ctx, "PreUnexpected")
+    end
   end)
   if not hookok then
     out = hookerr

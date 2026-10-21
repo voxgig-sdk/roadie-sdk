@@ -151,7 +151,6 @@ Create a new entity with the given data. Returns the created entity; `err` is no
 ```go
 result, err := client.Entity(nil).Create(map[string]any{
     "apiVersion": "example_apiVersion",
-    "id": "example_id",
     "kind": "example_kind",
     "metadata": map[string]any{},
 }, nil)

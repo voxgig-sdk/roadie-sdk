@@ -39,17 +39,10 @@
 
 ---@class EntityCreateData
 ---@field apiVersion string
----@field entityRef? string
----@field id string
 ---@field kind string
 ---@field metadata table
----@field rawData? table
 ---@field relations? table
----@field set? string
----@field source? string
 ---@field spec? table
----@field updatedAt? string
----@field updatedBy? string
 
 ---@class EntityRemoveMatch
 ---@field id string
@@ -67,8 +60,6 @@
 ---@class EntitySetUpdateData
 ---@field set_id string
 ---@field items? table
----@field name? string
----@field set? string
 
 local M = {}
 

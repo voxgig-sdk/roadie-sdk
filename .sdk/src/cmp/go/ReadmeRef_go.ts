@@ -1,5 +1,5 @@
 
-import { cmp, each, Content, canonToType, File, isAuthActive, entityIdField, entityOps, opRequestShape, targetFeatures, bodyNote, listMatchArg } from '@voxgig/sdkgen'
+import { cmp, each, Content, canonToType, File, isAuthActive, entityIdField, entityOps, opRequestShape, targetFeatures, bodyNote, listMatchArg, matchExampleItems, litString } from '@voxgig/sdkgen'
 import { ReadmeRefFeatures } from '@voxgig/sdkgen'
 
 import {
@@ -263,13 +263,12 @@ ${info.desc}
             // The id key plus every REQUIRED match key (parent path params
             // like page_id) — the same shape that generates the op's request
             // match, so the example always carries the keys the route needs.
-            const matchItems = opRequestShape(ent, opname).items
-              .filter((it: any) => !it.optional || it.name === idF)
+            const matchItems = matchExampleItems(ent, opname, idF)
               .sort((a: any, b: any) =>
                 (a.name === idF ? 0 : 1) - (b.name === idF ? 0 : 1))
             const arg = 0 < matchItems.length
               ? `map[string]any{${matchItems.map((it: any) =>
-                `"${it.name}": ${exampleValue(ent, ent.op && ent.op[opname], it.name,
+                `${litString('go', it.name)}: ${exampleValue(ent, ent.op && ent.op[opname], it.name,
                   it.name === idF ? ent.name + '_id' : it.name)}`).join(', ')}}`
               : 'nil'
             Content(`\`\`\`go
@@ -307,7 +306,7 @@ for _, item := range results.([]any) {
 result, err := client.${ent.Name}(nil).Create(map[string]any{
 `)
             createItems.map((it: any) => {
-              Content(`    "${it.name}": ${exampleValue(ent, ent.op && ent.op.create, it.name, 'example_' + it.name)},
+              Content(`    ${litString('go', it.name)}: ${exampleValue(ent, ent.op && ent.op.create, it.name, 'example_' + it.name)},
 `)
             })
             Content(`}, nil)
@@ -328,7 +327,7 @@ fmt.Println(result.(sdk.Entity).Data())
               .sort((a: any, b: any) =>
                 (a.name === idF ? 0 : 1) - (b.name === idF ? 0 : 1))
             const updateLines = updateItems.map((it: any) =>
-              `    "${it.name}": ${exampleValue(ent, ent.op && ent.op[opname], it.name,
+              `    ${litString('go', it.name)}: ${exampleValue(ent, ent.op && ent.op[opname], it.name,
                 it.name === idF ? ent.name + '_id' : it.name)},\n`).join('')
             Content(`\`\`\`go
 result, err := client.${ent.Name}(nil).${'patch' === opname ? 'Patch' : 'Update'}(map[string]any{

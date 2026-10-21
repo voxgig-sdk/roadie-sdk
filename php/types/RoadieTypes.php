@@ -56,17 +56,10 @@ class EntityListMatch
 class EntityCreateData
 {
     public string $apiVersion;
-    public ?string $entityRef = null;
-    public string $id;
     public string $kind;
     public array $metadata;
-    public ?array $rawData = null;
     public ?array $relations = null;
-    public ?string $set = null;
-    public ?string $source = null;
     public ?array $spec = null;
-    public ?string $updatedAt = null;
-    public ?string $updatedBy = null;
 }
 
 /** Request payload for Entity#remove. */
@@ -96,7 +89,5 @@ class EntitySetUpdateData
 {
     public string $set_id;
     public ?array $items = null;
-    public ?string $name = null;
-    public ?string $set = null;
 }
 

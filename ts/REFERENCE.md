@@ -162,7 +162,6 @@ Create a new entity with the given data. Resolves to the created entity.
 ```ts
 const result = await client.Entity().create({
   apiVersion: 'example_apiVersion',
-  id: 'example_id',
   kind: 'example_kind',
   metadata: {},
 })

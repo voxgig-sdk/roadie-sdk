@@ -29,6 +29,11 @@ function makeUrl(ctx) {
     const params = spec.params;
     for (let [key, val] of items(params)) {
         if (null != val) {
+            // A whole . or .. is a dot segment, which moves the request to another route.
+            const text = String(val);
+            if ('.' === text || '..' === text) {
+                return ctx.error('url_param_invalid', 'URL path parameter ' + key + ' cannot be "' + text + '".');
+            }
             url = url.replace(RegExp('{' + escre(key) + '}'), escurl(val));
             resmatch[key] = val;
         }
@@ -41,9 +46,8 @@ function makeUrl(ctx) {
     if (null != unfilled) {
         return ctx.error('url_param_missing', 'URL path has no value for ' + unfilled.join(', ') + '.');
     }
-    // Append query string from spec.query. Entity ops populate this via
-    // PrepareQueryUtility from the operation's arguments; direct() callers
-    // pass it as fetchargs.query.
+    // Entity ops fill spec.query from their arguments (PrepareQueryUtility);
+    // direct() callers pass it as fetchargs.query.
     let qsep = '?';
     for (let [key, val] of items(spec.query)) {
         if (null != val) {

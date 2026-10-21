@@ -119,7 +119,6 @@ Create a new entity with the given data. Returns the created entity and throws o
 ```php
 $result = $client->Entity()->create([
   "apiVersion" => null, // string
-  "id" => null, // string
   "kind" => null, // string
   "metadata" => null, // array
 ]);

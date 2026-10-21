@@ -1,5 +1,5 @@
 
-import { cmp, each, Content, canonToType, entityIdField, entityOps, opRequestShape, listMatchArg } from '@voxgig/sdkgen'
+import { cmp, each, Content, canonToType, entityIdField, entityOps, opRequestShape, listMatchArg, matchExampleItems, litString } from '@voxgig/sdkgen'
 
 import {
   KIT,
@@ -101,13 +101,12 @@ const ReadmeEntity = cmp(function ReadmeEntity(props: any) {
       // The id key plus every REQUIRED match key (parent path params like
       // page_id) — the same shape that generates the op's request match, so
       // the example always carries the keys the route needs.
-      const loadItems = opRequestShape(entity, 'load').items
-        .filter((it: any) => !it.optional || it.name === idF)
+      const loadItems = matchExampleItems(entity, 'load', idF)
         .sort((a: any, b: any) =>
           (a.name === idF ? 0 : 1) - (b.name === idF ? 0 : 1))
       const loadArg = 0 < loadItems.length
         ? `map[string]any{${loadItems.map((it: any) =>
-          `"${it.name}": ${exampleValue(entity, entity.op && entity.op.load, it.name,
+          `${litString('go', it.name)}: ${exampleValue(entity, entity.op && entity.op.load, it.name,
             it.name === idF ? entity.name + '_id' : it.name)}`).join(', ')}}`
         : 'nil'
       Content(`#### Example: Load
@@ -154,7 +153,7 @@ for _, item := range ${eVar}s.([]any) {
 result, err := client.${entity.Name}(nil).Create(map[string]any{
 `)
       createItems.map((it: any) => {
-        Content(`    "${it.name}": ${exampleValue(entity, entity.op && entity.op.create, it.name, 'example_' + it.name)},
+        Content(`    ${litString('go', it.name)}: ${exampleValue(entity, entity.op && entity.op.create, it.name, 'example_' + it.name)},
 `)
       })
       Content(`}, nil)

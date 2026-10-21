@@ -61,7 +61,7 @@ class EntityEntity:
 
     def data_set(self, args=None):
         if args is not None:
-            self._data = helpers.to_map(vs.clone(args)) or {}
+            self._data = vs.clone(args)
             self._utility.feature_hook(self._entctx, "SetData")
 
     def data_get(self) -> Entity:
@@ -157,7 +157,8 @@ class EntityEntity:
         except Exception as err:
             # What a hook raises here must not escape the cleaning below.
             try:
-                utility.feature_hook(ctx, "PreUnexpected")
+                if not ctx.unexpected_fired:
+                    utility.feature_hook(ctx, "PreUnexpected")
             except Exception as hookerr:
                 err = hookerr
             if self._unexpected(ctx, err) is not None:
@@ -368,7 +369,9 @@ class EntityEntity:
         except Exception as err:
             # What a hook raises here must not escape the cleaning below.
             try:
-                utility.feature_hook(ctx, "PreUnexpected")
+                # Once per operation: make_error fires it for its own error.
+                if not ctx.unexpected_fired:
+                    utility.feature_hook(ctx, "PreUnexpected")
             except Exception as hookerr:
                 err = hookerr
             if self._unexpected(ctx, err) is None:

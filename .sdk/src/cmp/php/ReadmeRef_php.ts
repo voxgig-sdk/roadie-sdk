@@ -1,5 +1,5 @@
 
-import { cmp, each, Content, canonToType, canonKey, canonScalarKey, File, isAuthActive, entityIdField, opRequestShape, phpEntityAccessor, targetFeatures, opNeedsAction, bodyNote, listMatchArg } from '@voxgig/sdkgen'
+import { cmp, each, Content, canonToType, canonKey, canonScalarKey, File, isAuthActive, entityIdField, opRequestShape, phpEntityAccessor, targetFeatures, opNeedsAction, bodyNote, listMatchArg, matchExampleItems, litString } from '@voxgig/sdkgen'
 import { ReadmeRefFeatures } from '@voxgig/sdkgen'
 
 import {
@@ -18,7 +18,7 @@ function phpLit(type: any, placeholder: string = 'example'): string {
   if ('INTEGER' === k || 'NUMBER' === k) return '1'
   if ('BOOLEAN' === k) return 'true'
   if ('ARRAY' === k || 'OBJECT' === k) return '[]'
-  return `"${placeholder}"`
+  return litString('php', placeholder)
 }
 
 
@@ -269,13 +269,12 @@ ${info.desc}
             // The id key plus every REQUIRED match key (parent path params
             // like page_id) — the same shape the runtime resolves path
             // params from, so the example always works.
-            const matchItems = opRequestShape(ent, opname).items
-              .filter((it: any) => !it.optional || it.name === idF)
+            const matchItems = matchExampleItems(ent, opname, idF)
               .sort((a: any, b: any) =>
                 (a.name === idF ? 0 : 1) - (b.name === idF ? 0 : 1))
             const arg = 0 < matchItems.length
               ? `[${matchItems.map((it: any) =>
-                `"${it.name}" => ${phpLit(it.type,
+                `${litString('php', it.name)} => ${phpLit(it.type,
                   it.name === idF ? ent.name + '_id' : it.name)}`).join(', ')}]`
               : ''
             Content(`\`\`\`php
@@ -301,7 +300,7 @@ $results = $client->${phpEntityAccessor(ent.Name)}()->list(${listMatchArg('php',
 $result = $client->${phpEntityAccessor(ent.Name)}()->create([
 `)
             createItems.map((it: any) => {
-              Content(`  "${it.name}" => null, // ${canonToType(it.type, target.name)}
+              Content(`  ${litString('php', it.name)} => null, // ${canonToType(it.type, target.name)}
 `)
             })
             Content(`]);
@@ -317,7 +316,7 @@ $result = $client->${phpEntityAccessor(ent.Name)}()->create([
               .sort((a: any, b: any) =>
                 (a.name === idF ? 0 : 1) - (b.name === idF ? 0 : 1))
             const updateLines = updateItems.map((it: any) =>
-              `  "${it.name}" => ${phpLit(it.type,
+              `  ${litString('php', it.name)} => ${phpLit(it.type,
                 it.name === idF ? ent.name + '_id' : it.name)},\n`).join('')
             Content(`\`\`\`php
 $result = $client->${phpEntityAccessor(ent.Name)}()->${opname}([

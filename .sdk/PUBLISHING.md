@@ -8,12 +8,11 @@ it, and how this repo releases is none of their business.
 
 | target | package | workflow |
 |---|---|---|
-| `js/` | @voxgig-sdk/roadie-sdk-js | `.github/workflows/publish-js.yml` |
 | `ts/` | @voxgig-sdk/roadie-sdk | `.github/workflows/publish-ts.yml` |
 
 ## How a release happens
 
-The worked example below uses the `js` target; every npm
+The worked example below uses the `ts` target; every npm
 target in the table above releases the same way, through its own workflow.
 
 Publishing runs from GitHub Actions with **no NPM_TOKEN**. npm exchanges a
@@ -22,12 +21,12 @@ publish credential, and attaches SLSA provenance as it goes.
 
 1. Bump the version in the model, then regenerate:
 
-       main: kit: target: js: publish: version: '<x.y.z>'
+       main: kit: target: ts: publish: version: '<x.y.z>'
 
 2. Commit and push to `main`, and let CI go green.
 3. Run the workflow from the Actions tab, or:
 
-       gh workflow run publish-js.yml --ref main -f expect_sha=$(git rev-parse HEAD)
+       gh workflow run publish-ts.yml --ref main -f expect_sha=$(git rev-parse HEAD)
 
 `expect_sha` is optional and worth using: it refuses if `main` moved between
 the commit you checked and the run resolving.
@@ -44,7 +43,6 @@ do by hand.
 
 | target | tag |
 |---|---|
-| `js/` | `js/v<version>` |
 | `ts/` | `v<version>` |
 
 Re-dispatching a version that is already on the registry skips the publish
@@ -66,11 +64,11 @@ package. From a machine logged in to npm with publish rights (2FA is
 required), run
 `.sdk/admin/setup-npm-trust.sh`. It registers every workflow in the table
 above and leaves a package that is already set up alone; for the
-`js` target it runs:
+`ts` target it runs:
 
-    npm trust github @voxgig-sdk/roadie-sdk-js \
+    npm trust github @voxgig-sdk/roadie-sdk \
       --repository voxgig-sdk/roadie-sdk \
-      --file publish-js.yml \
+      --file publish-ts.yml \
       --allow-publish
 
 Run the script again with `--check` at any time. It compares what npm holds
@@ -80,11 +78,11 @@ difference, including a trusted publisher this repository did not ask for.
 npm, and `--otp <code>` hands npm a one-time password when it asks for one.
 An npm with no `npm trust` command is bypassed for `npx npm@latest`.
 
-`npm trust list @voxgig-sdk/roadie-sdk-js` shows the configuration, and
-`npm trust revoke @voxgig-sdk/roadie-sdk-js --id=<id>` removes one.
+`npm trust list @voxgig-sdk/roadie-sdk` shows the configuration, and
+`npm trust revoke @voxgig-sdk/roadie-sdk --id=<id>` removes one.
 
 **The workflow filename is part of the configuration.** Renaming
-`publish-js.yml` breaks publishing until the npm side is updated to match.
+`publish-ts.yml` breaks publishing until the npm side is updated to match.
 
 **A brand-new package cannot be set up this way.** npm only offers the
 trusted-publisher settings once a version exists, so the FIRST release of a

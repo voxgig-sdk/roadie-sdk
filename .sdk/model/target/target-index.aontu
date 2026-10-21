@@ -8,3 +8,5 @@
 @"./lua.aontu"
 @"./go-cli.aontu"
 @"./go-mcp.aontu"
+
+@"./rb.aontu"

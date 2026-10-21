@@ -66,7 +66,7 @@ print(rec["id"])
 
 ```lua
 -- Create
-local created, err = client:Entity():create({ apiVersion = "example_apiVersion", id = "example_id", kind = "example_kind", metadata = {} })
+local created, err = client:Entity():create({ apiVersion = "example_apiVersion", kind = "example_kind", metadata = {} })
 if err then error(err) end
 
 -- Remove
@@ -346,7 +346,6 @@ local entitys, err = client:Entity():list()
 ```lua
 local entity, err = client:Entity():create({
   apiVersion = "example_apiVersion", -- string
-  id = "example_id", -- string
   kind = "example_kind", -- string
   metadata = {}, -- table
 })

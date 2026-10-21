@@ -69,7 +69,7 @@ try {
 
 ```php
 // create() returns the ENTITY — call data_get() for the created Entity record.
-$created = $client->Entity()->create(["apiVersion" => "example_apiVersion", "id" => "example_id", "kind" => "example_kind", "metadata" => []]);
+$created = $client->Entity()->create(["apiVersion" => "example_apiVersion", "kind" => "example_kind", "metadata" => []]);
 
 // Remove
 $client->Entity()->remove(["id" => $created->data_get()["id"]]);
@@ -370,7 +370,6 @@ $entitys = $client->Entity()->list();
 ```php
 $entity = $client->Entity()->create([
     "apiVersion" => null, // string
-    "id" => null, // string
     "kind" => null, // string
     "metadata" => null, // array
 ]);

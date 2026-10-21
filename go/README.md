@@ -6,7 +6,7 @@ The Golang SDK for the Roadie API — an entity-oriented client using standard G
 
 It exposes the API as capitalised, semantic **Entities** — e.g. `client.Entity(nil)` — each with the same small set of operations (`List`, `Load`, `Create`, `Update`, `Remove`) instead of raw URL paths and query strings. You call meaning, not endpoints, which keeps the cognitive load low.
 
-> Also generated from this model: `go-cli`, `go-mcp`, `js`, `lua`, `php`, `py`, `ts` — see
+> Also generated from this model: `go-cli`, `go-mcp`, `lua`, `php`, `py`, `rb`, `ts` — see
 > the [top-level README](../README.md).
 
 
@@ -71,7 +71,7 @@ func main() {
     fmt.Println(entity.(sdk.Entity).Data())
 
     // Create a entity.
-    created, err := client.Entity(nil).Create(map[string]any{"apiVersion": "example_apiVersion", "id": "example_id", "kind": "example_kind", "metadata": map[string]any{}}, nil)
+    created, err := client.Entity(nil).Create(map[string]any{"apiVersion": "example_apiVersion", "kind": "example_kind", "metadata": map[string]any{}}, nil)
     if err != nil {
         panic(err)
     }
@@ -388,7 +388,6 @@ for _, item := range entitys.([]any) {
 ```go
 result, err := client.Entity(nil).Create(map[string]any{
     "apiVersion": "example_apiVersion",
-    "id": "example_id",
     "kind": "example_kind",
     "metadata": map[string]any{},
 }, nil)

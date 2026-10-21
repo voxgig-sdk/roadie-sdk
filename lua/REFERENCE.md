@@ -117,7 +117,6 @@ Create a new entity with the given data. Returns the created entity, or `nil` an
 ```lua
 local result, err = client:Entity():create({
   apiVersion = --[[ string ]],
-  id = --[[ string ]],
   kind = --[[ string ]],
   metadata = --[[ table ]],
 })

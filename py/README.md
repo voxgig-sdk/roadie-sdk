@@ -69,7 +69,7 @@ except Exception as err:
 
 ```python
 # Create — returns the ENTITY (call data_get() for the record)
-created = client.Entity().create({"apiVersion": "example_apiVersion", "id": "example_id", "kind": "example_kind", "metadata": {}})
+created = client.Entity().create({"apiVersion": "example_apiVersion", "kind": "example_kind", "metadata": {}})
 
 # Remove
 client.Entity().remove({"id": created.data_get()["id"]})
@@ -355,7 +355,6 @@ entitys = client.Entity().list()
 ```python
 entity = client.Entity().create({
     "apiVersion": "example_apiVersion",  # str
-    "id": "example_id",  # str
     "kind": "example_kind",  # str
     "metadata": {},  # dict
 })

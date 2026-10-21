@@ -53,7 +53,7 @@
         },
         "edition": {
           "github-pages": {
-            "active": false,
+            "active": true,
             "base": "node_modules/@voxgig/docgen/project/.sdk",
             "brand": {},
             "filter": {
@@ -68,7 +68,7 @@
               "path": "docs"
             },
             "package": "@voxgig/docgen",
-            "published": false,
+            "published": true,
             "site": {
               "active": true
             },
@@ -104,19 +104,19 @@
         },
         "style": {
           "color": {
-            "accent": "#00c6d8",
-            "background": "#f5f5f9",
-            "darkBackground": "#0f1117",
-            "darkText": "#e6edf3",
-            "primary": "#e70042",
-            "text": "#0a0a0a"
+            "accent": "#3dd4c8",
+            "background": "#f8f7f7",
+            "darkBackground": "#09090b",
+            "darkText": "#fafafa",
+            "primary": "#e9680c",
+            "text": "#09090b"
           },
           "font": "Nunito, system-ui, sans-serif",
           "fontFile": "",
           "headingFont": "Nunito, system-ui, sans-serif",
           "headingFontFile": "",
           "logo": "",
-          "mode": "light",
+          "mode": "auto",
           "mono": "ui-monospace, monospace",
           "monoFile": ""
         },
@@ -739,9 +739,6 @@
             "go-mcp": {
               "deps": {}
             },
-            "js": {
-              "deps": {}
-            },
             "lua": {
               "deps": {}
             },
@@ -749,6 +746,9 @@
               "deps": {}
             },
             "py": {
+              "deps": {}
+            },
+            "rb": {
               "deps": {}
             },
             "ts": {
@@ -846,9 +846,6 @@
             "go-mcp": {
               "deps": {}
             },
-            "js": {
-              "deps": {}
-            },
             "lua": {
               "deps": {}
             },
@@ -856,6 +853,9 @@
               "deps": {}
             },
             "py": {
+              "deps": {}
+            },
+            "rb": {
               "deps": {}
             },
             "ts": {
@@ -953,9 +953,6 @@
             "go-mcp": {
               "deps": {}
             },
-            "js": {
-              "deps": {}
-            },
             "lua": {
               "deps": {}
             },
@@ -963,6 +960,9 @@
               "deps": {}
             },
             "py": {
+              "deps": {}
+            },
+            "rb": {
               "deps": {}
             },
             "ts": {
@@ -1055,9 +1055,6 @@
             "go-mcp": {
               "deps": {}
             },
-            "js": {
-              "deps": {}
-            },
             "lua": {
               "deps": {}
             },
@@ -1065,6 +1062,9 @@
               "deps": {}
             },
             "py": {
+              "deps": {}
+            },
+            "rb": {
               "deps": {}
             },
             "ts": {
@@ -1153,9 +1153,6 @@
             "go-mcp": {
               "deps": {}
             },
-            "js": {
-              "deps": {}
-            },
             "lua": {
               "deps": {}
             },
@@ -1163,6 +1160,9 @@
               "deps": {}
             },
             "py": {
+              "deps": {}
+            },
+            "rb": {
               "deps": {}
             },
             "ts": {
@@ -1262,9 +1262,6 @@
             "go-mcp": {
               "deps": {}
             },
-            "js": {
-              "deps": {}
-            },
             "lua": {
               "deps": {}
             },
@@ -1272,6 +1269,9 @@
               "deps": {}
             },
             "py": {
+              "deps": {}
+            },
+            "rb": {
               "deps": {}
             },
             "ts": {
@@ -1366,9 +1366,6 @@
             "go-mcp": {
               "deps": {}
             },
-            "js": {
-              "deps": {}
-            },
             "lua": {
               "deps": {}
             },
@@ -1376,6 +1373,9 @@
               "deps": {}
             },
             "py": {
+              "deps": {}
+            },
+            "rb": {
               "deps": {}
             },
             "ts": {
@@ -1464,9 +1464,6 @@
             "go-mcp": {
               "deps": {}
             },
-            "js": {
-              "deps": {}
-            },
             "lua": {
               "deps": {}
             },
@@ -1474,6 +1471,9 @@
               "deps": {}
             },
             "py": {
+              "deps": {}
+            },
+            "rb": {
               "deps": {}
             },
             "ts": {
@@ -1941,78 +1941,6 @@
             "write": false
           }
         },
-        "js": {
-          "active": true,
-          "author": {
-            "name": "",
-            "url": ""
-          },
-          "base": "node_modules/@voxgig/sdkgen/project/.sdk",
-          "comment": {
-            "line": "//"
-          },
-          "deps": {
-            "dotenv": {
-              "active": true,
-              "kind": "dev",
-              "version": "^17.4.2"
-            }
-          },
-          "ext": "js",
-          "feature": {
-            "fullset": [],
-            "trim": true
-          },
-          "module": {
-            "goversion": "",
-            "name": "roadie",
-            "package": "",
-            "path": ""
-          },
-          "name": "js",
-          "origname": "",
-          "output": {
-            "adopt": false,
-            "create": true,
-            "path": "",
-            "repo": "",
-            "root": false,
-            "sdkrel": ""
-          },
-          "package": "@voxgig/sdkgen",
-          "provides": {
-            "schema": true,
-            "sekreto": true
-          },
-          "publish": {
-            "registry": {
-              "active": false,
-              "name": "npm",
-              "package": "",
-              "state": "pending",
-              "url": "https://registry.npmjs.org",
-              "vault": {
-                "alias": "npm",
-                "env": "",
-                "recipe": "npm"
-              }
-            },
-            "tag": {
-              "active": true,
-              "prefix": "",
-              "vault": {
-                "alias": "github",
-                "recipe": "github"
-              },
-              "via": "port"
-            },
-            "version": "0.1.1"
-          },
-          "superseded": [
-            "test/runner.js"
-          ],
-          "title": "JavaScript"
-        },
         "lua": {
           "active": true,
           "author": {
@@ -2060,7 +1988,7 @@
             "registry": {
               "active": false,
               "name": "luarocks",
-              "package": "",
+              "package": "voxgig-sdk-roadie-sdk",
               "state": "pending",
               "url": "https://luarocks.org",
               "vault": {
@@ -2127,7 +2055,7 @@
             "registry": {
               "active": false,
               "name": "packagist",
-              "package": "",
+              "package": "voxgig-sdk/roadie-sdk",
               "state": "pending",
               "url": "https://packagist.org",
               "vault": {
@@ -2200,7 +2128,7 @@
             "registry": {
               "active": false,
               "name": "pypi",
-              "package": "",
+              "package": "voxgig-sdk-roadie-sdk",
               "state": "pending",
               "url": "https://pypi.org",
               "vault": {
@@ -2225,6 +2153,79 @@
             "test/struct_runner.py"
           ],
           "title": "Python"
+        },
+        "rb": {
+          "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
+          "base": "node_modules/@voxgig/sdkgen/project/.sdk",
+          "comment": {
+            "line": "#"
+          },
+          "deps": {
+            "json": {
+              "active": true,
+              "kind": "prod",
+              "version": "*"
+            }
+          },
+          "ext": "rb",
+          "feature": {
+            "fullset": [],
+            "trim": true
+          },
+          "module": {
+            "goversion": "",
+            "name": "roadie",
+            "package": "",
+            "path": ""
+          },
+          "name": "rb",
+          "origname": "",
+          "output": {
+            "adopt": false,
+            "create": true,
+            "path": "",
+            "repo": "",
+            "root": false,
+            "sdkrel": ""
+          },
+          "package": "@voxgig/sdkgen",
+          "provides": {
+            "schema": true,
+            "sekreto": true
+          },
+          "publish": {
+            "registry": {
+              "active": false,
+              "name": "rubygems",
+              "package": "",
+              "state": "pending",
+              "url": "https://rubygems.org",
+              "vault": {
+                "alias": "gem",
+                "env": "",
+                "recipe": "gem"
+              }
+            },
+            "tag": {
+              "active": true,
+              "prefix": "",
+              "vault": {
+                "alias": "github",
+                "recipe": "github"
+              },
+              "via": "port"
+            },
+            "version": "0.1.1"
+          },
+          "srcfeature": false,
+          "superseded": [
+            "test/struct_runner.rb"
+          ],
+          "title": "Ruby"
         },
         "ts": {
           "active": true,
@@ -2278,7 +2279,7 @@
             "registry": {
               "active": false,
               "name": "npm",
-              "package": "",
+              "package": "@voxgig-sdk/roadie-sdk",
               "state": "pending",
               "url": "https://registry.npmjs.org",
               "vault": {

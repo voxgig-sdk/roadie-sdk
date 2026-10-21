@@ -40,17 +40,10 @@ type EntityListMatch struct {
 // EntityCreateData is the typed request payload for Entity.CreateTyped.
 type EntityCreateData struct {
 	ApiVersion string `json:"apiVersion"`
-	EntityRef *string `json:"entityRef,omitempty"`
-	Id string `json:"id"`
 	Kind string `json:"kind"`
 	Metadata map[string]any `json:"metadata"`
-	RawData *map[string]any `json:"rawData,omitempty"`
 	Relations *[]any `json:"relations,omitempty"`
-	Set *string `json:"set,omitempty"`
-	Source *string `json:"source,omitempty"`
 	Spec *map[string]any `json:"spec,omitempty"`
-	UpdatedAt *string `json:"updatedAt,omitempty"`
-	UpdatedBy *string `json:"updatedBy,omitempty"`
 }
 
 // EntityRemoveMatch is the typed request payload for Entity.RemoveTyped.
@@ -73,8 +66,6 @@ type EntitySetListMatch struct {
 type EntitySetUpdateData struct {
 	SetId string `json:"set_id"`
 	Items *[]any `json:"items,omitempty"`
-	Name *string `json:"name,omitempty"`
-	Set *string `json:"set,omitempty"`
 }
 
 // asMap turns a typed request/data struct into the map[string]any the

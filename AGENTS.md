@@ -19,10 +19,10 @@ There are companion guides deeper in the tree: one per language
 | `go` | `go/` | [`go/AGENTS.md`](./go/AGENTS.md) |
 | `go-cli` | `go-cli/` — A CLI surface, not an SDK client library. | [`go-cli/AGENTS.md`](./go-cli/AGENTS.md) |
 | `go-mcp` | `go-mcp/` — An MCP server surface for AI agents, not an SDK client library. | [`go-mcp/AGENTS.md`](./go-mcp/AGENTS.md) |
-| `js` | `js/` | [`js/AGENTS.md`](./js/AGENTS.md) |
 | `lua` | `lua/` | [`lua/AGENTS.md`](./lua/AGENTS.md) |
 | `php` | `php/` | [`php/AGENTS.md`](./php/AGENTS.md) |
 | `py` | `py/` | [`py/AGENTS.md`](./py/AGENTS.md) |
+| `rb` | `rb/` | [`rb/AGENTS.md`](./rb/AGENTS.md) |
 | `ts` | `ts/` | [`ts/AGENTS.md`](./ts/AGENTS.md) |
 
 **Features** (8): `debug`, `idempotency`, `metrics`, `paging`, `ratelimit`, `retry`, `test`, `timeout`.

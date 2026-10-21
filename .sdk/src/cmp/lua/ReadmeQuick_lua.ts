@@ -1,5 +1,5 @@
 
-import { cmp, each, Content, isAuthActive, envName, canonKey, canonScalarKey, opRequestShape, entityIdField, entityDataIdField, entityOps, safeVarName, exampleVarName, luaKey, listMatchArg } from '@voxgig/sdkgen'
+import { cmp, each, Content, isAuthActive, envName, canonKey, canonScalarKey, opRequestShape, entityIdField, entityDataIdField, entityOps, safeVarName, exampleVarName, luaKey, listMatchArg, matchExampleItems, requiredItems, litString } from '@voxgig/sdkgen'
 
 import {
   KIT,
@@ -61,7 +61,7 @@ local client = ${ctor}
       if ('INTEGER' === k || 'NUMBER' === k) return '1'
       if ('BOOLEAN' === k) return 'true'
       if ('ARRAY' === k || 'OBJECT' === k) return '{}'
-      return `"${placeholder}"`
+      return litString('lua', placeholder)
     }
 
     // MODEL-DRIVEN display field: the list example must reference a field
@@ -78,8 +78,8 @@ local client = ${ctor}
       fields.find((f: any) => f && !idNames.has(f.n) && isStringField(f)) ||
       fields.find((f: any) => f && !idNames.has(f.n))
     const displayField = displayFieldObj ? displayFieldObj.name : null
-    const idCol = dataIdF ? `rec["${dataIdF}"]` : null
-    const dispCol = displayField ? `rec["${displayField}"]` : null
+    const idCol = dataIdF ? `rec[${litString('lua', dataIdF)}]` : null
+    const dispCol = displayField ? `rec[${litString('lua', displayField)}]` : null
     const printCols = [idCol, dispCol].filter(Boolean).join(', ')
     // A record with neither column prints every field it holds.
     const printRecord = (v: string, cols: string, pad: string): string => cols
@@ -113,8 +113,7 @@ end
       const neDataIdF = entityDataIdField(nestedEntity)
 
       const neIdF = entityIdField(nestedEntity)
-      const neRequired = opRequestShape(nestedEntity, 'load').items
-        .filter((it: any) => !it.optional)
+      const neRequired = requiredItems(nestedEntity, 'load')
         .sort((a: any, b: any) =>
           (a.name === neIdF ? 1 : 0) - (b.name === neIdF ? 1 : 0))
       const parentItem = neRequired.find((it: any) => it.name !== neIdF) as any
@@ -133,14 +132,13 @@ ${neName} is nested under ${parentName}, so provide the \`${parentParam}\`.
 \`\`\`lua
 local ${neVar}, err = client:${neName}():load({ ${neMatch.join(', ')} })
 if err then error(err) end
-${printRecord(neVar, neDataIdF ? `rec["${neDataIdF}"]` : '', '')}
+${printRecord(neVar, neDataIdF ? `rec[${litString('lua', neDataIdF)}]` : '', '')}
 \`\`\`
 
 `)
     }
     else if (opnames.includes('load')) {
-      const loadRequired = opRequestShape(exampleEntity, 'load').items
-        .filter((it: any) => !it.optional || it.name === idF)
+      const loadRequired = matchExampleItems(exampleEntity, 'load', idF)
         .sort((a: any, b: any) =>
           (a.name === idF ? 0 : 1) - (b.name === idF ? 0 : 1))
       const loadArg = 0 < loadRequired.length
@@ -180,7 +178,7 @@ ${printRecord(eVar, printCols, '')}
       return it && it.type
     }
     const idValueFor = (opname: string): string => (null != dataIdF && opnames.includes('create'))
-      ? `created:data_get()["${dataIdF}"]`
+      ? `created:data_get()[${litString('lua', dataIdF)}]`
       : luaLit(idParamType(opname), 'example_id')
 
     if (opnames.includes('create') || opnames.includes('update') || opnames.includes('patch') ||
@@ -197,22 +195,21 @@ if err then error(err) end
 `)
       }
       if (opnames.includes('update')) {
-        const updatePairs = (idF ? [`${idF} = ${idValueFor('update')}`] : []).concat(examplePairs('update'))
+        const updatePairs = (idF ? [`${luaKey(idF)} = ${idValueFor('update')}`] : []).concat(examplePairs('update'))
         Content(`-- Update
 client:${eName}():update({ ${updatePairs.join(', ')} })
 
 `)
       }
       if (opnames.includes('patch')) {
-        const patchPairs = (idF ? [`${idF} = ${idValueFor('patch')}`] : []).concat(examplePairs('patch'))
+        const patchPairs = (idF ? [`${luaKey(idF)} = ${idValueFor('patch')}`] : []).concat(examplePairs('patch'))
         Content(`-- Patch — sends only the fields given
 client:${eName}():patch({ ${patchPairs.join(', ')} })
 
 `)
       }
       if (opnames.includes('remove')) {
-        const removePairs = opRequestShape(exampleEntity, 'remove').items
-          .filter((it: any) => !it.optional || it.name === idF)
+        const removePairs = matchExampleItems(exampleEntity, 'remove', idF)
           .sort((a: any, b: any) =>
             (a.name === idF ? 0 : 1) - (b.name === idF ? 0 : 1))
           .map((it: any) => it.name === idF

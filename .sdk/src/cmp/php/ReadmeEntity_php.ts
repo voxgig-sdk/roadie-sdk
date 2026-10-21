@@ -1,5 +1,5 @@
 
-import { cmp, each, Content, canonToType, canonKey, canonScalarKey, entityIdField, opRequestShape, phpEntityAccessor, opNeedsAction, listMatchArg } from '@voxgig/sdkgen'
+import { cmp, each, Content, canonToType, canonKey, canonScalarKey, entityIdField, opRequestShape, phpEntityAccessor, opNeedsAction, listMatchArg, matchExampleItems, litString } from '@voxgig/sdkgen'
 
 import {
   KIT,
@@ -17,7 +17,7 @@ function phpLit(type: any, placeholder: string = 'example'): string {
   if ('INTEGER' === k || 'NUMBER' === k) return '1'
   if ('BOOLEAN' === k) return 'true'
   if ('ARRAY' === k || 'OBJECT' === k) return '[]'
-  return `"${placeholder}"`
+  return litString('php', placeholder)
 }
 
 
@@ -111,13 +111,12 @@ const ReadmeEntity = cmp(function ReadmeEntity(props: any) {
     }
 
     if (callable.includes('load')) {
-      const loadItems = opRequestShape(entity, 'load').items
-        .filter((it: any) => !it.optional || it.name === idF)
+      const loadItems = matchExampleItems(entity, 'load', idF)
         .sort((a: any, b: any) =>
           (a.name === idF ? 0 : 1) - (b.name === idF ? 0 : 1))
       const loadArg = 0 < loadItems.length
         ? `[${loadItems.map((it: any) =>
-          `"${it.name}" => ${phpLit(it.type,
+          `${litString('php', it.name)} => ${phpLit(it.type,
             it.name === idF ? entity.name + '_id' : it.name)}`).join(', ')}]`
         : ''
       Content(`#### Example: Load
@@ -153,7 +152,7 @@ $${entity.name}s = $client->${phpEntityAccessor(entity.Name)}()->list(${listMatc
 $${entity.name} = $client->${phpEntityAccessor(entity.Name)}()->create([
 `)
       createItems.map((it: any) => {
-        Content(`    "${it.name}" => null, // ${canonToType(it.type, target.name)}
+        Content(`    ${litString('php', it.name)} => null, // ${canonToType(it.type, target.name)}
 `)
       })
       Content(`]);

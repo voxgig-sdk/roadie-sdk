@@ -55,20 +55,13 @@ class EntityListMatch(TypedDict, total=False):
 
 class EntityCreateDataRequired(TypedDict):
     apiVersion: str
-    id: str
     kind: str
     metadata: dict
 
 
 class EntityCreateData(EntityCreateDataRequired, total=False):
-    entityRef: str
-    rawData: dict
     relations: list
-    set: str
-    source: str
     spec: dict
-    updatedAt: str
-    updatedBy: str
 
 
 class EntityRemoveMatch(TypedDict):
@@ -93,5 +86,3 @@ class EntitySetUpdateDataRequired(TypedDict):
 
 class EntitySetUpdateData(EntitySetUpdateDataRequired, total=False):
     items: list
-    name: str
-    set: str

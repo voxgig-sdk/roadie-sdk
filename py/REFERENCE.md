@@ -114,7 +114,6 @@ Create a new entity with the given data. Returns the created entity and raises o
 ```python
 result = client.Entity().create({
     "apiVersion": "example_apiVersion",  # str
-    "id": "example_id",  # str
     "kind": "example_kind",  # str
     "metadata": {},  # dict
 })

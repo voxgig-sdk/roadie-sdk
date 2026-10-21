@@ -46,6 +46,7 @@ function makeError(ctx, err) {
     // Closes error paths that never reach PreDone (e.g. an rbac short-circuit).
     if (null != ctx.client && null != ctx.utility &&
         'function' === typeof ctx.utility.featureHook) {
+        ctx.unexpectedFired = true;
         ctx.utility.featureHook(ctx, 'PreUnexpected');
     }
     if (false === ctx.ctrl.throw) {

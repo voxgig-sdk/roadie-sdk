@@ -24,7 +24,9 @@ import {
   jsOptProp, envName, envToken, liveStrict, liveStrictNote,
   jsKey,
   pointParts,
+  pointIsGraphql,
   hasLiveScenarios,
+  primaryPoint,
 } from '@voxgig/sdkgen'
 
 
@@ -191,13 +193,16 @@ function generateDirectGraphql(
   const mockVarLines = vars.map((v: any, i: number) =>
     varLine('variables', `'direct0${i + 1}'`, v)).join('\n')
 
-  const liveVarLines = vars.map((v: any) => {
+  // A live call sends only the variables the document cannot run without.
+  const liveVars = vars.filter((v: any) => String(v.gqltype || '').endsWith('!'))
+
+  const liveVarLines = liveVars.map((v: any) => {
     const from = v.from || v.name
     const key = ('id' === from ? entity.name : from.replace(/_id$/, '')) + '01'
     return varLine('variables', `setup.idmap['${key}']`, v)
   }).join('\n')
 
-  const liveIdKeys = vars.map((v: any) => {
+  const liveIdKeys = liveVars.map((v: any) => {
     const from = v.from || v.name
     return ('id' === from ? entity.name : from.replace(/_id$/, '')) + '01'
   })
@@ -206,14 +211,16 @@ function generateDirectGraphql(
     ? `    if (skipIfMissingIds(t, setup, ${JSON.stringify(liveIdKeys)}, LIVE_STRICT)) return\n`
     : ''
 
-  const varAsserts = vars.map((_v: any, i: number) =>
-    '      assert(calls[0].init.body.includes(\'direct0' + (i + 1) + '\'))\n').join('')
+  const varAsserts = vars.map((v: any, i: number) =>
+    `      assert(sent.variables[${JSON.stringify(v.name)}] === 'direct0${i + 1}')\n`).join('')
 
   const offlineChecks = `      assert(result.ok === true)
       assert(result.status === 200)
       assert(null != result.data)
       assert(calls.length === 1)
       assert(calls[0].init.method === 'POST')
+      const sent = JSON.parse(calls[0].init.body)
+      assert(sent.query === ${JSON.stringify(doc)})
 ${varAsserts}`
 
   const checks = liveChecks(opname, 'null != result.data', 'no data', offlineChecks)
@@ -242,13 +249,14 @@ ${checks}
 
 function generateDirectLoad(model: Model, entity: ModelEntity) {
   const loadOp = entity.op?.load
-  const loadPoint: ModelPoint | undefined = loadOp?.points?.[0]
+  const loadPoint: ModelPoint | undefined = null == loadOp?.points ? undefined :
+    primaryPoint(loadOp.points, entity.name, 'load')
 
   if (null == loadPoint) {
     return
   }
 
-  if ('graphql' === (loadPoint as any).kind) {
+  if (pointIsGraphql(loadPoint)) {
     generateDirectGraphql('load', entity, loadPoint)
     return
   }
@@ -292,7 +300,8 @@ function generateDirectLoad(model: Model, entity: ModelEntity) {
     .join('\n')
 
   const listOp = entity.op?.list
-  const listPoint = listOp?.points?.[0]
+  const listPoint = null == listOp?.points ? undefined :
+    primaryPoint(listOp.points, entity.name, 'list')
   const listParams = listPoint?.g?.params || []
   const listPath = listPoint ? normalizePathParams(pointParts(listPoint), listParams, listPoint.r?.param) : ''
   const hasList = null != listPoint
@@ -438,13 +447,14 @@ ${loadChecks}
 
 function generateDirectList(model: Model, entity: ModelEntity) {
   const listOp = entity.op?.list
-  const listPoint: ModelPoint | undefined = listOp?.points?.[0]
+  const listPoint: ModelPoint | undefined = null == listOp?.points ? undefined :
+    primaryPoint(listOp.points, entity.name, 'list')
 
   if (null == listPoint) {
     return
   }
 
-  if ('graphql' === (listPoint as any).kind) {
+  if (pointIsGraphql(listPoint)) {
     generateDirectGraphql('list', entity, listPoint)
     return
   }

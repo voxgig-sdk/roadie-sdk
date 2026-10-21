@@ -9,7 +9,7 @@ The API is exposed as capitalised, semantic **Entities** — e.g.
 instead of raw URL paths and query parameters. This keeps the surface
 predictable and low-friction for both humans and AI agents.
 
-> Also generated from this model: `go`, `go-cli`, `go-mcp`, `js`, `lua`, `php`, `py` — see
+> Also generated from this model: `go`, `go-cli`, `go-mcp`, `lua`, `php`, `py`, `rb` — see
 > the [top-level README](../README.md).
 
 
@@ -72,7 +72,6 @@ try {
 // Create — returns the created Entity ENTITY (.data() for the record)
 const created = await client.Entity().create({
   apiVersion: 'example_apiVersion',
-  id: 'example_id',
   kind: 'example_kind',
   metadata: {},
 })
@@ -417,7 +416,6 @@ const entitys = await client.Entity().list()
 ```ts
 const entity = await client.Entity().create({
   apiVersion: 'example_apiVersion',
-  id: 'example_id',
   kind: 'example_kind',
   metadata: {},
 })
