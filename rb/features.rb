@@ -7,6 +7,7 @@ require_relative 'feature/metrics_feature'
 require_relative 'feature/paging_feature'
 require_relative 'feature/ratelimit_feature'
 require_relative 'feature/retry_feature'
+require_relative 'feature/secrets_feature'
 require_relative 'feature/test_feature'
 require_relative 'feature/timeout_feature'
 
@@ -28,6 +29,8 @@ module RoadieFeatures
       RoadieRatelimitFeature.new
     when "retry"
       RoadieRetryFeature.new
+    when "secrets"
+      RoadieSecretsFeature.new
     when "test"
       RoadieTestFeature.new
     when "timeout"

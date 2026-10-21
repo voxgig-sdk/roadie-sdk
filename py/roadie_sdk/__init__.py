@@ -116,6 +116,10 @@ class RoadieSDK:
     def get_root_ctx(self):
         return self._rootctx
 
+    def secrets(self):
+        _s = getattr(self, "_secrets", None)
+        return None if _s is None else _s.sekreto()
+
     def prepare(self, fetchargs=None):
         utility = self._utility
 
@@ -130,6 +134,9 @@ class RoadieSDK:
             "opname": "prepare",
             "ctrl": ctrl,
         }, self._rootctx)
+
+        if getattr(self, "_secrets", None) is not None:
+            self._secrets.resolve()
 
         options = self.options
 

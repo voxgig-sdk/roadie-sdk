@@ -7,6 +7,7 @@ from roadie_sdk.feature.metrics_feature import RoadieMetricsFeature
 from roadie_sdk.feature.paging_feature import RoadiePagingFeature
 from roadie_sdk.feature.ratelimit_feature import RoadieRatelimitFeature
 from roadie_sdk.feature.retry_feature import RoadieRetryFeature
+from roadie_sdk.feature.secrets_feature import RoadieSecretsFeature
 from roadie_sdk.feature.test_feature import RoadieTestFeature
 from roadie_sdk.feature.timeout_feature import RoadieTimeoutFeature
 
@@ -19,6 +20,7 @@ _FEATURES = {
     "paging": lambda: RoadiePagingFeature(),
     "ratelimit": lambda: RoadieRatelimitFeature(),
     "retry": lambda: RoadieRetryFeature(),
+    "secrets": lambda: RoadieSecretsFeature(),
     "test": lambda: RoadieTestFeature(),
     "timeout": lambda: RoadieTimeoutFeature(),
 }

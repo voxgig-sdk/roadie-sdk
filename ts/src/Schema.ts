@@ -292,6 +292,42 @@ const OPTSPEC = {
       },
       "`$NIL`"
     ],
+    "secrets": [
+      "`$ONE`",
+      {
+        "`$OPEN`": true,
+        "active": [
+          "`$ONE`",
+          "`$BOOLEAN`",
+          "`$NIL`"
+        ],
+        "cache": [
+          "`$ONE`",
+          "`$BOOLEAN`",
+          "`$NIL`"
+        ],
+        "exchange": [
+          "`$ONE`",
+          "`$MAP`",
+          "`$NIL`"
+        ],
+        "name": [
+          "`$ONE`",
+          "`$STRING`",
+          [
+            "`$EXACT`",
+            ""
+          ],
+          "`$NIL`"
+        ],
+        "providers": [
+          "`$ONE`",
+          "`$LIST`",
+          "`$NIL`"
+        ]
+      },
+      "`$NIL`"
+    ],
     "test": [
       "`$ONE`",
       {

@@ -119,6 +119,29 @@ local function make_config()
         ["strict"] = false,
         ["transport"] = "wrap",
       },
+      ["secrets"] = {
+        ["options"] = {
+          ["active"] = false,
+          ["cache"] = true,
+          ["exchange"] = {
+            ["active"] = false,
+            ["method"] = "POST",
+            ["path"] = "auth/token",
+            ["refresh"] = "",
+            ["request"] = "refresh_token",
+            ["response"] = "access_token",
+            ["retries"] = 1,
+            ["statuses"] = {
+              401,
+            },
+          },
+          ["name"] = "apikey",
+          ["providers"] = {},
+        },
+        ["optspec"] = {},
+        ["strict"] = false,
+        ["transport"] = "wrap",
+      },
       ["test"] = {
         ["options"] = {
           ["active"] = false,

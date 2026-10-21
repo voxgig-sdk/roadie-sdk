@@ -1,6 +1,14 @@
 # Roadie SDK configuration
 
 module RoadieConfig
+  # The sekreto plugin DEFINITIONS the model selected per feature,
+  # required above from the modules the catalogue's active `plugin.def`
+  # entries declare. Handed to each feature (secrets builds its Sekreto
+  # with them): a provider kind not listed here is unknown to this SDK.
+  FEATURE_PLUGINS = {
+  }.freeze
+
+
   # Return the process-wide config, built once on first use. The SDK reads
   # the config on every request and never writes to it, so one instance is
   # shared by every client rather than rebuilt per client.
@@ -128,6 +136,29 @@ module RoadieConfig
             "jitter" => "`$BOOLEAN`",
             "sleep" => "`$FUNCTION`",
           },
+          "strict" => false,
+          "transport" => "wrap",
+        },
+        "secrets" => {
+          "options" => {
+            "active" => false,
+            "cache" => true,
+            "exchange" => {
+              "active" => false,
+              "method" => "POST",
+              "path" => "auth/token",
+              "refresh" => "",
+              "request" => "refresh_token",
+              "response" => "access_token",
+              "retries" => 1,
+              "statuses" => [
+                401,
+              ],
+            },
+            "name" => "apikey",
+            "providers" => [],
+          },
+          "optspec" => {},
           "strict" => false,
           "transport" => "wrap",
         },

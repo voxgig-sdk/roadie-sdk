@@ -10,6 +10,7 @@ require_once __DIR__ . '/feature/MetricsFeature.php';
 require_once __DIR__ . '/feature/PagingFeature.php';
 require_once __DIR__ . '/feature/RatelimitFeature.php';
 require_once __DIR__ . '/feature/RetryFeature.php';
+require_once __DIR__ . '/feature/SecretsFeature.php';
 require_once __DIR__ . '/feature/TestFeature.php';
 require_once __DIR__ . '/feature/TimeoutFeature.php';
 
@@ -33,6 +34,8 @@ class RoadieFeatures
                 return new RoadieRatelimitFeature();
             case "retry":
                 return new RoadieRetryFeature();
+            case "secrets":
+                return new RoadieSecretsFeature();
             case "test":
                 return new RoadieTestFeature();
             case "timeout":
@@ -58,6 +61,7 @@ class RoadieFeatures
             case "paging":
             case "ratelimit":
             case "retry":
+            case "secrets":
             case "test":
             case "timeout":
                 return true;

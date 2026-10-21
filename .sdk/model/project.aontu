@@ -66,3 +66,6 @@ main: kit: target: 'py': publish: version: '0.1.1'
 main: kit: target: 'rb': publish: version: '0.1.1'
 main: kit: target: 'ts': publish: version: '0.1.1'
 # --- end cedar: release version
+# --- cedar: secrets active (written by cedar-regen.sh, do not hand-edit)
+main: kit: feature: secrets: active: true
+# --- end cedar: secrets active

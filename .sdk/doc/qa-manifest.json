@@ -10,6 +10,7 @@
     "docs/features/paging.html",
     "docs/features/ratelimit.html",
     "docs/features/retry.html",
+    "docs/features/secrets.html",
     "docs/features/test.html",
     "docs/features/timeout.html",
     "docs/guides/authentication.html",

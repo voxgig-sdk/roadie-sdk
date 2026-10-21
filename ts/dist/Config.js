@@ -7,6 +7,7 @@ const MetricsFeature_1 = require("./feature/metrics/MetricsFeature");
 const PagingFeature_1 = require("./feature/paging/PagingFeature");
 const RatelimitFeature_1 = require("./feature/ratelimit/RatelimitFeature");
 const RetryFeature_1 = require("./feature/retry/RetryFeature");
+const SecretsFeature_1 = require("./feature/secrets/SecretsFeature");
 const TestFeature_1 = require("./feature/test/TestFeature");
 const TimeoutFeature_1 = require("./feature/timeout/TimeoutFeature");
 const FEATURE_CLASS = {
@@ -16,6 +17,7 @@ const FEATURE_CLASS = {
     paging: PagingFeature_1.PagingFeature,
     ratelimit: RatelimitFeature_1.RatelimitFeature,
     retry: RetryFeature_1.RetryFeature,
+    secrets: SecretsFeature_1.SecretsFeature,
     test: TestFeature_1.TestFeature,
     timeout: TimeoutFeature_1.TimeoutFeature,
 };
@@ -144,6 +146,29 @@ class Config {
                 "jitter": "`$BOOLEAN`",
                 "sleep": "`$FUNCTION`"
             },
+            "strict": false,
+            "transport": "wrap"
+        },
+        secrets: {
+            "options": {
+                "active": false,
+                "cache": true,
+                "exchange": {
+                    "active": false,
+                    "method": "POST",
+                    "path": "auth/token",
+                    "refresh": "",
+                    "request": "refresh_token",
+                    "response": "access_token",
+                    "retries": 1,
+                    "statuses": [
+                        401
+                    ]
+                },
+                "name": "apikey",
+                "providers": []
+            },
+            "optspec": {},
             "strict": false,
             "transport": "wrap"
         },

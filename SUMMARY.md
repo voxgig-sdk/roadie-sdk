@@ -110,6 +110,7 @@ Features supply behaviour around API calls, such as request handling, diagnostic
 - [`paging`](docs/features/paging.html): Pagination signals for list operations
 - [`ratelimit`](docs/features/ratelimit.html): Client-side rate limiting via a token bucket
 - [`retry`](docs/features/retry.html): Automatic retry of transient failures with exponential backoff
+- [`secrets`](docs/features/secrets.html): Secret access: resolve the API credential through a provider chain, and exchange a refresh token for short-lived access tokens
 - [`test`](docs/features/test.html): In-memory mock transport for testing without a live server
 - [`timeout`](docs/features/timeout.html): Per-request timeout with transport abort
 

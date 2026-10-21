@@ -6,6 +6,7 @@ import { MetricsFeature } from './feature/metrics/MetricsFeature'
 import { PagingFeature } from './feature/paging/PagingFeature'
 import { RatelimitFeature } from './feature/ratelimit/RatelimitFeature'
 import { RetryFeature } from './feature/retry/RetryFeature'
+import { SecretsFeature } from './feature/secrets/SecretsFeature'
 import { TestFeature } from './feature/test/TestFeature'
 import { TimeoutFeature } from './feature/timeout/TimeoutFeature'
 
@@ -18,6 +19,7 @@ const FEATURE_CLASS: Record<string, typeof BaseFeature> = {
  paging: PagingFeature,
  ratelimit: RatelimitFeature,
  retry: RetryFeature,
+ secrets: SecretsFeature,
  test: TestFeature,
  timeout: TimeoutFeature,
 
@@ -159,6 +161,29 @@ class Config {
         "jitter": "`$BOOLEAN`",
         "sleep": "`$FUNCTION`"
       },
+      "strict": false,
+      "transport": "wrap"
+    },
+ secrets:     {
+      "options": {
+        "active": false,
+        "cache": true,
+        "exchange": {
+          "active": false,
+          "method": "POST",
+          "path": "auth/token",
+          "refresh": "",
+          "request": "refresh_token",
+          "response": "access_token",
+          "retries": 1,
+          "statuses": [
+            401
+          ]
+        },
+        "name": "apikey",
+        "providers": []
+      },
+      "optspec": {},
       "strict": false,
       "transport": "wrap"
     },

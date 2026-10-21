@@ -10,3 +10,4 @@
 @"./paging.aontu"
 @"./metrics.aontu"
 @"./debug.aontu"
+@"./secrets.aontu"

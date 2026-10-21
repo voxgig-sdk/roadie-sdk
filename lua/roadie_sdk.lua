@@ -157,6 +157,7 @@ function RoadieSDK.new(options)
   -- feature: paging
   -- feature: ratelimit
   -- feature: retry
+  -- feature: secrets
   -- feature: test
   -- feature: timeout
 

@@ -145,6 +145,29 @@ class RoadieConfig
           'strict' => false,
           'transport' => 'wrap',
         ],
+                "secrets" => [
+          'options' => [
+            'active' => false,
+            'cache' => true,
+            'exchange' => [
+              'active' => false,
+              'method' => 'POST',
+              'path' => 'auth/token',
+              'refresh' => '',
+              'request' => 'refresh_token',
+              'response' => 'access_token',
+              'retries' => 1,
+              'statuses' => [
+                401,
+              ],
+            ],
+            'name' => 'apikey',
+            'providers' => [],
+          ],
+          'optspec' => [],
+          'strict' => false,
+          'transport' => 'wrap',
+        ],
                 "test" => [
           'options' => [
             'active' => false,
@@ -663,6 +686,21 @@ class RoadieConfig
         ];
     }
 
+
+    /**
+     * The sekreto plugin DEFINITIONS the model selected per feature, from
+     * the files the catalogue's active `plugin.def` entries declare.
+     * Handed to each feature (secrets builds its Sekreto with them): a
+     * provider kind not listed here is unknown to this SDK.
+     *
+     * A method rather than a constant: a definition holds closures, and PHP
+     * has no constant that can. The requires are INSIDE it, so a plugin
+     * file is read only when a feature asks for its definitions.
+     */
+    public static function feature_plugins(string $name): array
+    {
+        return [];
+    }
 
     public static function make_feature(string $name)
     {

@@ -7,6 +7,7 @@ local MetricsFeature = require("feature.metrics_feature")
 local PagingFeature = require("feature.paging_feature")
 local RatelimitFeature = require("feature.ratelimit_feature")
 local RetryFeature = require("feature.retry_feature")
+local SecretsFeature = require("feature.secrets_feature")
 local TestFeature = require("feature.test_feature")
 local TimeoutFeature = require("feature.timeout_feature")
 
@@ -39,6 +40,10 @@ end
 
 features["retry"] = function()
   return RetryFeature.new()
+end
+
+features["secrets"] = function()
+  return SecretsFeature.new()
 end
 
 features["test"] = function()
